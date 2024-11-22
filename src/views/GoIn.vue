@@ -1,8 +1,26 @@
 <template>
   <div class="go-in">
-    <banner img="../assets/img/bgtop.jpg" title="走进科建" />
+    <banner img="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%85%B3%E4%BA%8E%E6%88%91%E4%BB%AC.png" title="关于我们" />
     <div class="section" v-loading="loading">
       <div class="section-content">
+        <!-- 导航栏 -->
+        <div class="section-title">
+          <div class="tabs-header">
+            <div
+              v-for="tab in tabs"
+              :key="tab"
+              :class="['tab-item', { active: activeTab === tab }]"
+              @click="selectTab(tab)"
+            >
+              {{ tab }}
+            </div>
+          </div>
+          <div class="location">
+            <a href="/">首页</a><em> &gt; </em><a href="/goin">关于我们</a>
+            <em> &gt; </em><span>{{ activeTab }}</span>
+          </div>
+        </div>
+
         <div class="content-summary">
           <div class="summary-left">
             <p class="title">公司简介</p>
@@ -13,8 +31,10 @@
               目前工程管理软件研发团队10人，包括硕士和研究生在内，平均年龄在35岁。公司自主研发工程项目管理
               标准化+互联网协同工作系统平台，此软件广泛应用于工程项目管理过程，实现全覆盖检查、全过程控制、全方位协调的目标。
               目前公司业务范围涉及上海、广东等多地，合作的单位有上海同济工程项目管理咨询有限公司、
-              上海华银日用品有限公司、中科建设开发总公司、广东怡轩房地产开发有限公司等多家知名企业。 立人立己、达人达己！公司一直秉承“
-              帮助施工单位解决技术问题、帮助业主解决协调问题 ”的管理理念，上海科建工程管理股份有限公司不断在工程项目管理领域开拓创新，
+              上海华银日用品有限公司、中科建设开发总公司、广东怡轩房地产开发有限公司等多家知名企业。
+              立人立己、达人达己！公司一直秉承“
+              帮助施工单位解决技术问题、帮助业主解决协调问题
+              ”的管理理念，上海科建工程管理股份有限公司不断在工程项目管理领域开拓创新，
               通过不断完善工程项目管理标准化+互联网协同工作系统平台，实现每项工程“无重大安全事故、无重大返工、工程施工材料无伪劣产品、
               工程管理留下痕迹、施工过程可追溯”五大管理目标。
             </p>
@@ -36,17 +56,24 @@
           </div>
           <div class="course-time">
             <swiper :options="swiperOption" ref="mySwiper">
-              <swiper-slide v-for="(item,index) in courseList" :key="index">
+              <swiper-slide v-for="(item, index) in courseList" :key="index">
                 <div class="time-show">
-                  <div class="time-show-item" v-for="(courseOne,one) in item" :key="one">
-                    <div class="item-top" :class="{'order-top' : one%2===1}"></div>
+                  <div
+                    class="time-show-item"
+                    v-for="(courseOne, one) in item"
+                    :key="one"
+                  >
+                    <div
+                      class="item-top"
+                      :class="{ 'order-top': one % 2 === 1 }"
+                    ></div>
                     <el-divider>
                       <i class="el-icon-mobile-phone"></i>
                     </el-divider>
-                    <div class="item-bottom" :class="{'order' : one%2===1}">
+                    <div class="item-bottom" :class="{ order: one % 2 === 1 }">
                       <div class="item-bottom-content">
-                        <p>{{courseOne.Content}}</p>
-                        <p>{{courseOne.Year}}</p>
+                        <p>{{ courseOne.Content }}</p>
+                        <p>{{ courseOne.Year }}</p>
                       </div>
                     </div>
                   </div>
@@ -80,10 +107,14 @@
             <div class="border"></div>
           </div>
           <ul class="honor-show">
-            <li v-for="(honor,index) in honorList" :key="index">
+            <li v-for="(honor, index) in honorList" :key="index">
               <img
-                v-lazy="imgserver+honor.Img"
-                @click="dialogTableVisible = true ;dialogUrl = imgserver + honor.Img;dialogTitle= honor.Remark"
+                v-lazy="imgserver + honor.Img"
+                @click="
+                  dialogTableVisible = true;
+                  dialogUrl = imgserver + honor.Img;
+                  dialogTitle = honor.Remark;
+                "
               />
             </li>
           </ul>
@@ -96,8 +127,11 @@
             <p>TEAM</p>
           </div>
           <el-carousel :interval="4000" type="card">
-            <el-carousel-item v-for="(team,index) in teamItem" :key="index">
-              <div class="swiper-img" v-lazy:background-image="imgserver + team.Img"></div>
+            <el-carousel-item v-for="(team, index) in teamItem" :key="index">
+              <div
+                class="swiper-img"
+                v-lazy:background-image="imgserver + team.Img"
+              ></div>
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -107,8 +141,8 @@
             <h3>合作伙伴</h3>
             <p>RARTNERS</p>
             <ul class="partner-img">
-              <li v-for="(partner,i) in partnerImg" :key="i">
-                <img v-lazy="imgserver+partner.Img" alt />
+              <li v-for="(partner, i) in partnerImg" :key="i">
+                <img v-lazy="imgserver + partner.Img" alt />
               </li>
             </ul>
           </div>
@@ -125,10 +159,12 @@ export default {
   components: {
     Banner,
     swiper,
-    swiperSlide
+    swiperSlide,
   },
   data() {
     return {
+      tabs: ["发展历程", "企业文化", "国内网络", "海外网络"],
+      activeTab: "发展历程",
       loading: true,
       honorList: [],
       partnerImg: [],
@@ -137,13 +173,18 @@ export default {
       swiperOption: {
         navigation: {
           nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev"
-        }
+          prevEl: ".swiper-button-prev",
+        },
       },
       dialogTableVisible: false,
       dialogUrl: "",
-      dialogTitle: ""
+      dialogTitle: "",
     };
+  },
+  methods: {
+    selectTab(tab) {
+      this.activeTab = tab;
+    },
   },
   mounted() {
     this.$http
@@ -151,7 +192,7 @@ export default {
         this.$http.get("Honor/GetHonorAll"),
         this.$http.get("Enterprise/GetEnterpriseAll"),
         this.$http.get(`Team/GetTeamAll`),
-        this.$http.get(`Course/GetCourseAll`)
+        this.$http.get(`Course/GetCourseAll`),
       ])
       .then(
         this.$http.spread(
@@ -176,7 +217,7 @@ export default {
           }
         )
       );
-  }
+  },
 };
 </script>
 
@@ -189,15 +230,86 @@ export default {
 .go-in {
   width: 100%;
   height: 100%;
-  background-color: #14679f;
+  background-color: #f1f1f1;
   position: relative;
   overflow: hidden;
   .section {
     width: 100%;
     &-content {
-      width: 1240px;
+      width: 1500px;
       margin: 0 auto;
       background-color: #fff;
+
+      .section-title {
+        width: 1460px;
+        height: 80px;
+        background: #ffffff;
+        display: flex;
+        justify-content: space-between; // 使 tabs 和 location 分别在左右两边
+        align-items: center; // 垂直居中对齐
+        padding: 0 20px;
+        border-bottom: 1px solid #eeeeee; // 整个标题下方添加边框
+
+        .tabs-header {
+          display: flex;
+        }
+
+        .tab-item {
+          padding: 30px 20px;
+          cursor: pointer;
+          font-size: 16px;
+          transition: color 0.3s, border-color 0.3s;
+          text-align: center; // Tab 内容居中
+
+          &.active {
+            color: #024190;
+            border-bottom: 3px solid #024190; // 选中 tab 底部显示下划线
+            font-weight: bold;
+          }
+
+          &:hover {
+            color: #024190; // 鼠标悬停时的颜色
+          }
+        }
+
+        .location {
+          display: flex;
+          justify-content: flex-end; // 使面包屑导航靠右
+          width: 40%; // 控制宽度
+          text-align: right;
+          font-size: 16px;
+          align-items: center; // 垂直居中
+
+          a {
+            display: inline-block;
+            color: #000;
+            text-decoration: none;
+
+            &:hover {
+              color: #024190; // 鼠标悬停时的颜色
+            }
+          }
+
+          em {
+            display: inline-block;
+            font-style: normal;
+            font-family: Microsoft YaHei;
+            margin: 0 10px;
+          }
+
+          span {
+            display: inline-block;
+            color: #666;
+          }
+
+          > a:first-of-type {
+            display: inline-block;
+            background: url(../assets/img/home_icon.png) no-repeat left center;
+            background-size: 20px 20px;
+            padding-left: 35px; // 给首页链接添加图标的左侧内边距
+          }
+        }
+      }
 
       .content-summary {
         //height: 500px;

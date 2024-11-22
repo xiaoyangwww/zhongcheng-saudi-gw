@@ -4,6 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 let kejianrouter = new Router({
+  mode: 'history',
   routes: [{
       path: '/',
       name: 'home',

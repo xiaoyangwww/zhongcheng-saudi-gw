@@ -7,97 +7,27 @@
       ref="mySwiper"
       @slideChange="onSlideChange"
     >
+      <!-- 欢迎页 -->
       <swiper-slide class="swiper-slide slide-one">
-        <div class="page">
-          <h3 style="margin-bottom: 20px">中成深圳</h3>
-          <p>ZCTS SHENZHEN</p>
-        </div>
-        <p class="slogan">聚焦客户需求 服务成就价值</p>
-        <h2 class="toptitlesub"></h2>
-        <div class="toptitleup" style="transform: scale(0.5)">
-          <div class="mouse" data-v-5aff6e40></div>
-        </div>
-        <p data-v-5aff6e40 class="mousep">鼠标滚动</p>
+        <Welcome></Welcome>
       </swiper-slide>
+      <!-- 关于中成 -->
       <swiper-slide class="swiper-slide slide-two">
-        <div class="about-us-container">
-          <!-- 关于我们文本 -->
-          <transition name="fade-up">
-            <h1 v-if="showText" class="about-title">ABOUT US</h1>
-          </transition>
-
-          <!-- 公司介绍部分 -->
-          <transition name="slide-up">
-            <div v-if="showContent" class="company-info">
-              <div class="left-img">
-                <img src="company-image.jpg" alt="Company Image" />
-              </div>
-              <div class="right-text">
-                <p>公司简介内容...</p>
-                <button @click="goToMore" class="more-btn">More</button>
-              </div>
-            </div>
-          </transition>
-        </div>
+        <AboutCompany :currentNavIndex="currentNavIndex"></AboutCompany>
       </swiper-slide>
+      <!-- 产品服务 -->
       <swiper-slide class="swiper-slide slide-three">
-        <div class="page">
-          <h3>经典案例</h3>
-          <p>Suecessful Cass</p>
-        </div>
-        <ul class="case-item">
-          <li
-            v-for="(item, index) in caseList"
-            :key="index"
-            v-lazy:background-image="imgserver + item.Img"
-          >
-            <router-link
-              class="text-decoration"
-              :to="{ name: 'casedetails', params: { id: item.Id } }"
-            >
-              <div class="case-item-hover">
-                <p class="hover-title">{{ item.Title }}</p>
-                <div class="bottom"></div>
-                <div class="more">
-                  <span>MORE</span>
-                </div>
-              </div>
-            </router-link>
-          </li>
-        </ul>
+        <ProductService :currentNavIndex="currentNavIndex"></ProductService>
       </swiper-slide>
+      <!-- 项目案例 -->
       <swiper-slide class="swiper-slide slide-four">
-        <div class="page">
-          <h3>最新资讯</h3>
-          <p>Latest News</p>
-        </div>
-        <div class="news-content">
-          <div class="news-content-item" v-for="(news, i) in newsList" :key="i">
-            <div :style="'order: ' + (i % 2 == 0 ? 1 : 3)">
-              <router-link
-                class="text-decoration"
-                :to="{ name: 'newsdetails', params: { id: news.Id } }"
-              >
-                <div
-                  class="item-img"
-                  v-lazy:background-image="imgserver + news.Img"
-                ></div>
-              </router-link>
-            </div>
-            <div style="order: 2">
-              <el-divider>
-                <i class="el-icon-apple"></i>
-              </el-divider>
-            </div>
-            <div class="item-content" :style="'order: ' + (i % 2 == 0 ? 3 : 1)">
-              <h3>{{ news.Title }}</h3>
-              <p>{{ news.Content }}</p>
-              <span>{{ news.CreateTime }}</span>
-            </div>
-          </div>
-        </div>
+        <ProjectCase :currentNavIndex="currentNavIndex"></ProjectCase>
       </swiper-slide>
+      <!-- <swiper-slide class="swiper-slide slide-five">
+        <Footer></Footer>
+      </swiper-slide> -->
     </swiper>
+
     <!-- 导航栏 -->
     <div
       id="fp-nav"
@@ -130,7 +60,7 @@
             @click="navigateToSlide(2)"
             ><span></span
           ></a>
-          <div class="fp-tooltip right">经典案例</div>
+          <div class="fp-tooltip right">产品服务</div>
         </li>
         <li>
           <a
@@ -139,8 +69,17 @@
             @click="navigateToSlide(3)"
             ><span></span
           ></a>
-          <div class="fp-tooltip right">新闻资讯</div>
+          <div class="fp-tooltip right">项目案例</div>
         </li>
+        <!-- <li>
+          <a
+            href="#"
+            :class="{ active: currentNavIndex === 4 }"
+            @click="navigateToSlide(4)"
+            ><span></span
+          ></a>
+          <div class="fp-tooltip right">联系我们</div>
+        </li> -->
       </ul>
     </div>
   </div>
@@ -148,11 +87,20 @@
  
 <script>
 import { swiper, swiperSlide } from "vue-awesome-swiper";
+import AboutCompany from "../components/AboutCompany.vue";
+import ProductService from "../components/ProductService";
+import Welcome from "../components/Welcome.vue";
+import ProjectCase from "../components/ProjectCase.vue";
+// import Footer from "../components/Footer.vue";
 export default {
   name: "HelloWorld",
   components: {
     swiper,
     swiperSlide,
+    ProductService,
+    AboutCompany,
+    Welcome,
+    ProjectCase,
   },
   data() {
     return {
@@ -161,6 +109,7 @@ export default {
       show: true,
       currentNavIndex: 0, // 当前激活的导航索引
       loading: true,
+      isLun: 0,
       caseList: [],
       newsList: [],
       swiperOption: {
@@ -168,12 +117,13 @@ export default {
         effect: "slide", // 使用 'slide'（滑动）效果，'fade'（淡入淡出）或者 'cube'（立方体）等效果也可以
         easing: "ease-in-out", // 设置缓动函数，使过渡更加平滑
         // loop: true, // 启用循环播放
-        autoplay: {
-          delay: 3000, // 每个切换的时间间隔，单位为毫秒
-        },
+        // autoplay: {
+        //   delay: 10000, // 每个切换的时间间隔，单位为毫秒
+        // },
+        simulateTouch: false, // 禁止鼠标拖动
         notNextTick: true, //notNextTick是一个组件自有属性，如果notNextTick设置为true，组件则不会通过NextTick来实例化swiper，也就意味着你可以在第一时间获取到swiper对象，假如你需要刚加载遍使用获取swiper对象来做什么事，那么这个属性一定要是true
         direction: "vertical", //水平方向移动
-        grabCursor: true, //鼠标覆盖Swiper时指针会变成手掌形状，拖动时指针会变成抓手形状
+        // grabCursor: true, //鼠标覆盖Swiper时指针会变成手掌形状，拖动时指针会变成抓手形状
         setWrapperSize: true, //Swiper使用flexbox布局(display: flex)，开启这个设定会在Wrapper上添加等于slides相加的宽或高，在对flexbox布局的支持不是很好的浏览器中可能需要用到。
         autoHeight: true, //自动高度。设置为true时，wrapper和container会随着当前slide的高度而发生变化
         slidesPerView: 1, //设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为数字（可为小数，小数不可loop），或者 'auto'则自动根据slides的宽度来设定数量。loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
@@ -207,27 +157,56 @@ export default {
     };
   },
   methods: {
-    //监听滑动切换事件，返回swiper对象
+    // 监听滑动切换事件，返回swiper对象
     onSlideChange() {
-      // 获取当前激活的滑块索引
-      const activeIndex = this.$refs.mySwiper.swiper.activeIndex;
+      const swiper = this.$refs.mySwiper.swiper;
+      const activeIndex = swiper.activeIndex; // 获取实际显示的滑块索引（不受循环影响）
       this.updateNavActive(activeIndex);
-      
     },
     navigateToSlide(index) {
-      // 使用 Swiper 实例方法跳转到对应的滑块
-      this.$refs.mySwiper.swiper.slideTo(index);
+      const swiper = this.$refs.mySwiper.swiper;
+      swiper.slideTo(index); // 使用 swiper 实例方法跳转到对应的滑块
       this.updateNavActive(index); // 更新导航栏的高亮状态
     },
     updateNavActive(index) {
-      // 更新导航栏按钮的高亮状态
-      this.currentNavIndex = index;
+      this.currentNavIndex = index; // 更新导航栏按钮的高亮状态
     },
 
-    
-    // 点击按钮跳转到更多页面
-    goToMore() {
-      // 这里可以使用路由跳转，或者弹出更多的内容
+    mouseScroll() {
+      var rolladd = function (e) {
+        var delta = 0;
+        e = e || window.event; // 兼容不同浏览器
+        // 获取滚轮滚动的距离
+        delta = e.wheelDelta ? e.wheelDelta / 120 : -(e.detail || 0) / 3;
+        // 获取 Swiper 实例
+        var swiper = document.querySelector(".swiper-container").swiper;
+        // 判断滚动方向
+        if (delta < 0) {
+          // 判断是否是最后一页
+          if (swiper.activeIndex === swiper.slides.length - 1) {
+            // 如果是最后一页，设置isLun为true，表示可以跳回第一页
+            if (this.isLun >= 8) {
+              // 如果isLun为true，表示鼠标滚动到最后一页后滑动，跳转回第一页
+              swiper.slideTo(0);
+              this.isLun = false; // 滑动完毕后，重置isLun
+            }
+          }
+        } else {
+          // 滚动向上时，不进行任何操作
+          this.isLun = 0;
+        }
+        // 判断是否到达最后一页
+        if (swiper.activeIndex === swiper.slides.length - 1) {
+          this.isLun++; // 当到达最后一页时，允许跳回第一页
+        }
+      };
+
+      // 兼容不同浏览器的鼠标滚轮事件
+      if (window.netscape) {
+        document.addEventListener("DOMMouseScroll", rolladd, true); // Firefox
+      } else {
+        document.onmousewheel = rolladd; // 其他浏览器
+      }
     },
   },
   created() {},
@@ -238,19 +217,17 @@ export default {
     },
   },
   mounted() {
-
-    this.$http
-      .all([
-        this.$http.get("Cases/GetCasesAll"),
-        this.$http.get(`News?type=1&num=3`),
-      ])
-      .then(
-        this.$http.spread((responseCases, responseNews) => {
-          this.caseList = responseCases.data;
-          this.newsList = responseNews.data;
-          this.loading = false;
-        })
-      );
+    this.loading = false;
+    // 初始化滚轮事件监听
+    this.mouseScroll();
+  },
+  beforeDestroy() {
+    // 在组件销毁前移除滚轮事件监听
+    if (window.netscape) {
+      document.removeEventListener("DOMMouseScroll", this.mouseScroll, true);
+    } else {
+      document.onmousewheel = null;
+    }
   },
 };
 </script>
@@ -259,6 +236,9 @@ export default {
 /* .el-header {
   position: absolute;
 } */
+// .swiper-wrapper {
+//   height: 4.465rem !important;
+// }
 .swiper-slide {
   font-size: 24px;
   // text-align: center;
@@ -267,7 +247,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-content: center;
-
   .page {
     text-align: center;
     height: 120px;
@@ -279,320 +258,8 @@ export default {
       color: #fff;
     }
   }
-
-  .slogan {
-    text-align: center;
-    font-size: 50px;
-    color: #fff;
-    padding: 30px 0;
-
-    .toptitlesub {
-      animation-name: bounceInLeft;
-      animation-duration: 1s;
-      font-weight: 400;
-    }
-  }
-
-  .mouse[data-v-5aff6e40] {
-    margin: 0 auto;
-    background: #4e5559
-      linear-gradient(transparent, transparent 50%, #fff 0, #fff);
-    position: relative;
-    width: 52px;
-    height: 88px;
-    background-size: 100% 100%;
-    border-radius: 100px;
-    background-size: 225%;
-    animation: colorSlide-data-v-5aff6e40 5s linear infinite,
-      nudgeMouse-data-v-5aff6e40 5s ease-out infinite;
-  }
-
-  .mouse[data-v-5aff6e40]:before {
-    content: "";
-    width: 46px;
-    height: 82px;
-    background-color: #222a30;
-    border-radius: 100px;
-    position: absolute;
-    top: 3px;
-    left: 3px;
-  }
-
-  .mouse[data-v-5aff6e40]:after {
-    content: "";
-    background-color: #fff;
-    width: 10px;
-    height: 10px;
-    border-radius: 100%;
-    position: absolute;
-    top: 35px;
-    left: 21px;
-    animation: trackBallSlide-data-v-5aff6e40 5s linear infinite;
-  }
-
-  @keyframes colorSlide-data-v-5aff6e40 {
-    0% {
-      background-position: 0 100%;
-    }
-    20% {
-      background-position: 0 0;
-    }
-    21% {
-      background-color: #4e5559;
-    }
-    29.99% {
-      background-color: #fff;
-      background-position: 0 0;
-    }
-    30% {
-      background-color: #4e5559;
-      background-position: 0 100%;
-    }
-    50% {
-      background-position: 0 0;
-    }
-    51% {
-      background-color: #4e5559;
-    }
-    59.99% {
-      background-color: #fff;
-      background-position: 0 0;
-    }
-    60% {
-      background-color: #4e5559;
-      background-position: 0 100%;
-    }
-    80% {
-      background-position: 0 0;
-    }
-    81% {
-      background-color: #4e5559;
-    }
-    89.99%,
-    100% {
-      background-color: #fff;
-    }
-  }
-
-  @keyframes nudgeMouse-data-v-5aff6e40 {
-    0% {
-      transform: translateY(0);
-    }
-    20% {
-      transform: translateY(8px);
-    }
-    30% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(8px);
-    }
-    60% {
-      transform: translateY(0);
-    }
-    80% {
-      transform: translateY(8px);
-    }
-    90% {
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes trackBallSlide-data-v-5aff6e40 {
-    0% {
-      opacity: 1;
-      transform: scale(1) translateY(-20px);
-    }
-    6% {
-      opacity: 1;
-      transform: scale(0.9) translateY(5px);
-    }
-    14% {
-      opacity: 0;
-      transform: scale(0.4) translateY(40px);
-    }
-    15%,
-    19% {
-      opacity: 0;
-      transform: scale(0.4) translateY(-20px);
-    }
-    28%,
-    29.99% {
-      opacity: 1;
-      transform: scale(1) translateY(-20px);
-    }
-    30% {
-      opacity: 1;
-      transform: scale(1) translateY(-20px);
-    }
-    36% {
-      opacity: 1;
-      transform: scale(0.9) translateY(5px);
-    }
-    44% {
-      opacity: 0;
-      transform: scale(0.4) translateY(40px);
-    }
-    45%,
-    49% {
-      opacity: 0;
-      transform: scale(0.4) translateY(-20px);
-    }
-    58%,
-    59.99% {
-      opacity: 1;
-      transform: scale(1) translateY(-20px);
-    }
-    60% {
-      opacity: 1;
-      transform: scale(1) translateY(-20px);
-    }
-    66% {
-      opacity: 1;
-      transform: scale(0.9) translateY(5px);
-    }
-    74% {
-      opacity: 0;
-      transform: scale(0.4) translateY(40px);
-    }
-    75%,
-    79% {
-      opacity: 0;
-      transform: scale(0.4) translateY(-20px);
-    }
-    88%,
-    100% {
-      opacity: 1;
-      transform: scale(1) translateY(-20px);
-    }
-  }
-
-  .mousep[data-v-5aff6e40] {
-    text-align: center;
-    font-weight: 300;
-    font-family: Microsoft YaHei, Lantinghei SC, Open Sans, Arial,
-      Hiragino Sans GB, STHeiti, WenQuanYi Micro Hei, SimSun, sans-serif;
-    letter-spacing: 12px;
-    text-indent: 12px;
-    color: #fff;
-    animation: colorText-data-v-5aff6e40 5s ease-out infinite,
-      nudgeText-data-v-5aff6e40 5s ease-out infinite;
-  }
-
-  @keyframes colorText-data-v-5aff6e40 {
-    21% {
-      color: hsla(0, 0%, 100%, 0);
-    }
-    30% {
-      color: #fff;
-    }
-    51% {
-      color: hsla(0, 0%, 100%, 0);
-    }
-    60% {
-      color: #fff;
-    }
-    81% {
-      color: hsla(0, 0%, 100%, 0);
-    }
-    90% {
-      color: #fff;
-    }
-  }
-
-  @keyframes nudgeText-data-v-5aff6e40 {
-    0% {
-      transform: translateY(0);
-    }
-    20% {
-      transform: translateY(2px);
-    }
-    30% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(2px);
-    }
-    60% {
-      transform: translateY(0);
-    }
-    80% {
-      transform: translateY(2px);
-    }
-
-    90% {
-      transform: translateY(0);
-    }
-  }
 }
-//经典案例
-.case-item {
-  width: 1100px;
-  height: 500px;
-  overflow: hidden;
-  margin: 0 auto;
-  margin-top: 30px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  li {
-    width: 330px;
-    height: 250px;
-    list-style: none;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-origin: content-box;
-    margin: 5px;
-    position: relative;
-    overflow: hidden;
 
-    &:hover {
-      .case-item-hover {
-        opacity: 1;
-        transition: all 0.4s ease-in-out;
-      }
-    }
-  }
-}
-//经典案例hover
-.case-item-hover {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  overflow: hidden;
-  background-color: rgba(225, 56, 52, 0.7);
-
-  .hover-title {
-    height: 50px;
-    color: #fff;
-    font-size: 18px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-weight: 400;
-    margin-top: 20px;
-  }
-  .bottom {
-    border-bottom: 1px solid #fff;
-    width: 60px;
-    margin: 0 auto;
-  }
-  .more {
-    width: 90px;
-    padding: 5px 5px;
-    margin: 0 auto;
-    margin-top: 100px;
-    border: 2px solid #fff;
-    span {
-      color: #fff;
-      font-size: 20px;
-    }
-  }
-}
 // .swiper-slide:nth-child(2n) {
 //   background: skyblue;
 // }
@@ -600,96 +267,24 @@ export default {
 //   background: seashell;
 // }
 .slide-one {
-  background: url(../assets/img/home_1.jpg) no-repeat center;
+  background: white;
   background-size: cover;
 }
 .slide-two {
-  background: url(../assets/img/首页.png) no-repeat center;
+  background: url(../assets/img/home_2.jpg) no-repeat center;
   background-size: cover;
 }
 .slide-three {
-  background: url(../assets/img/home_do.jpg) no-repeat center;
+  background: url(../assets/img/home_2.jpg) no-repeat center;
   background-size: cover;
 }
 .slide-four {
-  background: url(../assets/img/home_anli.jpg) no-repeat center;
+  background: url(../assets/img/home_2.jpg) no-repeat center;
   background-size: cover;
 }
-//最新资讯
-.news-content {
-  width: 1240px;
-  margin: 0 auto;
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-
-  &-item {
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-
-    .item-img {
-      width: 360px;
-      height: 230px;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-      background-origin: content-box;
-      margin: 0 auto;
-    }
-    .el-divider {
-      background-color: #fff;
-      height: 3px;
-      .el-divider__text {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        padding: 0px;
-        color: #fff;
-      }
-    }
-    .item-content {
-      width: 360px;
-      height: 230px;
-      margin: 0 auto;
-      //border: 1px solid paleturquoise;
-      h3 {
-        font-size: 22px;
-        height: 30px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      p {
-        font-size: 15px;
-        height: 80px;
-        overflow: hidden;
-        margin: 10px 0;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        white-space: normal !important;
-        word-wrap: break-word;
-      }
-      span {
-        display: block;
-        font-size: 14px;
-        text-align: end;
-      }
-      h3,
-      p,
-      span {
-        color: #fff;
-      }
-    }
-  }
-}
-.order {
-  order: -1;
-}
-.order-img {
-  order: 1;
+.slide-five {
+  background: white;
+  background-size: cover;
 }
 
 // 导航栏样式
@@ -776,6 +371,4 @@ export default {
 .move-leave-to {
   transform: translateX(-100%);
 }
-
-
 </style>
