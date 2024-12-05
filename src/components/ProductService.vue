@@ -14,7 +14,7 @@
                 <img alt="" src="../assets/img/shop.png" />
                 <h4>国际工程物资采购</h4>
                 <span>&nbsp;</span>
-                <a href="/product">查看详情</a>
+                <a href="/product/mainProducts">查看详情</a>
               </div>
             </div>
           </div>  
@@ -27,7 +27,7 @@
                 <img alt="" src="../assets/img/section4-icon02.png" />
                 <h4>“一站式”供应链服务</h4>
                 <span>&nbsp;</span>
-                <a href="/product">查看详情</a>
+                <a href="/product/supplyChain">查看详情</a>
               </div>
             </div>
           </div>  
@@ -40,7 +40,7 @@
                 <img alt="" src="../assets/img/car2.png" />
                 <h4>全品类运输服务</h4>
                 <span>&nbsp;</span>
-                <a href="/product">查看详情</a>
+                <a href="/product/transport">查看详情</a>
               </div>
             </div>
           </div>
@@ -80,6 +80,8 @@ export default {
   background-size: cover;
   background-position: center;
   padding: 60px 20px;
+  margin-top: 60px;
+  max-height: 780px;
 
   .warp {
     max-width: 1200px;
@@ -93,13 +95,13 @@ export default {
   }
 
   .quicn {
-    font-size: 36px;
+    font-size: 40px;
     font-weight: bold;
     color: #1d1d1d;
   }
 
   .quien {
-    font-size: 18px;
+    font-size: 24px;
     color: #666;
     margin-top: 8px;
   }
@@ -157,7 +159,7 @@ export default {
   
 
   .content-txt-cell h4 {
-    font-size: 24px;
+    font-size: 28px;
     margin-top: 15px;
     color: #fff;
     transition: transform 0.5s ease; /* Smooth transition for moving up */

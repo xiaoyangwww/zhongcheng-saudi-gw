@@ -47,7 +47,7 @@
       <div class="box-bom">
         <ul class="ul ULLIST">
           <li class="li">
-            <a href="/goin/development" class="quilibox">
+            <a href="/goin/history" class="quilibox">
               <pre class="quitt">发展历程</pre>
               <div class="quinum icon-zctongji"></div>
             </a>
@@ -59,13 +59,13 @@
             </a>
           </li>
           <li class="li">
-            <a href="/goin/domestic-network" class="quilibox">
+            <a href="/goin/domestic" class="quilibox">
               <pre class="quitt">国内网络</pre>
               <div class="quinum icon-zcwangluo"></div>
             </a>
           </li>
           <li class="li">
-            <a href="/goin/overseas-network" class="quilibox">
+            <a href="/goin/overseas" class="quilibox">
               <pre class="quitt">海外网络</pre>
               <div class="quinum icon-zcshenjing"></div>
             </a>
@@ -107,6 +107,7 @@ export default {
   background-size: cover;
   background-position: center;
   padding: 60px 20px;
+  max-height: 780px;
 }
 // .qui-homebox {
 //   position: relative;
@@ -122,6 +123,7 @@ export default {
 
 .qui-warp {
   max-width: 1200px;
+
   margin: 0 auto;
   padding: 20px;
 }
@@ -132,13 +134,13 @@ export default {
 }
 
 .quicn {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: bold;
   color: #1d1d1d;
 }
 
 .quien {
-  font-size: 18px;
+  font-size: 24px;
   color: #666;
   margin-top: 8px;
 }
@@ -182,7 +184,7 @@ export default {
       margin: 15px 0;
     }
     p {
-      font-size: 14px;
+      font-size: 16px;
       line-height: 1.6;
       margin: 0 0 20px;
       text-indent: 2em;

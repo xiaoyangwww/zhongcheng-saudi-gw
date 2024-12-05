@@ -1,12 +1,12 @@
 <template>
   <div class="Welcome">
-    <swiper
+    <!-- <swiper
       ref="Swiper"
       id="swiper-wc"
       v-bind:options="swiperOption"
       style="width: 100%; height: 100%"
     >
-      <!-- Swiper项 -->
+      
       <swiper-slide v-for="(item, index) in imageList" :key="index">
         <div class="welcome">
           <img :src="item.url" class="carousel-image" />
@@ -24,8 +24,8 @@
           </div>
         </div>
       </swiper-slide>
-    </swiper>
-    <!-- <div class="wc-text">
+    </swiper> -->
+    <div class="wc-text">
       <div class="page">
         <h3>中成深圳</h3>
         <p>ZCTS SHENZHEN</p>
@@ -36,7 +36,7 @@
         <div class="mouse" data-v-5aff6e40></div>
       </div>
       <p data-v-5aff6e40 class="mousep">鼠标滚动</p>
-    </div> -->
+    </div>
   </div>
 </template>
   

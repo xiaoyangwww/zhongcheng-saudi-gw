@@ -129,7 +129,7 @@ export default {
         slidesPerView: 1, //设置slider容器能够同时显示的slides数量(carousel模式)。可以设置为数字（可为小数，小数不可loop），或者 'auto'则自动根据slides的宽度来设定数量。loop模式下如果设置为'auto'还需要设置另外一个参数loopedSlides。
         mousewheel: true, //开启鼠标滚轮控制Swiper切换。可设置鼠标选项，默认值false
         mousewheelControl: true, //同上
-        height: window.innerHeight - 60, // 高度设置，占满设备高度
+        height: window.innerHeight - 40, // 高度设置，占满设备高度
         resistanceRatio: 0, //抵抗率。边缘抵抗力的大小比例。值越小抵抗越大越难将slide拖离边缘，0时完全无法拖离。本业务需要
         observeParents: true, //将observe应用于Swiper的父元素。当Swiper的父元素变化时，例如window.resize，Swiper更新
 
@@ -185,7 +185,7 @@ export default {
           // 判断是否是最后一页
           if (swiper.activeIndex === swiper.slides.length - 1) {
             // 如果是最后一页，设置isLun为true，表示可以跳回第一页
-            if (this.isLun >= 8) {
+            if (this.isLun >= 6) {
               // 如果isLun为true，表示鼠标滚动到最后一页后滑动，跳转回第一页
               swiper.slideTo(0);
               this.isLun = false; // 滑动完毕后，重置isLun
@@ -267,19 +267,23 @@ export default {
 //   background: seashell;
 // }
 .slide-one {
-  background: white;
+  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_1.jpg)
+    no-repeat center;
   background-size: cover;
 }
 .slide-two {
-  background: url(../assets/img/home_2.jpg) no-repeat center;
+  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_2.jpg)
+    no-repeat center;
   background-size: cover;
 }
 .slide-three {
-  background: url(../assets/img/home_2.jpg) no-repeat center;
+  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_2.jpg)
+    no-repeat center;
   background-size: cover;
 }
 .slide-four {
-  background: url(../assets/img/home_2.jpg) no-repeat center;
+  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_2.jpg)
+    no-repeat center;
   background-size: cover;
 }
 .slide-five {

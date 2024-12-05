@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header>
+      <el-header class="fixed-header" style="width: 100%">
         <a href="/" class="logo-container">
           <img
             class="logo"
@@ -20,12 +20,35 @@
           mode="horizontal"
           @select="handleSelect"
           :router="router"
-          style="margin-top: 1px"
         >
           <el-menu-item index="/">首页</el-menu-item>
-          <el-menu-item index="/goin">关于我们</el-menu-item>
-          <el-menu-item index="/product">产品服务</el-menu-item>
-          <el-menu-item index="/case">项目案例</el-menu-item>
+          <el-submenu index="/goin" popper-class="open">
+            <template slot="title">关于我们</template>
+            <el-menu-item index="/goin/intro">公司简介</el-menu-item>
+            <el-menu-item index="/goin/history">发展历程</el-menu-item>
+            <el-menu-item index="/goin/culture">企业文化</el-menu-item>
+            <el-menu-item index="/goin/honor">资质荣誉</el-menu-item>
+            <el-menu-item index="/goin/cooperate">合作伙伴</el-menu-item>
+            <el-menu-item index="/goin/domestic">国内网络</el-menu-item>
+            <el-menu-item index="/goin/overseas">海外网络</el-menu-item>
+          </el-submenu>
+          <el-submenu index="/product" popper-class="open">
+            <template slot="title">产品与服务</template>
+            <el-menu-item index="/product/transport"
+              >全品类运输服务</el-menu-item
+            >
+            <el-menu-item index="/product/supplyChain"
+              >“一站式”供应链服务</el-menu-item
+            >
+            <el-menu-item index="/product/mainProducts"
+              >主营工程物资产品</el-menu-item
+            >
+          </el-submenu>
+          <el-submenu index="/case" popper-class="open">
+            <template slot="title">项目案例</template>
+            <el-menu-item index="/case/logistics">物流业务</el-menu-item>
+            <el-menu-item index="/case/materials">物资业务</el-menu-item>
+          </el-submenu>
           <el-menu-item index="/us">联系我们</el-menu-item>
         </el-menu>
       </el-header>
@@ -37,21 +60,25 @@
           <ul class="content-nav">
             <li>
               <p>关于中成</p>
-              <span>发展历程</span>
-              <span>企业文化</span>
-              <span>国内网络</span>
-              <span>海外网络</span>
+              <router-link to="/goin/history">发展历程</router-link>
+              <router-link to="/goin/culture">企业文化</router-link>
+              <router-link to="/goin/domestic">国内网络</router-link>
+              <router-link to="/goin/overseas">海外网络</router-link>
             </li>
             <li>
               <p>产品与服务</p>
-              <span>国际工程物资采购</span>
-              <span>“一站式”供应链服务</span>
-              <span>全品类运输服务</span>
+              <router-link to="/product/mainProducts"
+                >主营工程物资产品</router-link
+              >
+              <router-link to="/product/supplyChain"
+                >“一站式”供应链服务</router-link
+              >
+              <router-link to="/product/transport">全品类运输服务</router-link>
             </li>
             <li>
               <p>项目案例</p>
-              <span>物流业务</span>
-              <span>物资业务</span>
+              <router-link to="/case/logistics">物流业务</router-link>
+              <router-link to="/case/materials">物资业务</router-link>
             </li>
             <li>
               <p>联系我们</p>
@@ -64,7 +91,6 @@
           <div class="wx">
             <div>
               <span class="wx-code">微信公众号二维码 </span>
-
               <span class="wx-text">扫一扫关注我们</span>
             </div>
             <img class="wx-img" src="./assets/img/code.png" alt />
@@ -92,8 +118,8 @@
           </div>
           <div class="copyright">
             <img src="../src/assets/img/ga_icon.png" alt="公安图标" />
-            <span
-              >粤ICP备18093725号 | 版权所有© 中成国际运输深圳有限公司© 2024
+            <span>
+              粤ICP备18093725号 | 版权所有© 中成国际运输深圳有限公司© 2024
               中成国际运输深圳有限公司
             </span>
           </div>
@@ -122,7 +148,6 @@ export default {
     handleSelect(key) {
       this.isShow = true;
       this.defaultActive = key; // 更新默认激活项
-      window.console.log(this.isShow);
     },
   },
 };
@@ -136,6 +161,7 @@ export default {
 html,
 body {
   height: 100%;
+  margin-top: 30px; /* 根据导航栏高度调整页面内容的顶部间距 */
   a {
     text-decoration: none;
   }
@@ -148,12 +174,23 @@ body {
   color: #2c3e50;
 }
 
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999; /* 确保导航栏在最前 */
+  background-color: #fff; /* 背景色 */
+  // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+}
+
 .el-header {
   display: flex;
   justify-content: space-between;
   align-content: center;
-  height: 0.305rem !important;
-  width: 90%;
+  height: 61px !important;
+  min-width: 1485px !important;
+  max-width: 1985px !important;
   // margin: 0 auto;
   //background-color: #fff;
 
@@ -190,22 +227,39 @@ body {
       color: #888; /* 文字颜色 */
     }
   }
+
+  .el-menu-demo {
+    margin-top: 1px;
+    margin-right: 200px;
+  }
 }
+
+.el-menu-item {
+  font-size: 18px !important;
+}
+
+.el-submenu__title {
+  font-size: 18px !important;
+}
+
 .el-main {
   padding: 0 !important;
 }
 
+.open {
+  margin-top: 24px;
+}
+
 .footer {
   width: 100%;
-  // height: 225px;
   overflow: hidden;
   background-color: #024190;
 
   &-content {
-    width: 1400px;
+    width: 1470px;
     margin: 0 auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 5px;
+    padding-bottom: 20px;
     display: flex;
     justify-content: space-between;
 
@@ -216,52 +270,67 @@ body {
       li {
         display: flex;
         flex-direction: column;
-        padding: 0 20px;
+        padding: 0 30px;
         align-items: flex-start;
 
         p {
-          font-size: 18px;
+          font-size: 20px; /* 增大字体 */
           color: #f7f7f7;
-          padding: 10px 0;
+          padding: 15px 0;
           font-weight: bold;
         }
 
         span {
           color: #f7f7f7;
           font-weight: 300;
-          padding: 5px 0;
-          font-size: 12px;
+          padding: 8px 0;
+          font-size: 14px; /* 增大字体 */
+        }
+
+        a {
+          color: #f7f7f7;
+          font-weight: 300;
+          padding: 8px 0;
+          font-size: 14px; /* 增大字体 */
+          text-decoration: none;
+
+          &:hover {
+            color: #a8aaad; /* 鼠标悬停颜色 */
+          }
         }
       }
     }
+
     .wx-br {
       width: 10px;
-      height: 100px;
+      height: 150px; /* 增加高度 */
       border-left: 1px solid #999999;
       margin-top: 20px;
     }
+
     .wx {
       display: flex;
-      justify-self: center;
+      // flex-direction: column;
       align-items: center;
-    }
+      justify-content: center;
 
-    .wx-code {
-      display: block;
-      color: #fff;
-      font-size: 16px;
-    }
+      .wx-code {
+        display: block;
+        color: #fff;
+        font-size: 18px; /* 增大字体 */
+      }
 
-    .wx-text {
-      display: block;
-      color: #fff;
-      font-size: 12px;
-      margin-top: 5px;
-    }
+      .wx-text {
+        display: block;
+        color: #fff;
+        font-size: 14px; /* 增大字体 */
+        margin-top: 10px;
+      }
 
-    .wx-img {
-      width: 80px;
-      height: 80px;
+      .wx-img {
+        width: 100px; /* 增大图片尺寸 */
+        height: 100px;
+      }
     }
 
     img {
@@ -273,9 +342,9 @@ body {
 
   .info {
     width: 100%;
-    height: 35px;
-    padding: 10px 20px;
-    font-size: 12px;
+    height: 50px; /* 增加高度 */
+    padding: 5px;
+    font-size: 14px; /* 增大字体 */
     color: #666;
     background-color: #f8f8f8;
     text-align: center;
@@ -285,15 +354,15 @@ body {
     .copyright {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 10px; /* 增大间距 */
 
       img {
-        width: 16px;
-        height: 16px;
+        width: 20px; /* 增大图标 */
+        height: 20px;
       }
-
+      
       span {
-        font-size: 12px;
+        font-size: 14px; /* 增大字体 */
         color: #666;
       }
     }
@@ -302,14 +371,15 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
 
       span {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 15px; /* 增大间距 */
 
         a {
+          font-size: 14px; /* 增大字体 */
           color: #999;
           text-decoration: none;
 
@@ -321,7 +391,6 @@ body {
     }
   }
 }
-
 
 .mousep[data-v-5aff6e40] {
   text-align: center;
@@ -381,9 +450,8 @@ body {
   }
 }
 
-
 .chage[data-v-5aff6e50] {
-  margin-top: 80px;
+  margin-top: 10px;
   text-align: center;
   font-weight: 300;
   font-family: Microsoft YaHei, Lantinghei SC, Open Sans, Arial,
@@ -391,11 +459,12 @@ body {
   letter-spacing: 12px;
   text-indent: 12px;
   color: #000000;
-  animation: colorText-change 5s ease-out infinite, nudgeText-data-v-5aff6e40 5s ease-out infinite;
+  animation: colorText-change 5s ease-out infinite,
+    nudgeText-data-v-5aff6e40 5s ease-out infinite;
 }
 
 @keyframes colorText-change {
-   21% {
+  21% {
     color: hsla(0, 0%, 100%, 0);
   }
   30% {
@@ -412,6 +481,17 @@ body {
   }
   90% {
     color: #000000;
+  }
+}
+
+@keyframes moveUp {
+  from {
+    opacity: 0; // 初始透明度为 0
+    transform: translateY(40px); // 初始位置向下偏移 20px
+  }
+  to {
+    opacity: 1; // 最终透明度为 1
+    transform: translateY(0); // 回到原始位置
   }
 }
 </style>

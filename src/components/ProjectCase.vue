@@ -156,10 +156,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.projectCase {
+  margin-top: 50px;
+  max-height: 900px;
+}
+
 .business-framework {
   background-size: cover;
   background-position: center;
   padding: 60px 20px;
+  margin-top: 60px;
 }
 .warp {
   max-width: 1200px;
@@ -173,13 +179,13 @@ export default {
 }
 
 .quicn {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: bold;
   color: #1d1d1d;
 }
 
 .quien {
-  font-size: 18px;
+  font-size: 24px;
   color: #666;
   margin-top: 8px;
 }
@@ -205,7 +211,7 @@ export default {
 .tab-item {
   padding: 10px 20px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
   transition: color 0.3s, border-color 0.3s;
 }
 
@@ -303,7 +309,7 @@ export default {
       .hover-title {
         height: 50px;
         color: #fff;
-        font-size: 18px;
+        font-size: 24px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

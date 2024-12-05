@@ -1,11 +1,16 @@
 <template>
   <div class="banner">
-    <div class="mm"></div>
+    <div
+      class="mm"
+      :style="{
+        backgroundImage: `url(${img})`,
+      }"
+    ></div>
     <div class="banner-img">
       <img :src="img" />
     </div>
     <div class="banner-title">
-      <p>{{title}}</p>
+      <p>{{ title }}</p>
     </div>
   </div>
 </template>
@@ -16,20 +21,20 @@ export default {
   props: {
     title: {
       type: String,
-      default: ""
+      default: "",
     },
     img: {
       type: String,
-      default: "../assets/img/about_us.png"
-    }
-  }
+      default: require('../assets/img/service.png'),
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .banner {
   width: 100%;
-  height: 300px;
+  height: 400px;
   display: flex;
   position: relative;
   overflow: hidden;
@@ -38,20 +43,18 @@ export default {
   .mm {
     position: absolute;
     width: 100%;
-    height: 100%;
-
+    height: 400px;
     padding: 10px;
     margin: -10px;
     filter: blur(10px);
-
-    background-image: url(../assets/img/about_us.png);
+    // background-image: url(../assets/img/about_us.jpg);
     background-position: center;
     background-size: 100%;
   }
 
   img {
     position: absolute;
-    //width: 1240px;
+    width: 1425px;
     height: 100%;
     left: 50%;
     transform: translate(-50%, 0);
@@ -61,7 +64,7 @@ export default {
     position: absolute;
     color: #fff;
     font-size: 45px;
-    font-weight: 400;
+    font-weight: 800;
     line-height: 300px;
     text-align: center;
     width: 100%;

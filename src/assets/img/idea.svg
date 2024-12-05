@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100" viewBox="0 0 200 100">
+  <defs>
+    <style>
+      .text {
+        font-size: 150px;
+        font-family: Arial, sans-serif; /* 替换为实际字体 */
+        font-weight: bold;
+        fill: white;
+        stroke: black;
+        stroke-width: 1px;
+      }
+    </style>
+  </defs>
+  <text x="0" y="80" class="text">idea</text>
+</svg>
