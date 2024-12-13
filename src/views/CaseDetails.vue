@@ -1,12 +1,12 @@
 <template>
   <div class="case">
-    <banner img="../assets/img/bgtop.jpg" />
+    <banner title="xxx" />
     <div class="case-product">
       <div class="case-product-content">
-        <img v-lazy="imgserver+caseIdList.Img" alt />
-        <p class="product-title">{{caseIdList.Title}}</p>
-        <p class="product-time">{{caseIdList.CreateTime}}</p>
-        <p class="product-content">{{caseIdList.Content}}</p>
+        <img v-lazy="imgserver + caseIdList.Img" alt />
+        <p class="product-title">{{ caseIdList.Title }}</p>
+        <p class="product-time">{{ caseIdList.CreateTime }}</p>
+        <p class="product-content">{{ caseIdList.Content }}</p>
       </div>
     </div>
   </div>
@@ -16,12 +16,12 @@
 import Banner from "../components/Banner";
 export default {
   components: {
-    Banner
+    Banner,
   },
   data() {
     return {
       pid: 0,
-      caseIdList: {}
+      caseIdList: {},
     };
   },
   created() {
@@ -35,16 +35,16 @@ export default {
     loadData() {
       this.$http
         .get(`Cases/GetCasesById/${this.pid}`)
-        .then(response => {
+        .then((response) => {
           //console.log(response);
           this.caseIdList = response.data;
           window.console.log(this.caseIdList);
         })
-        .catch(function(error) {
+        .catch(function (error) {
           window.console.log(error);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -52,10 +52,11 @@ export default {
 .case {
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  background-color: #14679f;
+  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/bg_all.jpg)
+    no-repeat center;
+  background-size: cover;
   &-product {
-    width: 1240px;
+    width: 1425px;
     margin: 0 auto;
     background-color: #fff;
     //border: 1px solid red;

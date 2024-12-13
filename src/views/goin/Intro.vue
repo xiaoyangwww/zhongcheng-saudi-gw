@@ -89,10 +89,10 @@ export default {
       padding: 20px 0;
     }
     .content {
-      color: #000;
-      font-size: 16px;
+      color: #666;
+      font-size: 18px;
       text-indent: 25px;
-      line-height: 30px;
+      line-height: 2;
     }
 
     .statistics {
@@ -136,8 +136,8 @@ export default {
   }
 
   .summary-right {
-    width: 400px;
-    height: 500px;
+    width: 450px;
+    height: 600px;
     margin-top: 20px;
     text-align: center;
     overflow: hidden;
@@ -151,8 +151,8 @@ export default {
     }
 
     img {
-      width: 400px;
-      height: 500px;
+      width: 450px;
+      height: 600px;
       // margin-top: 20px;
       transition: transform 0.3s ease; // 图片放大效果
 

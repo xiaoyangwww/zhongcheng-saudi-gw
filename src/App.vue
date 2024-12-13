@@ -13,45 +13,80 @@
             <span class="english-text">ZCTS SHENZHEN CO., LTD.</span>
           </div>
         </a>
-
-        <el-menu
-          :default-active="defaultActive"
-          class="el-menu-demo"
-          mode="horizontal"
-          @select="handleSelect"
-          :router="router"
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+          "
         >
-          <el-menu-item index="/">首页</el-menu-item>
-          <el-submenu index="/goin" popper-class="open">
-            <template slot="title">关于我们</template>
-            <el-menu-item index="/goin/intro">公司简介</el-menu-item>
-            <el-menu-item index="/goin/history">发展历程</el-menu-item>
-            <el-menu-item index="/goin/culture">企业文化</el-menu-item>
-            <el-menu-item index="/goin/honor">资质荣誉</el-menu-item>
-            <el-menu-item index="/goin/cooperate">合作伙伴</el-menu-item>
-            <el-menu-item index="/goin/domestic">国内网络</el-menu-item>
-            <el-menu-item index="/goin/overseas">海外网络</el-menu-item>
-          </el-submenu>
-          <el-submenu index="/product" popper-class="open">
-            <template slot="title">产品与服务</template>
-            <el-menu-item index="/product/transport"
-              >全品类运输服务</el-menu-item
-            >
-            <el-menu-item index="/product/supplyChain"
-              >“一站式”供应链服务</el-menu-item
-            >
-            <el-menu-item index="/product/mainProducts"
-              >主营工程物资产品</el-menu-item
-            >
-          </el-submenu>
-          <el-submenu index="/case" popper-class="open">
-            <template slot="title">项目案例</template>
-            <el-menu-item index="/case/logistics">物流业务</el-menu-item>
-            <el-menu-item index="/case/materials">物资业务</el-menu-item>
-          </el-submenu>
-          <el-menu-item index="/us">联系我们</el-menu-item>
-        </el-menu>
+          <el-menu
+            :default-active="defaultActive"
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            :router="router"
+          >
+            <el-menu-item index="/">首页</el-menu-item>
+            <el-submenu index="/goin" popper-class="open">
+              <template slot="title">关于我们</template>
+              <el-menu-item index="/goin/intro">公司简介</el-menu-item>
+              <el-menu-item index="/goin/history">发展历程</el-menu-item>
+              <el-menu-item index="/goin/culture">企业文化</el-menu-item>
+              <el-menu-item index="/goin/honor">资质荣誉</el-menu-item>
+              <el-menu-item index="/goin/cooperate">合作伙伴</el-menu-item>
+              <el-menu-item index="/goin/domestic">国内网络</el-menu-item>
+              <el-menu-item index="/goin/overseas">海外网络</el-menu-item>
+            </el-submenu>
+            <el-submenu index="/product" popper-class="open">
+              <template slot="title">产品与服务</template>
+              <el-menu-item index="/product/transport"
+                >全品类运输服务</el-menu-item
+              >
+              <el-menu-item index="/product/supplyChain"
+                >“一站式”供应链服务</el-menu-item
+              >
+              <el-menu-item index="/product/mainProducts"
+                >主营工程物资产品</el-menu-item
+              >
+            </el-submenu>
+            <el-submenu index="/case" popper-class="open">
+              <template slot="title">项目案例</template>
+              <el-menu-item index="/case/logistics">物流业务</el-menu-item>
+              <el-menu-item index="/case/materials">物资业务</el-menu-item>
+            </el-submenu>
+            <el-menu-item index="/us">联系我们</el-menu-item>
+          </el-menu>
+          <!-- 国际化 -->
+          <el-dropdown
+            trigger="click"
+            class="international"
+            @command="handleSetLanguage"
+          >
+            <el-button type="text">
+              <!-- 使用 Element UI 内置的语言图标 -->
+              <i class="icon-zczhongyingwen"></i>
+              <!-- 这里你可以使用你想要的图标 -->
+            </el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item
+                :disabled="language === 'zh_CN'"
+                command="zh_CN"
+              >
+                中文
+              </el-dropdown-item>
+              <el-dropdown-item
+                :disabled="language === 'en_US'"
+                command="en_US"
+              >
+                English
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
+        <!-- 菜单 -->
       </el-header>
+
       <el-main>
         <router-view />
       </el-main>
@@ -136,6 +171,7 @@ export default {
       router: true,
       defaultActive: this.$route.path,
       isShow: false,
+      language: "zh_CN",
     };
   },
   watch: {
@@ -148,6 +184,16 @@ export default {
     handleSelect(key) {
       this.isShow = true;
       this.defaultActive = key; // 更新默认激活项
+    },
+    handleSetLanguage(value) {
+      console.log(value);
+      this.language = value;
+      this.$i18n.locale = value;
+      this.$message({ message: "设置语言成功", type: "success" });
+      // this.$store.dispatch("app/setLanguage", value);
+      // changeLanguage(value).then((response) => {
+      //   window.location.reload();
+      // });
     },
   },
 };
@@ -230,7 +276,7 @@ body {
 
   .el-menu-demo {
     margin-top: 1px;
-    margin-right: 200px;
+    margin-right: 50px;
   }
 }
 
@@ -248,6 +294,22 @@ body {
 
 .open {
   margin-top: 24px;
+}
+
+// 国际化
+.international {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+  i {
+    font-size: 24px;
+  }
+}
+
+.el-button {
+  padding-top: 20px !important;
+  font-size: 16px;
+  color: #024190 !important;
 }
 
 .footer {
@@ -274,7 +336,7 @@ body {
         align-items: flex-start;
 
         p {
-          font-size: 20px; /* 增大字体 */
+          font-size: 22px; /* 增大字体 */
           color: #f7f7f7;
           padding: 15px 0;
           font-weight: bold;
@@ -284,14 +346,14 @@ body {
           color: #f7f7f7;
           font-weight: 300;
           padding: 8px 0;
-          font-size: 14px; /* 增大字体 */
+          font-size: 18px; /* 增大字体 */
         }
 
         a {
           color: #f7f7f7;
           font-weight: 300;
           padding: 8px 0;
-          font-size: 14px; /* 增大字体 */
+          font-size: 18px; /* 增大字体 */
           text-decoration: none;
 
           &:hover {
@@ -313,6 +375,7 @@ body {
       // flex-direction: column;
       align-items: center;
       justify-content: center;
+      margin-right: 15px;
 
       .wx-code {
         display: block;
@@ -360,7 +423,7 @@ body {
         width: 20px; /* 增大图标 */
         height: 20px;
       }
-      
+
       span {
         font-size: 14px; /* 增大字体 */
         color: #666;
@@ -451,7 +514,7 @@ body {
 }
 
 .chage[data-v-5aff6e50] {
-  margin-top: 10px;
+  margin-top: 0px;
   text-align: center;
   font-weight: 300;
   font-family: Microsoft YaHei, Lantinghei SC, Open Sans, Arial,

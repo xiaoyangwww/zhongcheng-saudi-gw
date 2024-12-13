@@ -14,7 +14,10 @@
         <div class="map-content-info">
           <div class="branch-map-l">
             <div class="map-content-box">
-              <img class="map-content-box-img" src="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/map-bj.png">
+              <img
+                class="map-content-box-img"
+                src="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/map-bj.png"
+              />
               <span
                 v-for="city in cities"
                 :key="city.id"
@@ -38,8 +41,8 @@
               :key="'company-' + city.id"
               :id="'company_' + city.id"
               class="branch-map-data"
+              :class="'city-' + city.id"
               v-show="city.visible"
-              :style="getPositionStyle(city)"
             >
               <div class="branch-map-data-title">
                 <p>{{ city.name }}</p>
@@ -54,14 +57,7 @@
                     <p class="data-name">{{ company.companyName }}</p>
                   </a>
                   <p>地址： {{ company.address }}</p>
-                  <p>总机：{{ company.phone }}</p>
-                  <p>传真：{{ company.fax }}</p>
-                  <p>
-                    网址：
-                    <a :href="company.website" target="_blank">{{
-                      company.website
-                    }}</a>
-                  </p>
+                  <p>电话：{{ company.phone }}</p>
                 </div>
               </div>
             </div>
@@ -83,15 +79,11 @@ export default {
           name: "上海",
           selected: false,
           visible: false,
-          position: { left: 804, top: 288 },
           companyList: [
             {
               companyName: "中成(上海)国际物流有限公司",
               address: "上海市中山西路1279弄5号楼",
               phone: "021-8899999999",
-              fax: "021-8899999999",
-              website: "17sucai.aui.com",
-              title: "",
             },
           ],
         },
@@ -100,15 +92,11 @@ export default {
           name: "大连",
           selected: false,
           visible: false,
-          position: { left: 784, top: 150 },
           companyList: [
             {
               companyName: "中成国际运输(大连)有限公司",
               address: "辽宁中山西路1279弄5号楼",
               phone: "021-8899999999",
-              fax: "021-8899999999",
-              website: "17sucai.aui.com",
-              title: "",
             },
           ],
         },
@@ -117,23 +105,16 @@ export default {
           name: "北京",
           selected: false,
           visible: false,
-          position: { left: 700, top: 110 },
           companyList: [
             {
               companyName: "中成国际运输有限公司(总公司)",
               address: "北京市朝阳区广渠路首享科技大厦19层",
               phone: "010－99887777",
-              fax: "010－00000006",
-              website: "17su.aui.com",
-              title: "",
             },
             {
               companyName: "中成运国际贸易(北京)有限公司",
               address: "北京市朝阳区广渠路首享科技大厦19层",
               phone: "010－99887777",
-              fax: "010－00000006",
-              website: "17su.aui.com",
-              title: "",
             },
           ],
         },
@@ -142,39 +123,26 @@ export default {
           name: "广东",
           selected: false,
           visible: false,
-          position: { left: 730, top: 345 },
           companyList: [
             {
               companyName: "中成国际运输深圳有限公司广州分公司",
               address: "广州市越秀区广州大道中289号南方日报",
               phone: "18688864252",
-              fax: "020-22387951",
-              website: "guangzhou.aui.com",
-              title: "广东网站建设",
             },
             {
               companyName: "中成(广东)供应链管理有限公司",
               address: "广州市越秀区广州大道中289号南方日报",
               phone: "18688864252",
-              fax: "020-22387951",
-              website: "guangzhou.aui.com",
-              title: "广东网站建设",
             },
             {
               companyName: "广东中成物流科技有限公司",
               address: "广州市越秀区广州大道中289号南方日报",
               phone: "18688864252",
-              fax: "020-22387951",
-              website: "guangzhou.aui.com",
-              title: "广东网站建设",
             },
             {
               companyName: "广东中州实业发展有限公司",
               address: "广州市越秀区广州大道中289号南方日报",
               phone: "18688864252",
-              fax: "020-22387951",
-              website: "guangzhou.aui.com",
-              title: "广东网站建设",
             },
           ],
         },
@@ -183,15 +151,11 @@ export default {
           name: "深圳",
           selected: false,
           visible: false,
-          position: { left: 720, top: 420 },
           companyList: [
             {
               companyName: "中成国际运输深圳有限公司",
               address: "广州市越秀区广州大道中289号南方日报",
               phone: "18688864252",
-              fax: "020-22387951",
-              website: "guangzhou.aui.com",
-              title: "广东网站建设",
             },
           ],
         },
@@ -200,15 +164,11 @@ export default {
           name: "昆明",
           selected: false,
           visible: false,
-          position: { left: 530, top: 395 },
           companyList: [
             {
               companyName: "奥嵊物流(云南)有限公司",
               address: "昆明市青年路389号志远大厦副楼（志远新天地）5楼E座",
               phone: "0871-66349955",
-              fax: "0871-66098579",
-              website: "kunming.aui.com",
-              title: "云南网站建设",
             },
           ],
         },
@@ -217,15 +177,11 @@ export default {
           name: "天津",
           selected: false,
           visible: false,
-          position: { left: 730, top: 165 },
           companyList: [
             {
               companyName: "奥维国际物流(天津)有限公司",
               address: "昆明市青年路389号志远大厦副楼（志远新天地）5楼E座",
               phone: "0871-66349955",
-              fax: "0871-66098579",
-              website: "kunming.aui.com",
-              title: "云南网站建设",
             },
           ],
         },
@@ -234,15 +190,11 @@ export default {
           name: "武汉",
           selected: false,
           visible: false,
-          position: { left: 670, top: 300 },
           companyList: [
             {
               companyName: "中成国际运输有限公司湖北分公司",
               address: "昆明市青年路389号志远大厦副楼（志远新天地）5楼E座",
               phone: "0871-66349955",
-              fax: "0871-66098579",
-              website: "kunming.aui.com",
-              title: "云南网站建设",
             },
           ],
         },
@@ -251,15 +203,11 @@ export default {
           name: "青岛",
           selected: false,
           visible: false,
-          position: { left: 770, top: 200 },
           companyList: [
             {
               companyName: "中成国际运输山东有限公司",
               address: "昆明市青年路389号志远大厦副楼（志远新天地）5楼E座",
               phone: "0871-66349955",
-              fax: "0871-66098579",
-              website: "kunming.aui.com",
-              title: "云南网站建设",
             },
           ],
         },
@@ -302,13 +250,6 @@ export default {
           // city.visible = false;
         }
       });
-    },
-    // 获取城市位置样式
-    getPositionStyle(city) {
-      return {
-        left: `${city.position.left}px`,
-        top: `${city.position.top}px`,
-      };
     },
   },
   mounted() {

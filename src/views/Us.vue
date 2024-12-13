@@ -230,7 +230,7 @@ export default {
   .form-container {
     width: 60%;
     h2 {
-      font-size: 28px;
+      font-size: 30px;
       margin-bottom: 15px;
       margin-left: 58px;
     }

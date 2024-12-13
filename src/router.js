@@ -184,8 +184,12 @@ let kejianrouter = new Router({
   }
   ],
   scrollBehavior(to, from, savedPosition) {
-    return { x: 0, y: 0 }; // 跳转时滚动到页面顶部
-  },
+    if (savedPosition) {
+      return savedPosition; // 如果有保存的滚动位置，返回
+    } else {
+      return { x: 0, y: 0 }; // 否则滚动到顶部
+    }
+  }
 })
 
 // 判断是否需要登录权限 以及是否登录

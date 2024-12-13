@@ -6,48 +6,29 @@
         <div class="quien">BUSINESS OVERVIEW</div>
       </div>
       <div class="content">
-        <div class="content-item">
-          <img class="item-img" src="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/bus_3.jpg" />
+        <div
+          v-for="(item, index) in items"
+          :key="index"
+          class="content-item"
+          :class="{ 'item-top': index % 2 === 1 }"
+        >
+          <img class="item-img" :src="item.image" />
           <div class="content-txt">
             <div class="content-txt-table">
               <div class="content-txt-cell">
-                <img alt="" src="../assets/img/shop.png" />
-                <h4>国际工程物资采购</h4>
+                <img :src="item.icon" alt="" />
+                <h4>{{ item.title }}</h4>
                 <span>&nbsp;</span>
-                <a href="/product/mainProducts">查看详情</a>
-              </div>
-            </div>
-          </div>  
-        </div>
-        <div class="content-item item-top">
-          <img class="item-img" src="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/bus_4.jpg" />
-          <div class="content-txt">
-            <div class="content-txt-table">
-              <div class="content-txt-cell">
-                <img alt="" src="../assets/img/section4-icon02.png" />
-                <h4>“一站式”供应链服务</h4>
-                <span>&nbsp;</span>
-                <a href="/product/supplyChain">查看详情</a>
-              </div>
-            </div>
-          </div>  
-        </div>
-        <div class="content-item">
-          <img class="item-img" src="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/bus_2.jpg" />  
-          <div class="content-txt">
-            <div class="content-txt-table">
-              <div class="content-txt-cell">
-                <img alt="" src="../assets/img/car2.png" />
-                <h4>全品类运输服务</h4>
-                <span>&nbsp;</span>
-                <a href="/product/transport">查看详情</a>
+                <a :href="item.link">查看详情</a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <p data-v-5aff6e50 class="chage" ><span class="el-icon-bottom" style="font-size: 30px;"></span></p>
+    <p data-v-5aff6e50 class="chage">
+      <span class="el-icon-bottom" style="font-size: 30px"></span>
+    </p>
   </div>
 </template>
   
@@ -55,7 +36,28 @@
 export default {
   name: "ProductService",
   data() {
-    return {};
+    return {
+      items: [
+        {
+          image: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/bus_3.jpg",
+          title: "国际工程物资采购",
+          link: "/product/mainProducts",
+          icon: require("@/assets/img/shop.png"), // 注意这里使用了require来引入本地图片
+        },
+        {
+          image: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/bus_4.jpg",
+          title: "“一站式”供应链服务",
+          link: "/product/supplyChain",
+          icon: require("@/assets/img/section4-icon02.png"), // 注意这里使用了require来引入本地图片
+        },
+        {
+          image: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/bus_2.jpg",
+          title: "全品类运输服务",
+          link: "/product/transport",
+          icon: require("../assets/img/car2.png"), // 注意这里使用了require来引入本地图片
+        },
+      ],
+    };
   },
   props: {
     currentNavIndex: {
@@ -80,7 +82,6 @@ export default {
   background-size: cover;
   background-position: center;
   padding: 60px 20px;
-  margin-top: 60px;
   max-height: 780px;
 
   .warp {
@@ -156,7 +157,6 @@ export default {
     margin: 20px auto 0;
     transition: transform 0.5s ease; /* Smooth transition for moving up */
   }
-  
 
   .content-txt-cell h4 {
     font-size: 28px;
@@ -196,7 +196,6 @@ export default {
     transform: translateY(0);
     z-index: 3;
   }
-  
 }
 
 // .business-framework {

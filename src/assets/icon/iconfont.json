@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "31888948",
+      "name": "中英文",
+      "font_class": "zhongyingwen",
+      "unicode": "e69b",
+      "unicode_decimal": 59035
+    },
+    {
+      "icon_id": "19729268",
+      "name": "待收货",
+      "font_class": "daishouhuo01",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
       "icon_id": "1248734",
       "name": "网络",
       "font_class": "wangluo",

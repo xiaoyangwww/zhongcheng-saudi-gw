@@ -87,7 +87,7 @@
         </li>
       </ul> -->
     </div>
-    <p data-v-5aff6e50 class="chage"><span class="el-icon-bottom" style="font-size: 30px;"></span></p>
+    <!-- <p data-v-5aff6e50 class="chage"><span class="el-icon-bottom" style="font-size: 30px;"></span></p> -->
   </div>
 </template>
 
@@ -157,7 +157,6 @@ export default {
 
 <style lang="scss" scoped>
 .projectCase {
-  margin-top: 50px;
   max-height: 900px;
 }
 

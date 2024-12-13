@@ -158,12 +158,12 @@ a:hover {
 }
 
 .beijing {
-    left: 593px;
+    left: 585px;
     top: 230px;
 }
 
 .tianjin {
-    left: 610px;
+    left: 600px;
     top: 242px;
 }
 
@@ -183,7 +183,7 @@ a:hover {
 }
 
 .jilin {
-    left: 696px;
+    left: 690px;
     top: 187px;
 }
 
@@ -193,7 +193,7 @@ a:hover {
 }
 
 .shanghai {
-    left: 680px;
+    left: 665px;
     top: 361px;
 }
 
@@ -223,8 +223,8 @@ a:hover {
 }
 
 .shandong {
-    left: 660px;
-    top: 274px;
+    left: 655px;
+    top: 270px;
 }
 
 .henan {
@@ -246,6 +246,7 @@ a:hover {
     left: 575px;
     top: 480px;
 }
+
 .shenzhen {
     left: 580px;
     top: 500px;
@@ -309,6 +310,54 @@ a:hover {
     z-index: 1;
     /* display: none; */
 }
+
+
+/* 定义每个城市的样式 */
+#company_shanghai {
+    left: 810px;
+    top: 295px;
+}
+
+#company_liaoning {
+    left: 795px;
+    top: 160px;
+}
+
+#company_beijing {
+    left: 710px;
+    top: 110px;
+}
+
+#company_guangdong {
+    left: 730px;
+    top: 345px;
+}
+
+#company_shenzhen {
+    left: 720px;
+    top: 430px;
+}
+
+#company_yunnan {
+    left: 540px;
+    top: 415px;
+}
+
+#company_tianjin {
+    left: 730px;
+    top: 175px;
+}
+
+#company_hubei {
+    left: 685px;
+    top: 315px;
+}
+
+#company_shandong {
+    left: 790px;
+    top: 205px;
+}
+
 
 .branch-map-data-title {
     border-bottom: 1px solid #eee;

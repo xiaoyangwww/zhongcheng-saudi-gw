@@ -37,7 +37,7 @@ export default {
           title: "基建物流",
           footer:
             "涉及大量的原材料、构配件和设备运输，通常需要特殊的运输工具和技术。",
-          detailUrl: "/project/1", // 详细页面的链接
+          detailUrl: "/casedetails/1", // 详细页面的链接
         },
         {
           image:
@@ -45,7 +45,7 @@ export default {
           title: "大件物流",
           footer:
             "需要专业的运输车辆和吊装设备，以及精确的路线规划和运输方案。",
-          detailUrl: "/project/2",
+          detailUrl: "/casedetails/2",
         },
         {
           image:
@@ -53,7 +53,7 @@ export default {
           title: "工厂物流",
           footer:
             "与生产过程紧密相关，涉及原材料的入库、存储、领用，以及半成品和成品的转运、存储和发货等，对调度灵活性和运输及时性要求非常高。",
-          detailUrl: "/project/1", // 详细页面的链接
+          detailUrl: "/casedetails/1", // 详细页面的链接
         },
         {
           image:
@@ -61,7 +61,7 @@ export default {
           title: "农贸物流",
           footer:
             "需要考虑农产品的保鲜、防腐和季节性特点，以及农村地区的交通和基础设施状况。",
-          detailUrl: "/project/2",
+          detailUrl: "/casedetails/2",
         },
         {
           image:
@@ -69,14 +69,14 @@ export default {
           title: "援外物流",
           footer:
             "需要符合国际标准和规范，考虑政治、文化、气候等因素，以及跨境运输的复杂性和风险。",
-          detailUrl: "/project/1", // 详细页面的链接
+          detailUrl: "/casedetails/1", // 详细页面的链接
         },
         {
           image:
             "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E8%AE%BE%E5%A4%87%E8%B0%83%E9%81%A3.jpg",
           title: "设备调遣",
           footer: "需要专业的设备包装和加固技术，以及精确的运输计划和调度。",
-          detailUrl: "/project/2",
+          detailUrl: "/casedetails/2",
         },
         // 更多项目...
       ],

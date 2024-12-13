@@ -1,21 +1,19 @@
 <template>
   <div class="Welcome">
-    <!-- <swiper
+    <swiper
       ref="Swiper"
       id="swiper-wc"
       v-bind:options="swiperOption"
-      style="width: 100%; height: 100%"
     >
-      
       <swiper-slide v-for="(item, index) in imageList" :key="index">
         <div class="welcome">
           <img :src="item.url" class="carousel-image" />
           <div class="wc-text">
-            <div class="page">
-              <h3>中成深圳</h3> 
+            <!-- <div class="page">
+              <h3>中成深圳</h3>
               <p>ZCTS SHENZHEN</p>
-            </div>
-            <p class="slogan">聚焦客户需求 服务成就价值</p>
+            </div> -->
+            <p class="slogan">{{ item.title }}</p>
             <h2 class="toptitlesub"></h2>
             <div class="toptitleup" style="transform: scale(0.5)">
               <div class="mouse" data-v-5aff6e40></div>
@@ -24,19 +22,19 @@
           </div>
         </div>
       </swiper-slide>
-    </swiper> -->
-    <div class="wc-text">
+    </swiper>
+    <!-- <div class="wc-text">
       <div class="page">
         <h3>中成深圳</h3>
         <p>ZCTS SHENZHEN</p>
-      </div>
+      </div> 
       <p class="slogan">聚焦客户需求 服务成就价值</p>
       <h2 class="toptitlesub"></h2>
       <div class="toptitleup" style="transform: scale(0.5)">
         <div class="mouse" data-v-5aff6e40></div>
       </div>
       <p data-v-5aff6e40 class="mousep">鼠标滚动</p>
-    </div>
+    </div> -->
   </div>
 </template>
   
@@ -48,31 +46,28 @@ export default {
   data() {
     return {
       swiperOption: {
-        slidesPerView: 1,  // 每次只显示一张
-        spaceBetween: 0,  // 每个滑动项之间的间隔
-        loop: true,  // 启用循环模式
+        slidesPerView: 1, // 每次只显示一张
+        spaceBetween: 0, // 每个滑动项之间的间隔
+        loop: true, // 启用循环模式
         autoplay: {
-          delay: 5000,  // 自动播放，间隔10秒
+          delay: 5000, // 自动播放，间隔10秒
         },
         autoHeight: true,
-        effect: 'slide',  // 水平滑动效果
+        effect: "slide", // 水平滑动效果
         // height: window.innerHeight - 280, // 高度设置，占满设备高度
       },
       imageList: [
         {
           url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_1.jpg",
-          title: "标题1",
-          description: "描述1",
+          title: "聚焦客户需求 服务成就价值",
         },
         {
           url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E9%A6%96%E9%A1%B5.png",
-          title: "标题2",
-          description: "描述2",
+          title: "聚焦客户需求 服务成就价值",
         },
         {
           url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_5.png",
-          title: "标题3",
-          description: "描述3",
+          title: "聚焦客户需求 服务成就价值",
         },
       ],
     };
@@ -104,7 +99,7 @@ export default {
   height: 100%;
   img {
     width: 100%;
-    height: 94.1vh;
+    height: 96.1vh;
     object-fit: cover;
   }
 
@@ -146,6 +141,7 @@ export default {
   font-size: 50px;
   color: #fff;
   padding: 30px 0;
+  margin-bottom: 50px;
 
   .toptitlesub {
     animation-name: bounceInLeft;

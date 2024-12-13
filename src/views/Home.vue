@@ -27,6 +27,7 @@
         <Footer></Footer>
       </swiper-slide> -->
     </swiper>
+    <el-backtop></el-backtop>
 
     <!-- 导航栏 -->
     <div
@@ -91,6 +92,7 @@ import AboutCompany from "../components/AboutCompany.vue";
 import ProductService from "../components/ProductService";
 import Welcome from "../components/Welcome.vue";
 import ProjectCase from "../components/ProjectCase.vue";
+import flatten from "underscore/modules/_flatten.js";
 // import Footer from "../components/Footer.vue";
 export default {
   name: "HelloWorld",
@@ -180,24 +182,27 @@ export default {
         delta = e.wheelDelta ? e.wheelDelta / 120 : -(e.detail || 0) / 3;
         // 获取 Swiper 实例
         var swiper = document.querySelector(".swiper-container").swiper;
+        console.log("=====",delta);
+        
+
         // 判断滚动方向
         if (delta < 0) {
           // 判断是否是最后一页
           if (swiper.activeIndex === swiper.slides.length - 1) {
-            // 如果是最后一页，设置isLun为true，表示可以跳回第一页
-            if (this.isLun >= 6) {
-              // 如果isLun为true，表示鼠标滚动到最后一页后滑动，跳转回第一页
-              swiper.slideTo(0);
-              this.isLun = false; // 滑动完毕后，重置isLun
-            }
+            // 如果是最后一页，解除 Swiper 对滚轮的控制，允许页面继续滚动到底部
+            swiper.mousewheel.disable(); // 禁用鼠标滚轮控制
+          } else {
+            // 如果不是最后一页，启用正常的滑动
+            swiper.mousewheel.enable(); // 启用鼠标滚轮控制
           }
         } else {
-          // 滚动向上时，不进行任何操作
-          this.isLun = 0;
-        }
-        // 判断是否到达最后一页
-        if (swiper.activeIndex === swiper.slides.length - 1) {
-          this.isLun++; // 当到达最后一页时，允许跳回第一页
+          if (
+            swiper.activeIndex !== swiper.slides.length - 1 ||
+            document.documentElement.scrollTop === 0
+          ) {
+            // 如果不是最后一页，或者滚轮已经置顶，启用滚轮控制
+            swiper.mousewheel.enable();
+          }
         }
       };
 
@@ -267,8 +272,7 @@ export default {
 //   background: seashell;
 // }
 .slide-one {
-  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_1.jpg)
-    no-repeat center;
+  background: white;
   background-size: cover;
 }
 .slide-two {

@@ -37,7 +37,7 @@ export default {
           title: "城市综合体项目",
           footer:
             "涉及大量的原材料、构配件和设备运输，通常需要特殊的运输工具和技术。",
-          detailUrl: "/project/1", // 详细页面的链接
+          detailUrl: "/casedetails/1", // 详细页面的链接
         },
         {
           image:
@@ -45,7 +45,7 @@ export default {
           title: "港口项目",
           footer:
             "需要专业的运输车辆和吊装设备，以及精确的路线规划和运输方案。",
-          detailUrl: "/project/2",
+          detailUrl: "/casedetails/2",
         },
         {
           image:
@@ -53,7 +53,7 @@ export default {
           title: "公路桥梁项目",
           footer:
             "与生产过程紧密相关，涉及原材料的入库、存储、领用，以及半成品和成品的转运、存储和发货等，对调度灵活性和运输及时性要求非常高。",
-          detailUrl: "/project/1", // 详细页面的链接
+          detailUrl: "/casedetails/1", // 详细页面的链接
         },
         {
           image:
@@ -61,7 +61,7 @@ export default {
           title: "铁路隧道项目",
           footer:
             "需要考虑农产品的保鲜、防腐和季节性特点，以及农村地区的交通和基础设施状况。",
-          detailUrl: "/project/2",
+          detailUrl: "/casedetails/2",
         },
       ],
     };

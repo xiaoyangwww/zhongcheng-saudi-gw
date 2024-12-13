@@ -97,7 +97,7 @@ export default {
     max-width: 500px;
     padding-left: 30px;
     h3 {
-      font-size: 24x;
+      font-size: 22px;
       font-weight: bold;
       color: #024190;
     }

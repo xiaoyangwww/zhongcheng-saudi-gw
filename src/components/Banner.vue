@@ -25,7 +25,7 @@ export default {
     },
     img: {
       type: String,
-      default: require('../assets/img/service.png'),
+      default: require("../assets/img/breadcrumb.jpg"),
     },
   },
 };
@@ -60,14 +60,27 @@ export default {
     transform: translate(-50%, 0);
   }
 
+  /* 使用 ::after 伪元素添加遮罩 */
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1); /* 0.1透明黑色遮罩 */
+    z-index: 1; /* 确保遮罩在图片上层 */
+  }
+
   &-title {
     position: absolute;
     color: #fff;
-    font-size: 45px;
+    font-size: 50px;
     font-weight: 800;
     line-height: 300px;
     text-align: center;
     width: 100%;
+    z-index: 2;
   }
 }
 </style>

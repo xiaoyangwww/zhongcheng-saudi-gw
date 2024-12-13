@@ -23,7 +23,7 @@
               <a
                 href="https://www.complant.com/gtzcjt/index.htm"
                 target="_blank"
-                ><span style="color: #054391"
+                ><span style="color: #054391;"
                   ><span style="text-align: justify"
                     ><strong>中国成套设备进出口集团有限公司</strong></span
                   ></span
@@ -184,23 +184,23 @@ export default {
       margin: 15px 0;
     }
     p {
-      font-size: 16px;
-      line-height: 1.6;
-      margin: 0 0 20px;
+      font-size: 18px;
+      line-height: 1.5;
+      margin: 0 0 10px;
       text-indent: 2em;
       text-align: justify;
     }
     .primary-button {
       position: absolute;
       right: 15px;
-      bottom: 50px;
+      bottom: 30px;
       display: inline-block;
       text-decoration: none;
       padding: 6px 12px;
       background-color: #024190;
       color: white;
       border-radius: 15px;
-      font-size: 12px;
+      font-size: 18px;
       text-align: center;
     }
   }
@@ -274,5 +274,7 @@ export default {
     color: #024190;
   }
 }
+
+
 </style>
   
