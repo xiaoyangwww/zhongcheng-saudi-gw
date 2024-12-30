@@ -1,10 +1,6 @@
 <template>
   <div class="Welcome">
-    <swiper
-      ref="Swiper"
-      id="swiper-wc"
-      v-bind:options="swiperOption"
-    >
+    <swiper ref="Swiper" id="swiper-wc" v-bind:options="swiperOption">
       <swiper-slide v-for="(item, index) in imageList" :key="index">
         <div class="welcome">
           <img :src="item.url" class="carousel-image" />
@@ -18,7 +14,7 @@
             <div class="toptitleup" style="transform: scale(0.5)">
               <div class="mouse" data-v-5aff6e40></div>
             </div>
-            <p data-v-5aff6e40 class="mousep">鼠标滚动</p>
+            <p data-v-5aff6e40 class="mousep">{{ $t('scrollDown') }}</p>
           </div>
         </div>
       </swiper-slide>
@@ -40,6 +36,7 @@
   
   <script>
 // import { swiper, swiperSlide } from "vue-awesome-swiper";
+import { getAll } from "@/api/welcome";
 
 export default {
   name: "Welcome",
@@ -56,34 +53,32 @@ export default {
         effect: "slide", // 水平滑动效果
         // height: window.innerHeight - 280, // 高度设置，占满设备高度
       },
-      imageList: [
-        {
-          url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_1.jpg",
-          title: "聚焦客户需求 服务成就价值",
-        },
-        {
-          url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E9%A6%96%E9%A1%B5.png",
-          title: "聚焦客户需求 服务成就价值",
-        },
-        {
-          url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_5.png",
-          title: "聚焦客户需求 服务成就价值",
-        },
-      ],
+      // imageList: [
+      //   {
+      //     url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_1.jpg",
+      //     title: "聚焦客户需求 服务成就价值",
+      //   },
+      //   {
+      //     url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E9%A6%96%E9%A1%B5.png",
+      //     title: "聚焦客户需求 服务成就价值",
+      //   },
+      //   {
+      //     url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_5.png",
+      //     title: "聚焦客户需求 服务成就价值",
+      //   },
+      // ],
+      imageList: [],
     };
   },
   mounted() {
     this.fetchImages(); // 组件挂载时获取图片
   },
   methods: {
-    async fetchImages() {
-      // try {
-      //   // 替换为实际的后端接口地址
-      //   const response = await axios.get('https://your-api-endpoint.com/images');
-      //   this.imageList = response.data; // 假设后端返回的数组对象有 `url` 字段
-      // } catch (error) {
-      //   console.error('获取图片失败:', error);
-      // }
+    fetchImages() {
+      getAll().then((response) => {
+        this.imageList = response.data;
+        console.log(response);
+      });
     },
   },
 };
@@ -139,6 +134,7 @@ export default {
 .slogan {
   text-align: center;
   font-size: 50px;
+  font-weight: bold;
   color: #fff;
   padding: 30px 0;
   margin-bottom: 50px;

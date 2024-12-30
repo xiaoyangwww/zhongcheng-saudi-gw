@@ -2,7 +2,7 @@
   <div class="case">
     <banner
       img="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/bg_project.png"
-      title="项目案例"
+      :title="$t('projectCases')"
     />
     <div class="case-section" v-loading="loading">
       <div class="case-section-content">
@@ -12,7 +12,7 @@
           :routeMap="routeMap"
           :activeTab="activeTab"
           href="/case"
-          title="项目案例"
+          :title="$t('projectCases')"
         ></Section>
         <router-view />
       </div>
@@ -22,21 +22,22 @@
 <script>
 import Banner from "../components/Banner";
 import Section from "../components/Section";
+import { getProject } from "@/api/project.js";
 export default {
   data() {
     return {
       loading: false,
       tabs: [
-        {
-          label: "物流业务", // 修改为 物流业务
-          name: "logistics",
-          path: "/case/logistics",
-        },
-        {
-          label: "物资业务", // 修改为 物资业务
-          name: "materials",
-          path: "/case/materials",
-        },
+        // {
+        //   label: "物流业务", // 修改为 物流业务
+        //   name: "logistics",
+        //   path: "/case/logistics",
+        // },
+        // {
+        //   label: "物资业务", // 修改为 物资业务
+        //   name: "materials",
+        //   path: "/case/materials",
+        // },
       ],
 
       routeMap: {
@@ -52,14 +53,37 @@ export default {
     Section,
   },
   created() {
-    const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
-    this.activeTab = this.routeMap[routeName];
+    this.init();
   },
+  // mounted() {
+  //   const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
+  //   this.activeTab = this.routeMap[routeName];
+  // },
   watch: {
     // 监听路由变化，更新默认激活项
     $route(to) {
       const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
       this.activeTab = this.routeMap[routeName];
+    },
+  },
+  methods: {
+    init() {
+      const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
+      getProject().then((res) => {
+        console.log(res.data);
+        
+        res.data.forEach((item) => {
+          const route = item.link.split("/").pop();
+          this.routeMap[route] = item.name;
+          var tab = {
+            id:item.id,
+            label:item.name,
+            path:item.link
+          }
+          this.tabs.push(tab);
+          this.activeTab = this.routeMap[routeName];
+        });
+      });
     },
   },
 };

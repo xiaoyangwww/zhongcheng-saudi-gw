@@ -14,7 +14,7 @@
               <p>{{ item.description }}</p>
             </div>
           </div>
-          <img :src="item.image" alt="运输方式" class="transport-image" />
+          <img :src="item.imageUrl" alt="运输方式" class="transport-image" />
         </div>
       </el-col>
     </el-row>
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { getServiceDetail } from "@/api/serviceDetail.js";
 export default {
   data() {
     return {
@@ -30,22 +31,34 @@ export default {
           title: "工程物资采购、加工和供应",
           description:
             "中成深圳凭借丰富的供应商资源渠道，精心构建的供应链网络，精准控制成本，实现高效的资源配置。在物资加工环节，我们严格筛选加工厂，确保所选厂家具备完善的资质、专用的加工设备和技术人员以及充足的场地资源。同时，我们不断优化供应链管理和物资加工流程，致力于为客户提供更优质的产品和更高效的服务。",
-          image: require("../../assets/img/工程.jpg"), // 替换为实际图片路径
+          imageUrl: require("../../assets/img/工程.jpg"), // 替换为实际图片路径
         },
         {
           title: "全程物流服务",
           description:
             "中成深圳积极构建自有的智慧物流系统，对物流服务全流程实施严格的监管措施，旨在为客户提供全方位的货物动态跟踪服务。同时，我们与目的港的优质供应商建立了长期稳固的战略合作关系，确保能够实时在目标港口提供高效、精准的物流配送服务，满足客户的多样化需求。",
-          image: require("../../assets/img/物流.jpg"), // 替换为实际图片路径
+          imageUrl: require("../../assets/img/物流.jpg"), // 替换为实际图片路径
         },
         {
           title: "港口地面服务",
           description:
             "中成深圳竭诚为客户提供一站式的港口地面服务，涵盖接货、分拨、存储、包装、加固以及监装监卸等全方位港前服务。凭借丰富的工程项目物资出运经验，我们针对各类运输需求，精心制定相应地面服务标准，确保货物包装与装卸流程均严格满足运输要求，为客户提供安全、高效、专业的港口服务体验。",
-          image: require("../../assets/img/港口地面.jpg"), // 替换为实际图片路径
+          imageUrl: require("../../assets/img/港口地面.jpg"), // 替换为实际图片路径
         },
       ],
     };
+  },
+  methods: {
+    init(routeName) {
+      getServiceDetail(routeName).then((res) => {
+        this.transportData = res.data;
+        console.log(res.data);
+      });
+    },
+  },
+  mounted() {
+    const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
+    this.init(routeName);
   },
 };
 </script>
@@ -104,7 +117,7 @@ export default {
 
     p {
       margin-top: 20px;
-      text-indent: 2em; // 首行缩进两格
+      // text-indent: 2em; // 首行缩进两格
       line-height: 2; // 设置行高为 1.5 倍字体大小
       font-size: 18px;
       color: #666;

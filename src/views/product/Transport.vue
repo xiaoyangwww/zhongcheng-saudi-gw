@@ -15,7 +15,7 @@
               <p>{{ item.description }}</p>
             </div>
           </div>
-          <img :src="item.image" alt="运输方式" class="transport-image" />
+          <img :src="item.imageUrl" alt="运输方式" class="transport-image" />
         </div>
       </el-col>
     </el-row>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { getServiceDetail } from "@/api/serviceDetail.js";
 export default {
   data() {
     return {
@@ -32,22 +33,34 @@ export default {
           description:
             "在海洋运输方面，无论是大型设备的整体运输，还是小型货物的拼箱配送，我们均能提供高效、可靠的解决方案。我们拥有丰富的经验和专业的技术，" +
             "提供灵活的集装箱整箱和拼箱服务，以满足不同规模和需求的货物运输。此外，我们还拥有专业的件杂货船和半潜船运输能力，能够应对各种复杂和特殊的货物类型，确保货物安全、顺利地到达目的地。",
-          image: require("../../assets/img/ocean.jpg"), // 替换为实际图片路径
+          imageUrl: require("../../assets/img/ocean.jpg"), // 替换为实际图片路径
         },
         {
           title: "陆路运输",
           description:
             "在陆路运输领域，我们提供多样化的运输方式，包括集装箱卡车、厢式车、平板车以及铁路运输等。无论您的货物需要长途运输还是短途配送，我们都能为客户提供高效、便捷、安全、稳定的陆路运输服务。",
-          image: require("../../assets/img/land.jpg"), // 替换为实际图片路径
+          imageUrl: require("../../assets/img/land.jpg"), // 替换为实际图片路径
         },
         {
           title: "航空运输",
           description:
             "在航空运输服务方面，我们提供包括空运、国际快递、包舱、包机等服务。无论是紧急货物还是高价值货物，我们都能通过航空运输及时、准确、安全地送达目的地。",
-          image: require("../../assets/img/aviation.jpg"), // 替换为实际图片路径
+          imageUrl: require("../../assets/img/aviation.jpg"), // 替换为实际图片路径
         },
       ],
     };
+  },
+  methods: {
+    init(routeName) {
+      getServiceDetail(routeName).then((res) => {
+        this.transportData = res.data;
+        console.log(res.data);
+      });
+    },
+  },
+  mounted() {
+    const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
+    this.init(routeName);
   },
 };
 </script>
@@ -107,7 +120,7 @@ export default {
 
     p {
       margin-top: 20px;
-      text-indent: 2em; // 首行缩进两格
+      // text-indent: 2em; // 首行缩进两格
       line-height: 2; // 设置行高为 1.5 倍字体大小
       font-size: 18px;
       color: #666;

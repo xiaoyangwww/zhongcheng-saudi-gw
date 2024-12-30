@@ -1,16 +1,19 @@
 <template>
   <div class="domestic">
     <div class="top">
-      <h3>国内网络</h3>
-      <p>DOMESTIC</p>
+      <h3>{{ $t("domesticNetwork") }}</h3>
+      <div class="underline"></div>
       <div class="border"></div>
     </div>
     <div class="map-content map-branch">
       <div class="map-module">
-        <p class="map-title">
+        <div v-for="(item, index) in titles" :key="index">
+          <div v-html="item.title"></div>
+        </div>
+        <!-- <p class="map-title">
           国内<span class="map-top">&nbsp;13&nbsp;</span
           >家公司覆盖全国沿线主要港口城市
-        </p>
+        </p> -->
         <div class="map-content-info">
           <div class="branch-map-l">
             <div class="map-content-box">
@@ -50,14 +53,14 @@
               <div class="branch-map-data-info">
                 <div
                   class="data-branch"
-                  v-for="company in city.companyList"
+                  v-for="company in city.domesticCompanyPageList"
                   :key="company.companyName"
                 >
-                  <a href="#" target="_blank" :title="company.title">
+                  <a href="#" target="_blank">
                     <p class="data-name">{{ company.companyName }}</p>
                   </a>
-                  <p>地址： {{ company.address }}</p>
-                  <p>电话：{{ company.phone }}</p>
+                  <p>{{ $t("address") }}： {{ company.address }}</p>
+                  <p>{{ $t("phone") }}：{{ company.phone }}</p>
                 </div>
               </div>
             </div>
@@ -70,6 +73,7 @@
 
 <script>
 import "../../assets/css/map.css";
+import { getDomesticCity, getDomesticTitleMsg } from "@/api/domesticCity.js";
 export default {
   data() {
     return {
@@ -212,6 +216,7 @@ export default {
           ],
         },
       ],
+      titles: [],
     };
   },
   methods: {
@@ -253,6 +258,18 @@ export default {
     },
   },
   mounted() {
+    getDomesticCity(null).then((res) => {
+      this.cities = res.data;
+      this.cities.forEach((item) => {
+        item.selected = item.selected == 0 ? false : true;
+        item.visible = item.visible == 0 ? false : true;
+      });
+      console.log(res);
+    });
+    getDomesticTitleMsg().then((res) => {
+      this.titles = res.data.domesticList;
+      console.log(res.data);
+    });
     // 默认显示上海
     const defaultCity = this.cities.find((city) => city.id === "guangdong");
     defaultCity.selected = true;
@@ -267,31 +284,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .domestic {
   margin-top: 50px;
   animation: moveUp 0.8s ease-out forwards;
-}
-
-.top {
-  h3,
-  p {
-    text-align: left !important;
-    font-size: 25px;
-    color: #024190;
-    font-weight: bold;
-    margin-left: 120px;
-  }
-
-  h3 {
-    font-size: 30px;
-  }
-
-  p {
-    font-size: 17px;
-    font-weight: normal;
-    margin-top: 20px;
-  }
 }
 
 .map-top {

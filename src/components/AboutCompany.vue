@@ -3,8 +3,8 @@
     <div class="qui-warp">
       <!-- 标题 -->
       <div class="qui_home_tt" ref="title">
-        <div class="quicn">关于我们</div>
-        <div class="quien">ABOUT US</div>
+        <!-- <div class="quicn"></div> -->
+        <div class="quien">{{ $t("aboutUs") }}</div>
       </div>
       <!-- 公司简介 -->
       <div class="qui-single">
@@ -16,14 +16,15 @@
             />
           </div>
           <div class="about-text">
-            <h4>公司简介</h4>
-            <p>
+            <h4>{{ about.title }}</h4>
+            <div v-html="about.content"></div>
+            <!-- <p>
               <strong>中成国际运输深圳有限公司</strong
               >（简称中成深圳）成立于2005年，隶属于中成国际运输有限公司（简称中成运输），中成运输隶属于
               <a
                 href="https://www.complant.com/gtzcjt/index.htm"
                 target="_blank"
-                ><span style="color: #054391;"
+                ><span style="color: #054391"
                   ><span style="text-align: justify"
                     ><strong>中国成套设备进出口集团有限公司</strong></span
                   ></span
@@ -37,10 +38,12 @@
 
             <p>
               时至今日，中成深圳凭借“一带一路”海外工程项目领域中积累和开发的众多优质供应商资源，为大型基建企业提供全程供应链解决方案，在业内树立了良好的品牌形象和服务口碑。
-            </p>
+            </p> -->
 
             <!-- <a href="/goin" class="qui_mm_all2">了解中成 ></a> -->
-            <a cla href="/goin" class="primary-button qui_mm_all2">了解中成</a>
+            <a cla href="/goin" class="primary-button qui_mm_all2">{{
+              $t("aboutZhongcheng")
+            }}</a>
           </div>
         </div>
       </div>
@@ -48,40 +51,46 @@
         <ul class="ul ULLIST">
           <li class="li">
             <a href="/goin/history" class="quilibox">
-              <pre class="quitt">发展历程</pre>
+              <pre class="quitt">{{ $t("developmentHistory") }}</pre>
               <div class="quinum icon-zctongji"></div>
             </a>
           </li>
           <li class="li">
             <a href="/goin/culture" class="quilibox">
-              <pre class="quitt">企业文化</pre>
+              <pre class="quitt">{{ $t("corporateCulture") }}</pre>
               <div class="quinum icon-zcqiyewenhua"></div>
             </a>
           </li>
           <li class="li">
             <a href="/goin/domestic" class="quilibox">
-              <pre class="quitt">国内网络</pre>
+              <pre class="quitt">{{ $t("domesticNetwork") }}</pre>
               <div class="quinum icon-zcwangluo"></div>
             </a>
           </li>
           <li class="li">
             <a href="/goin/overseas" class="quilibox">
-              <pre class="quitt">海外网络</pre>
+              <pre class="quitt">{{ $t("overseasNetwork") }}</pre>
               <div class="quinum icon-zcshenjing"></div>
             </a>
           </li>
         </ul>
       </div>
     </div>
-    <p data-v-5aff6e50 class="chage" ><span class="el-icon-bottom" style="font-size: 30px;"></span></p>
+    <p data-v-5aff6e50 class="chage">
+      <span class="el-icon-bottom" style="font-size: 30px"></span>
+    </p>
   </div>
 </template>
 
   <script>
+import { getAbout } from "@/api/about.js";
+import he from "he";
 export default {
   name: "AboutCompany",
   data() {
-    return {};
+    return {
+      about: {},
+    };
   },
   props: {
     currentNavIndex: {
@@ -98,10 +107,23 @@ export default {
       }
     },
   },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init() {
+      getAbout().then((res) => {
+        this.about = res.data;
+        console.log(this.about);
+        // 转换 HTML 实体
+        this.about.content = he.decode(res.data.content);
+      });
+    },
+  },
 };
 </script>
   
-  <style lang="scss" scoped>
+  <style lang="scss">
 // 关于中成
 .qui-homebox {
   background-size: cover;
@@ -109,12 +131,12 @@ export default {
   padding: 60px 20px;
   max-height: 780px;
 }
-// .qui-homebox {
-//   position: relative;
-//   opacity: 0; /* 初始状态为透明 */
-//   transform: translateX(-100%); /* 初始位置在左边 */
-//   transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-// }
+//  .qui-homebox {
+//    position: relative;
+//    opacity: 0; /* 初始状态为透明 */
+//    transform: translateX(-100%); /* 初始位置在左边 */
+//    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+//  }
 
 // .qui-homebox.slide-in {
 //   opacity: 1; /* 动画完成后变为不透明 */
@@ -123,27 +145,15 @@ export default {
 
 .qui-warp {
   max-width: 1200px;
-
   margin: 0 auto;
   padding: 20px;
 }
 
 .qui_home_tt {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
-.quicn {
-  font-size: 40px;
-  font-weight: bold;
-  color: #1d1d1d;
-}
-
-.quien {
-  font-size: 24px;
-  color: #666;
-  margin-top: 8px;
-}
 
 .qui-single {
   max-width: 1200px;
@@ -187,7 +197,7 @@ export default {
       font-size: 18px;
       line-height: 1.5;
       margin: 0 0 10px;
-      text-indent: 2em;
+      // text-indent: 2em;
       text-align: justify;
     }
     .primary-button {
@@ -274,7 +284,5 @@ export default {
     color: #024190;
   }
 }
-
-
 </style>
   

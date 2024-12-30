@@ -1,20 +1,23 @@
 <template>
   <div class="overseas">
     <div class="top">
-      <h3>海外网络</h3>
-      <p>OVERSEAS</p>
+      <h3>{{$t('overseasNetwork')}}</h3>
+      <div class="underline"></div>
       <div class="border"></div>
     </div>
     <div class="w-map-content map-branch">
       <div class="w-map-module">
-        <p class="w-map-title-1">
+        <div v-for="(item, index) in titles" :key="index">
+          <div v-html="item.title"> </div>
+        </div>
+        <!-- <p class="w-map-title">
           中成深圳，当前已在海外设立<span class="w-map-top">&nbsp;9&nbsp;</span
           >个直管驻点
         </p>
-        <p class="w-map-title">
+        <p class="w-map-title-btm">
           深耕非洲和东南亚地区超过<span class="w-map-top">&nbsp;14&nbsp;</span
           >年
-        </p>
+        </p> -->
         <div class="w-map-content-info">
           <div class="w-branch-map-l">
             <div class="w-map-content-box">
@@ -25,12 +28,12 @@
               />
               <span
                 v-for="city in cities"
-                :key="city.id"
+                :key="city.index"
                 class="w-map-dot cur"
                 :class="{
-                  [city.id]: city.id !== '',
+                  [city.index]: city.index !== '',
                 }"
-                :data-id="city.id"
+                :data-id="city.index"
                 :value="city.name"
               >
                 {{ city.name }}
@@ -45,6 +48,7 @@
 
 <script>
 import "../../assets/css/world_map.css";
+import { getOverseas,getOverseasTitleMsg } from "@/api/overseas.js";
 export default {
   data() {
     return {
@@ -86,38 +90,33 @@ export default {
           name: "马来西亚",
         },
       ],
+      titles:[]
     };
   },
-  methods: {},
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init() {
+      getOverseas().then((res) => {
+        this.cities = res.data;
+        console.log(res.data);
+      });
+      getOverseasTitleMsg().then((res) => {
+        this.titles = res.data.overseasList;
+        console.log(res.data);
+      });
+    },
+  }
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .overseas {
   margin-top: 50px;
   animation: moveUp 0.8s ease-out forwards;
 }
 
-.top {
-  h3,
-  p {
-    text-align: left !important;
-    font-size: 25px;
-    color: #024190;
-    font-weight: bold;
-    margin-left: 120px;
-  }
-
-  h3 {
-    font-size: 30px;
-  }
-
-  p {
-    font-size: 17px;
-    font-weight: normal;
-    margin-top: 20px;
-  }
-}
 
 .w-map-top {
   font-size: 50px;

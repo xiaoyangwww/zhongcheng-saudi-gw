@@ -3,34 +3,21 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import './assets/icon/iconfont.css'
-
 import 'lib-flexible'
-
-
-import ElementUI from 'element-ui';
+import Element  from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
+Vue.use(Element);
 
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 Vue.use(VueAwesomeSwiper);
 
-import VideoPlayer from 'vue-video-player'
-import 'video.js/dist/video-js.css'
-import 'vue-video-player/src/custom-theme.css'
-Vue.use(VideoPlayer)
-
-import VueI18n from 'vue-i18n'
- 
-Vue.use(VueI18n) // 通过插件的形式挂载
- 
-const i18n = new VueI18n({
-    locale: 'zh-CN',    // 语言标识
-    //this.$i18n.locale // 通过切换locale的值来实现语言切换
-    messages: {
-      'zh-CN': require('./common/lang/zh'),   // 中文语言包
-      'en-US': require('./common/lang/en')    // 英文语言包
-    }
+//导入配置好的国际化语言包
+import i18n from './i18n' // Internationalization
+  
+Vue.use(Element, {
+  size: 'medium', // set element-ui default size设置元素默认大小
+  i18n: (key, value) => i18n.t(key, value)// 在注册Element时设置i18n的处理方法
 })
 
 import VueLazyload from 'vue-lazyload'
@@ -46,16 +33,6 @@ Vue.use(VueLazyload, {
 });
 
 Vue.config.productionTip = false
-
-//设置超时时间
-axios.defaults.timeout = 5000
-//设置api地址
-//全局定义axios
-axios.defaults.baseURL = 'http://localhost/api/'
-Vue.prototype.$http = axios
-
-// 图片服务器地址
-Vue.prototype.imgserver = 'http://shkjgw.shkjem.com/'
 
 new Vue({
   router,

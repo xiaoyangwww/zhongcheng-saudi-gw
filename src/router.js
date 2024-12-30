@@ -69,6 +69,12 @@ let kejianrouter = new Router({
     name: 'casedetails',
     component: () => import('./views/CaseDetails.vue')
   },
+  // 项目详细页
+  {
+    path: '/projectdetail/:id',
+    name: 'projectdetail',
+    component: () => import('./views/ProjectDetail')
+  },
   // 联系我们
   {
     path: '/us',
@@ -193,26 +199,26 @@ let kejianrouter = new Router({
 })
 
 // 判断是否需要登录权限 以及是否登录
-kejianrouter.beforeEach((to, from, next) => {
-  // 判断是否需要登录权限
-  // if (to.matched.some(res => res.meta.requireAuth)) {
-  //   // 判断是否登录
-  //   if (sessionStorage.getItem('token')) {
-  //     next()
-  //   } else {
-  //     // 没登录则跳转到登录界面
-  //     next({
-  //       path: '/login',
-  //       query: {
-  //         redirect: to.fullPath
-  //       }
-  //     })
-  //   }
-  // } else {
-  //   next()
-  // }
-  next()
-})
+// kejianrouter.beforeEach((to, from, next) => {
+//   // 判断是否需要登录权限
+//   // if (to.matched.some(res => res.meta.requireAuth)) {
+//   //   // 判断是否登录
+//   //   if (sessionStorage.getItem('token')) {
+//   //     next()
+//   //   } else {
+//   //     // 没登录则跳转到登录界面
+//   //     next({
+//   //       path: '/login',
+//   //       query: {
+//   //         redirect: to.fullPath
+//   //       }
+//   //     })
+//   //   }
+//   // } else {
+//   //   next()
+//   // }
+//   next()
+// })
 
 // 重写 push 方法
 const originalPush = Router.prototype.push;

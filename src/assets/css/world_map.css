@@ -86,7 +86,7 @@ a:hover {
     transition: all .3s ease;
 }
 
-.w-map-title {
+.w-map-title-btm {
     font-size: 24px;
     color: #333;
     text-align: center;
@@ -94,7 +94,7 @@ a:hover {
     position: relative;
 }
 
-.w-map-title-1 {
+.w-map-title {
     font-size: 24px;
     color: #333;
     text-align: center;
@@ -106,7 +106,7 @@ a:hover {
     z-index: 1;
 }
 
-.w-map-title:before {
+.w-map-title-btm:before {
     content: "";
     position: absolute;
     width: 0;
@@ -118,7 +118,7 @@ a:hover {
     border-color: #20B09F transparent transparent;
 }
 
-.w-map-title:after {
+.w-map-title-btm:after {
     content: "";
     position: absolute;
     width: 52px;

@@ -1,15 +1,12 @@
 <template>
   <div class="mainProducts">
     <div class="title">
-      <p>深耕工程项目领域，围绕工程项目特性供应以下主营物资产品：</p>
+      <p>{{ $t("mainTilte") }}：</p>
     </div>
     <!-- 产品清单 -->
     <div class="product-list">
       <ul>
-        <li
-          v-for="(product, index) in productList"
-          :key="index"
-        >
+        <li v-for="(product, index) in productList" :key="index">
           {{ product }}
         </li>
       </ul>
@@ -24,7 +21,7 @@
         >
           <!-- 使用 el-image 进行懒加载 -->
           <el-image
-            :src="item.img"
+            :src="item.imageUrl"
             :alt="item.title"
             class="product-img"
             fit="cover"
@@ -42,73 +39,75 @@
 
 
 <script>
+import { getServiceDetail } from "@/api/serviceDetail.js";
 export default {
   data() {
     return {
       hoverIndex: null, // 用于标记当前悬停的产品
-      products: [
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/safe.jpg",
-          title: "安全体验馆",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/material.jpg",
-          title: "周转材料",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/machinery.jpg",
-          title: "工程机械及配件",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/hardware.jpg",
-          title: "五金劳保",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/goods.jpg",
-          title: "生活物资",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/electrical.jpg",
-          title: "电气设备",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/drainage.jpg",
-          title: "给排水材料",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/fire_fighting.jpg",
-          title: "安全与消防器材",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/steels.jpg",
-          title: "钢材铸铁",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/grease.jpg",
-          title: "油脂化工",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/road.jpg",
-          title: "道路设施",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/decoration.jpg",
-          title: "装饰材料",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/ground_material.jpg",
-          title: "地材",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/earth.jpg",
-          title: "混泥土水泥制品",
-        },
-        {
-          img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/excavator.png",
-          title: "土工材料",
-        },
-      ],
+      // products: [
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/safe.jpg",
+      //     title: "安全体验馆",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/material.jpg",
+      //     title: "周转材料",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/machinery.jpg",
+      //     title: "工程机械及配件",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/hardware.jpg",
+      //     title: "五金劳保",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/goods.jpg",
+      //     title: "生活物资",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/electrical.jpg",
+      //     title: "电气设备",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/drainage.jpg",
+      //     title: "给排水材料",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/fire_fighting.jpg",
+      //     title: "安全与消防器材",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/steels.jpg",
+      //     title: "钢材铸铁",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/grease.jpg",
+      //     title: "油脂化工",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/road.jpg",
+      //     title: "道路设施",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/decoration.jpg",
+      //     title: "装饰材料",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/ground_material.jpg",
+      //     title: "地材",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/earth.jpg",
+      //     title: "混泥土水泥制品",
+      //   },
+      //   {
+      //     img: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/excavator.png",
+      //     title: "土工材料",
+      //   },
+      // ],
       productList: [],
+      products: [],
     };
   },
   methods: {
@@ -123,9 +122,17 @@ export default {
         this.productList.push(product.title);
       });
     },
+    init(routeName) {
+      getServiceDetail(routeName).then((res) => {
+        this.products = res.data;
+        console.log(res.data);
+        this.getAllProductName();
+      });
+    },
   },
   mounted() {
-    this.getAllProductName();
+    const serviceId = window.location.pathname.split("/").pop(); // 提取路由名称
+    this.init(serviceId);
   },
 };
 </script>
@@ -147,7 +154,7 @@ export default {
 
 .title {
   p {
-    font-size: 22px;  
+    font-size: 22px;
     color: #024190;
     font-weight: bold;
     padding: 20px 60px;
@@ -169,7 +176,7 @@ export default {
     display: flex;
     flex-wrap: wrap; /* 允许换行 */
     gap: 10px; /* 设置每个项目之间的间距 */
-    
+
     li {
       font-size: 18px;
       color: #024190;
@@ -177,8 +184,6 @@ export default {
     }
   }
 }
-
-
 
 .product-item {
   position: relative;

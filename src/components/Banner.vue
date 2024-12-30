@@ -60,27 +60,31 @@ export default {
     transform: translate(-50%, 0);
   }
 
-  /* 使用 ::after 伪元素添加遮罩 */
-  &::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.1); /* 0.1透明黑色遮罩 */
-    z-index: 1; /* 确保遮罩在图片上层 */
-  }
+  // /* 使用 ::after 伪元素添加遮罩 */
+  // &::after {
+  //   content: "";
+  //   position: absolute;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 100%;
+  //   background-color: rgba(0, 0, 0, 0.1); /* 0.1透明黑色遮罩 */
+  //   z-index: 1; /* 确保遮罩在图片上层 */
+  // }
 
   &-title {
     position: absolute;
     color: #fff;
-    font-size: 50px;
+    font-size: 60px;
     font-weight: 800;
     line-height: 300px;
     text-align: center;
     width: 100%;
     z-index: 2;
+
+    /* 添加文字边框效果 */
+    text-shadow: -1px -1px 0 #727171, 1px -1px 0 #727171, -1px 1px 0 #727171,
+      1px 1px 0 #727171; /* 黑色边框 */
   }
 }
 </style>

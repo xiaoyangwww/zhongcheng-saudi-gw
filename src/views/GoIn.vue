@@ -2,7 +2,7 @@
   <div class="go-in">
     <banner
       img="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/imgPartner/about_us.jpg"
-      title="关于我们"
+      :title="$t('aboutUs')"
     />
     <div class="section" v-loading="loading">
       <div class="section-content">
@@ -12,7 +12,7 @@
           :routeMap="routeMap"
           :activeTab="activeTab"
           href="/goin"
-          title="关于我们"
+          :title="$t('aboutUs')"
         ></Section>
         <router-view />
       </div>
@@ -24,6 +24,7 @@
 import Banner from "../components/Banner";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import Section from "../components/Section";
+import { routeListMenu } from "@/api/menu.js";
 export default {
   components: {
     Banner,
@@ -33,25 +34,8 @@ export default {
   },
   data() {
     return {
-      tabs: [
-        { label: "公司简介", name: "intro", path: "/goin/intro" },
-        { label: "发展历程", name: "history", path: "/goin/history" },
-        { label: "企业文化", name: "culture", path: "/goin/culture" },
-        { label: "资质荣誉", name: "honor", path: "/goin/honor" },
-        { label: "合作伙伴", name: "cooperate", path: "/goin/cooperate" },
-        { label: "国内网络", name: "domestic", path: "/goin/domestic" },
-        { label: "海外网络", name: "overseas", path: "/goin/overseas" },
-      ],
-      routeMap: {
-        // 路由名称和中文名称映射
-        intro: "公司简介",
-        history: "发展历程",
-        culture: "企业文化",
-        honor: "资质荣誉",
-        cooperate: "合作伙伴",
-        domestic: "国内网络",
-        overseas: "海外网络",
-      },
+      tabs: [], // 初始为空，稍后根据语言动态设置
+      routeMap: {}, // 初始为空，稍后根据语言动态设置
       activeTab: "公司简介",
       loading: false,
       honorList: [],
@@ -69,10 +53,38 @@ export default {
       dialogTitle: "",
     };
   },
-  methods: {},
+  methods: {
+    // 可根据需要添加方法
+  },
   created() {
+    const currentLang = localStorage.getItem("language") || "zh"; // 获取当前语言，默认是中文
+
+    // 根据当前语言设置 tabs 和 routeMap
+    if (currentLang === "zh") {
+      this.routeMap = {
+        intro: "公司简介",
+        history: "发展历程",
+        culture: "企业文化",
+        honor: "资质荣誉",
+        cooperate: "合作伙伴",
+        domestic: "国内网络",
+        overseas: "海外网络",
+      };
+    } else if (currentLang === "en") {
+      this.routeMap = {
+        intro: "Introduction",
+        history: "History",
+        culture: "Culture",
+        honor: "Honor",
+        cooperate: "Partner",
+        domestic: "Domestic Network",
+        overseas: "Overseas Network",
+      };
+    }
+
+    // 根据当前路由路径设置激活的标签
     const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
-    this.activeTab = this.routeMap[routeName];
+    this.activeTab = this.routeMap[routeName] || "公司简介"; // 默认激活公司简介
   },
   watch: {
     // 监听路由变化，更新默认激活项
@@ -81,6 +93,19 @@ export default {
       this.activeTab = this.routeMap[routeName];
     },
   },
+  mounted() {
+    routeListMenu('/goin/').then(res => {
+      console.log(res.data);
+      res.data.forEach(item => {
+        var obj = {
+          label:item.name,
+          name:item.name,
+          path:item.path
+        }
+        this.tabs.push(obj);
+      })
+    })
+  }
 };
 </script>
 
@@ -94,7 +119,8 @@ export default {
   width: 100%;
   height: 100%;
   // background-color: #f1f1f1;
-  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/bg_all.jpg) no-repeat center;
+  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/bg_all.jpg)
+    no-repeat center;
   background-size: cover;
   position: relative;
   overflow: hidden;
@@ -107,6 +133,4 @@ export default {
     }
   }
 }
-
-
 </style>

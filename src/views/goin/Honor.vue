@@ -3,22 +3,22 @@
     <!-- 公司荣誉 -->
     <div class="content-honor">
       <div class="top">
-        <h3>公司荣誉</h3>
-        <p>HONOR</p>
+        <h3>{{ $t('companyHonors') }}</h3>
+        <div class="underline"></div>
         <div class="border"></div>
       </div>
       <!-- <p>点击图片查看大图:preview-src-list="previewList"</p> -->
       <ul class="honor-show">
         <li v-for="(honor, index) in honorList" :key="index">
           <el-image
-            :src="imgserver + honor.Img"
+            :src="honor.image"
             
             class="honor-img"
             :z-index="2000"
             fit="contain"
           >
             <div slot="placeholder" class="image-slot">
-              加载中<span class="dot">...</span>
+              {{ $t('Loading') }}<span class="dot">...</span>
             </div>
             <div slot="error" class="image-slot">
               <i class="el-icon-picture-outline"></i>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { getHonor } from "@/api/honor.js";
 export default {
   data() {
     return {
@@ -92,11 +93,17 @@ export default {
       ],
     };
   },
-  computed: {
-    previewList() {
-      return this.honorList.map((honor) => this.imgserver + honor.Img);
-    },
+  mounted() {
+    this.init();
   },
+  methods: {
+    init() {
+      getHonor().then((res) => {
+        this.honorList = res.data;
+        console.log(res.data);
+      });
+    },
+  }
 };
 </script>
 

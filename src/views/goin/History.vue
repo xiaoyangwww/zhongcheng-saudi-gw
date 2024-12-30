@@ -3,10 +3,8 @@
     <!-- 发展历程 -->
     <div class="content-course">
       <div class="top">
-        <h3>历史沿革 (1959 ~ 至今) </h3>
-        <p>DEVELOPMENT</p>
-        <div class="border"></div>
-        <div class="timeline"></div>
+        <h3>{{ $t('historyAndEvolution') }}</h3>
+        <div class="underline"></div>
       </div>
       <div class="course-time">
         <swiper v-bind:options="swiperOption" ref="mySwiper">
@@ -31,9 +29,9 @@
                 <!-- 底部内容 -->
                 <div class="item-bottom" :class="{ order: one % 2 === 1 }">
                   <div class="item-bottom-content">
-                    <img src="../../assets/img/jianjietopmin.jpg" alt="" />
-                    <p class="p1">{{ courseOne.Content }}</p>
-                    <p class="p2">{{ courseOne.Year }}</p>
+                    <img :src="courseOne.image" alt="" />
+                    <p class="p1">{{ courseOne.content }}</p>
+                    <p class="p2">{{ courseOne.year }}</p>
                     <!-- 指向三角形 -->
                     <div
                       :class="{
@@ -57,6 +55,7 @@
 
 <script>
 import { swiper, swiperSlide } from "vue-awesome-swiper";
+import { getHistory } from "@/api/history.js";
 export default {
   components: {
     swiper,
@@ -67,11 +66,11 @@ export default {
       courseList: [
         [
           {
-            Id: 10,
-            Year: "1959年",
-            Content:
+            id: 10,
+            year: "1959年",
+            content:
               "经周恩来总理批准而设立，作为中国政府的专门机构，统一组织实施国家对外经济技术援助项目。对外使用COMPLANT作为统一的品牌标识。",
-            img: "",
+            image: "",
           },
           {
             Id: 11,
@@ -167,7 +166,22 @@ export default {
       },
     };
   },
-  created() {},
+  mounted() {
+    this.init();
+  },
+  methods: {
+    init() {
+      getHistory().then((response) => {
+        this.courseList = response.data;
+        const chunkedArray = Array.from(
+          { length: Math.ceil(this.courseList.length / 3) }, // 计算总共需要多少组
+          (v, i) => this.courseList.slice(i * 3, i * 3 + 3) // 每组取三个元素
+        );
+        console.log(chunkedArray);
+        this.courseList = chunkedArray;
+      });
+    },
+  },
 };
 </script>
 
@@ -181,7 +195,8 @@ export default {
     width: 100%;
     height: 1000px;
     margin: 20px auto;
-    background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/his_bg.jpg) no-repeat center;
+    background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/his_bg.jpg)
+      no-repeat center;
     background-size: cover;
 
     .swiper-container {
@@ -222,17 +237,17 @@ export default {
 
             img {
               width: 300px;
-              height: 200px;
+              height: 180px;
               border-radius: 15px; /* 圆角 */
               margin-bottom: 10px; /* 图片与文字的间距 */
               object-fit: cover; /* 确保图片比例合适 */
               border: 3px solid #1667a0; /* 图片外边框 */
             }
 
-            p {
+            .p1 {
               font-size: 16px;
               color: #333; /* 深灰色字体 */
-              line-height: 1.8; /* 行间距 */
+              line-height: 1.5; /* 行间距 */
               margin: 5px 0; /* 间距控制 */
               // max-width: 200px; /* 限制文字宽度与图片宽度一致 */
               // word-wrap: break-word; /* 自动换行 */

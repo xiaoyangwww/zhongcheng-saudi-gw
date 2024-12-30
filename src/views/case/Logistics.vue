@@ -8,34 +8,33 @@
         @mouseover="handleMouseOver(index)"
         @mouseleave="handleMouseLeave(index)"
       >
-        <div class="item-image">
-          <img :src="item.image" alt="item image" />
-        </div>
-        <a
-          :href="item.detailUrl"
-          class="item-title"
-          :class="{ hovered: hoveredIndex === index }"
-        >
-          {{ item.title }}
+        <a :href="'/casedetails/' + item.id" class="list-item-link">
+          <div class="item-image">
+            <img :src="item.imageUrl" :alt="item.title" />
+          </div>
+          <div class="item-title" :class="{ hovered: hoveredIndex === index }">
+            {{ item.title }}
+          </div>
+          <!-- <p class="item-text">{{ item.text }}</p> -->
+          <p class="item-footer">{{ item.description }}</p>
         </a>
-        <!-- <p class="item-text">{{ item.text }}</p> -->
-        <p class="item-footer">{{ item.footer }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getProjectType } from "@/api/projectType.js";
 export default {
   data() {
     return {
       hoveredIndex: null, // 用于记录当前悬停的 index
       list: [
         {
-          image:
+          imageUrl:
             "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%9F%BA%E5%BB%BA%E7%89%A9%E6%B5%81.jpg",
           title: "基建物流",
-          footer:
+          description:
             "涉及大量的原材料、构配件和设备运输，通常需要特殊的运输工具和技术。",
           detailUrl: "/casedetails/1", // 详细页面的链接
         },
@@ -89,6 +88,16 @@ export default {
     handleMouseLeave() {
       this.hoveredIndex = null;
     },
+    init(routeName) {
+      getProjectType(routeName).then((res) => {
+        this.list = res.data;
+        console.log(res.data);
+      });
+    },
+  },
+  mounted() {
+    const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
+    this.init(routeName);
   },
 };
 </script>
@@ -105,7 +114,13 @@ export default {
   gap: 20px;
   justify-content: flex-start;
   padding: 50px 0;
-  padding-left: 50px 
+  padding-left: 50px;
+}
+/* 确保整个 list-item 都是可点击的 */
+.list-item-link {
+  display: block;
+  text-decoration: none; /* 取消链接的默认下划线 */
+  color: inherit; /* 继承父元素的文本颜色 */
 }
 
 .list-item {
@@ -113,6 +128,7 @@ export default {
   text-align: left; /* 左对齐 */
   box-sizing: border-box;
   padding: 10px;
+  cursor: pointer; /* 显示手形光标 */
 }
 
 .item-image {

@@ -3,8 +3,8 @@
   <div class="section-title">
     <div class="tabs-header">
       <div
-        v-for="tab in tabs"
-        :key="tab.name"
+        v-for="(tab, index) in tabs"
+        :key="index"
         :class="['tab-item', { active: currentTab === tab.label }]"
         @click="selectTab(tab.path)"
       >
@@ -12,8 +12,9 @@
       </div>
     </div>
     <div class="location">
-      <a href="/">首页</a><em> &gt; </em><a :href="href">{{ title }}</a>
-      <em> &gt; </em><span>{{ currentTab }}</span>
+      <a href="/">{{ $t("home") }}</a
+      ><em> &gt; </em><a :href="href">{{ title }}</a> <em> &gt; </em
+      ><span>{{ currentTab }}</span>
     </div>
   </div>
 </template>
@@ -24,11 +25,11 @@ export default {
   props: {
     tabs: {
       type: Array,
-      default: [],
+      default: () =>[],
     },
     routeMap: {
       type: Object,
-      default: {},
+      default: () =>{},
     },
     activeTab: {
       type: String,
@@ -75,10 +76,12 @@ export default {
   border-bottom: 1px solid #eeeeee; // 整个标题下方添加边框
 
   .tabs-header {
+    width: 67%;
     display: flex;
   }
 
   .tab-item {
+    max-width: 320px;
     padding: 30px 20px;
     cursor: pointer;
     font-size: 18px;
@@ -99,7 +102,7 @@ export default {
   .location {
     display: flex;
     justify-content: flex-end; // 使面包屑导航靠右
-    width: 40%; // 控制宽度
+    width: 36%; // 控制宽度
     text-align: right;
     font-size: 18px;
     align-items: center; // 垂直居中

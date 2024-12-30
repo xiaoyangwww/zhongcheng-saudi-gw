@@ -2,7 +2,7 @@
   <div class="us">
     <banner
       img="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/bg_us.jpg"
-      title="联系我们"
+      :title="$t('contactUs')"
     />
     <div class="us-section" v-loading="loading">
       <div class="us-section-content">
@@ -15,36 +15,45 @@
         <div class="contact-us">
           <!-- 左侧：表单 -->
           <div class="form-container">
-            <h2>联系我们</h2>
+            <h2>{{ $t("contactUs") }}</h2>
             <el-form
               ref="contactForm"
               :model="form"
               :rules="rules"
-              label-width="100px"
+              label-width="150px"
               class="contact-form"
             >
               <!-- 姓名 -->
-              <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name" placeholder="请输入您的姓名" />
+              <el-form-item :label="$t('nickname')" prop="name">
+                <el-input
+                  v-model="form.name"
+                  :placeholder="$t('enterYourName')"
+                />
               </el-form-item>
 
               <!-- 邮箱 -->
-              <el-form-item label="邮箱" prop="email">
-                <el-input v-model="form.email" placeholder="请输入您的邮箱" />
+              <el-form-item :label="$t('email')" prop="email">
+                <el-input
+                  v-model="form.email"
+                  :placeholder="$t('enterYourEmail')"
+                />
               </el-form-item>
 
               <!-- 主题 -->
-              <el-form-item label="主题" prop="subject">
-                <el-input v-model="form.subject" placeholder="请输入主题" />
+              <el-form-item :label="$t('subject')" prop="theme">
+                <el-input
+                  v-model="form.theme"
+                  :placeholder="$t('enterSubject')"
+                />
               </el-form-item>
 
               <!-- 留言 -->
-              <el-form-item label="留言" prop="message">
+              <el-form-item :label="$t('leaveMessage')" prop="leaveWord">
                 <el-input
-                  v-model="form.message"
+                  v-model="form.leaveWord"
                   type="textarea"
                   rows="5"
-                  placeholder="请输入留言内容"
+                  :placeholder="$t('enterMessageContent')"
                 />
               </el-form-item>
 
@@ -54,7 +63,7 @@
                   type="primary"
                   @click="submitForm"
                   style="background-color: #024190; border: none"
-                  >发送</el-button
+                  ><span>{{ $t("send") }}</span></el-button
                 >
               </el-form-item>
             </el-form>
@@ -66,22 +75,25 @@
               <li>
                 <i class="el-icon-location-outline"></i>
                 <div>
-                  <h4>地址</h4>
-                  <p>深圳市南山区蛇口太子路18号海景广场24楼B座</p>
+                  <h4>{{ $t("address") }}</h4>
+                  <p>{{ companyData.address }}</p>
                 </div>
               </li>
               <li>
                 <i class="el-icon-phone-outline"></i>
                 <div>
-                  <h4>电话</h4>
-                  <p>020-83480566<br />周一至周五 8:30 - 17:30</p>
+                  <h4>{{ $t("phone") }}</h4>
+                  <p>
+                    {{ companyData.phone }}<br />{{ $t("mondayToFriday") }} 8:30
+                    - 17:30
+                  </p>
                 </div>
               </li>
               <li>
                 <i class="el-icon-message"></i>
                 <div>
-                  <h4>邮箱</h4>
-                  <p>support@17sucai.com<br />随时发送您的咨询！</p>
+                  <h4>{{ $t("email") }}</h4>
+                  <p>{{ companyData.email }}<br />{{ $t("contact") }}</p>
                 </div>
               </li>
             </ul>
@@ -98,6 +110,9 @@ import AMapLoader from "@amap/amap-jsapi-loader";
 window._AMapSecurityConfig = {
   securityJsCode: "ddc0d41368b22a4ec0f846887ba2d8a2", //你的安全密钥
 };
+import { getMsg } from "@/api/company.js";
+import { addContactPage } from "@/api/contact.js";
+
 export default {
   data() {
     return {
@@ -107,34 +122,53 @@ export default {
       form: {
         name: "",
         email: "",
-        subject: "",
-        message: "",
+        theme: "",
+        leaveWord: "",
       },
       // 表单校验规则
       rules: {
         name: [
-          { required: true, message: "请输入姓名", trigger: "blur" },
+          {
+            required: true,
+            message: this.$t("enterYourName"),
+            trigger: "blur",
+          },
           {
             min: 2,
             max: 30,
-            message: "姓名长度在 2 到 30 个字符",
+            message: this.$t("nameLengthBetween2And30"),
             trigger: "blur",
           },
         ],
         email: [
-          { required: true, message: "请输入邮箱", trigger: "blur" },
+          {
+            required: true,
+            message: this.$t("enterYourEmail"),
+            trigger: "blur",
+          },
           {
             type: "email",
-            message: "请输入有效的邮箱地址",
+            message: this.$t("enterValidEmail"),
             trigger: ["blur", "change"],
           },
         ],
-        subject: [{ required: true, message: "请输入主题", trigger: "blur" }],
-        message: [
-          { required: true, message: "请输入留言内容", trigger: "blur" },
-          { min: 10, message: "留言内容至少 10 个字符", trigger: "blur" },
+        theme: [
+          { required: true, message: this.$t("enterSubject"), trigger: "blur" },
+        ],
+        leaveWord: [
+          {
+            required: true,
+            message: this.$t("enterMessageContent"),
+            trigger: "blur",
+          },
+          {
+            min: 10,
+            message: this.$t("messageContentAtLeast10"),
+            trigger: "blur",
+          },
         ],
       },
+      companyData: {},
     };
   },
   components: {
@@ -145,7 +179,15 @@ export default {
     submitForm() {
       this.$refs.contactForm.validate((valid) => {
         if (valid) {
-          this.$message.success("表单提交成功！");
+          addContactPage(this.form).then((res) => {
+            this.$message.success("表单提交成功！");
+            this.form = {
+              name: "",
+              email: "",
+              theme: "",
+              leaveWord: ""
+            };
+          });
         } else {
           this.$message.error("请完善表单信息后提交");
           return false;
@@ -153,28 +195,33 @@ export default {
       });
     },
     initMap() {
+      // 获取当前语言，默认值为 'zh-CN'
+      const currentLang = localStorage.getItem("locale") || "zh-CN";
+
       // 使用 AMapLoader 加载高德地图
       AMapLoader.load({
         key: "f7a1a6c0ce21a1c6f9f21d49b0803808", // 申请好的 Web 端开发者 Key
         version: "2.0", // 指定要加载的 JSAPI 的版本
         plugins: [], // 需要使用的插件列表
+        language: currentLang === "en-US" ? "en" : "zh_cn", // 根据语言参数加载地图
       })
         .then((AMap) => {
           // 初始化地图
-          const centerPoint = [113.914581, 22.482987]; // 地图中心点坐标
+          const centerPoint = [Number(this.companyData.longitude), Number(this.companyData.latitude)]; // 地图中心点坐标
           this.map = new AMap.Map("container", {
             viewMode: "3D", // 是否为 3D 地图模式
             zoom: 15, // 初始化地图级别（放大地图）
             center: centerPoint, // 初始化地图中心点位置
+            language: currentLang === "en-US" ? "en" : "zh_cn", // 设置地图语言，支持 'zh_cn'（中文）和 'en'（英文）
           });
 
           // 创建图标标识
           const marker = new AMap.Marker({
             position: centerPoint, // 标识的坐标
-            title: "当前位置", // 鼠标悬停显示的提示信息
+            title: currentLang === "en" ? "Current Location" : "当前位置", // 根据语言显示不同的提示信息
             icon: new AMap.Icon({
               size: new AMap.Size(25, 34), // 图标尺寸
-              image: "https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png", // 图标的图片地址
+              image: require("../assets/img/mark_r.png"), // 图标的图片地址
               imageSize: new AMap.Size(25, 34), // 图标大小
             }),
           });
@@ -186,11 +233,18 @@ export default {
           console.error("地图加载失败：", e);
         });
     },
+    init() {
+      getMsg().then((res) => {
+        this.companyData = res.data;
+        //DOM初始化完成进行地图初始化
+        this.initMap();
+        console.log(res.data);
+      });
+    },
   },
 
   mounted() {
-    //DOM初始化完成进行地图初始化
-    this.initMap();
+    this.init();
   },
 };
 </script>
@@ -215,6 +269,13 @@ export default {
 .map {
   margin: 50px 100px;
 }
+.el-button {
+  padding-top: 15px !important;
+  color: #fff !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+}
+
 
 #container {
   width: 1250px;
@@ -239,15 +300,9 @@ export default {
       max-width: 600px;
 
       .el-form-item {
-        margin-bottom: 20px;
-
         .el-input {
           width: 100%;
         }
-      }
-
-      .el-button {
-        margin-top: 10px;
       }
     }
   }

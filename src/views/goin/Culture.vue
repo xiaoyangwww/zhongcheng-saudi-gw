@@ -1,10 +1,8 @@
 <template>
   <div class="culture">
     <div class="top">
-      <h3>企业文化</h3>
-      <p>COMTRANS CULTURE</p>
-      <div class="border"></div>
-      <div class="timeline"></div>
+      <h3>{{ $t('corporateCulture') }}</h3>
+      <div class="underline"></div>
     </div>
     <!-- <section class="enterprise-culture">
       <div class="culture-content">
@@ -43,6 +41,7 @@
 </template>
 
 <script>
+import {getCulture} from '@/api/culture.js'
 export default {
   data() {
     return {
@@ -127,14 +126,23 @@ export default {
       hoveredIndex: null,
     };
   },
+  mounted() {
+    this.init();
+  },
   methods: {
+    init() {
+      getCulture().then((res) => {
+        this.cards = res.data;
+        console.log(res.data);
+      });
+    },
     hoverCard(index) {
       this.hoveredIndex = index;
     },
     leaveCard() {
       this.hoveredIndex = null;
     },
-  },
+  }
 };
 </script>
 
@@ -144,26 +152,7 @@ export default {
   animation: moveUp 0.8s ease-out forwards;
 }
 
-.top {
-  h3,
-  p {
-    text-align: left;
-    font-size: 25px;
-    color: #024190;
-    font-weight: bold;
-    padding: 10px 0;
-    margin-left: 120px;
-  }
 
-  h3 {
-    font-size: 30px;
-  }
-
-  p {
-    font-size: 17px;
-    font-weight: normal;
-  }
-}
 
 // .enterprise-culture {
 //   padding: 50px 20px;

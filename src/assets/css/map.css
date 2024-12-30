@@ -90,16 +90,23 @@ a:hover {
     font-size: 24px;
     color: #333;
     text-align: center;
+    position: relative;
+}
+
+.map-title-btm {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
     margin: 50px 0;
     position: relative;
 }
 
-.map-branch .map-title {
+.map-branch .map-title-btm {
     margin: 20px 0 0;
     z-index: 1;
 }
 
-.map-title:before {
+.map-title-btm:before {
     content: "";
     position: absolute;
     width: 0;
@@ -111,7 +118,7 @@ a:hover {
     border-color: #20B09F transparent transparent;
 }
 
-.map-title:after {
+.map-title-btm:after {
     content: "";
     position: absolute;
     width: 52px;

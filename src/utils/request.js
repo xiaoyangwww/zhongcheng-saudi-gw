@@ -17,9 +17,6 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(config => {
 
-  const language = this.$i18n.locale || 'zh_CN'; // 默认语言为中文
-  config.headers['Accept-Language'] = language;
-
   // 是否需要防止数据重复提交
   const isRepeatSubmit = (config.headers || {}).repeatSubmit === false
 
@@ -85,7 +82,7 @@ service.interceptors.response.use(res => {
     Notification.error({ title: msg })
     return Promise.reject('error')
   } else {
-    return res.data
+    return processLanguageData(res.data);
   }
 },
   error => {
@@ -102,6 +99,31 @@ service.interceptors.response.use(res => {
     return Promise.reject(error)
   }
 )
+
+const currentLang = localStorage.getItem('language') || 'zh'; // 获取当前语言
+
+// 递归处理数据的函数
+function processLanguageData(data) {
+  if (Array.isArray(data)) {
+    return data.map(item => processLanguageData(item));
+  } else if (typeof data === 'object' && data !== null) {
+    const result = {};
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        // 检查是否是语言相关字段
+        if (currentLang === 'zh' && key.endsWith('Zh')) {
+          result[key.replace('Zh', '')] = data[key]; // 提取为通用字段名
+        } else if (currentLang === 'en' && key.endsWith('En')) {
+          result[key.replace('En', '')] = data[key]; // 提取为通用字段名
+        } else if (!key.endsWith('Zh') && !key.endsWith('En')) {
+          result[key] = processLanguageData(data[key]); // 递归处理非语言字段
+        }
+      }
+    }
+    return result;
+  }
+  return data; // 原样返回非对象数据
+}
 
 
 

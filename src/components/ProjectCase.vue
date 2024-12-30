@@ -2,117 +2,146 @@
   <div class="projectCase" ref="project">
     <div class="warp">
       <div class="title">
-        <div class="quicn">项目案例</div>
-        <div class="quien">SUECESSFUL CASE</div>
+        <div class="quien">{{ $t("projectCases") }}</div>
       </div>
       <!-- tab -->
       <div class="custom-tabs">
-        <!-- Tabs Header -->
+        <!-- Tabs Header 标签头部 -->
         <div class="tabs-header">
+          <!-- 动态生成标签头部，使用 v-for 循环遍历后端数据中的 tabs -->
           <div
             v-for="tab in tabs"
-            :key="tab"
-            :class="['tab-item', { active: activeTab === tab }]"
-            @click="selectTab(tab)"
+            :key="tab.id"
+            :class="['tab-item', { active: activeTab === tab.name }]"
+            @click="selectTab(tab.name)"
           >
-            {{ tab }}
+            {{ tab.name }}
+            <!-- 显示标签名称 -->
           </div>
         </div>
-        <!-- Tabs Content -->
+
+        <!-- Tabs Content 标签内容 -->
         <div class="tab-content">
-          <div v-if="activeTab === '物流业务'">
-            <!-- Content for 物流业务 -->
-            <ul class="case-item">
-              <li
-                v-for="(item, index) in caseList"
-                :key="index"
-                :class="{ selected: selectedIndex === index }"
-                @click="handleSelect(index)"
-                v-lazy:background-image="item.img"
-              >
-                <router-link
-                  class="text-decoration"
-                  :to="{ name: 'casedetails', params: { id: item.id } }"
+          <!-- 循环遍历所有标签，检查当前选中的标签，显示对应内容 -->
+          <div v-for="tab in tabs" :key="tab.id">
+            <!-- 如果当前标签是选中的标签，则显示对应的内容 -->
+            <div v-if="activeTab === tab.name">
+              <!-- 循环渲染当前标签下的所有项目类型 -->
+              <ul class="case-item">
+                <li
+                  v-for="(item, index) in tab.projectTypes"
+                  :key="item.id"
+                  :class="{ selected: selectedIndex === index }"
+                  @click="handleSelect(index)"
+                  v-lazy:background-image="item.imageUrl"
                 >
-                  <div class="case-item-hover">
-                    <p class="hover-title">{{ item.title }}</p>
-                    <div class="bottom"></div>
-                  </div>
-                </router-link>
-              </li>
-            </ul>
-          </div>
-          <div v-else-if="activeTab === '物资业务'">
-            <!-- Content for 物资业务 -->
-            <ul class="case-item">
-              <li
-                v-for="(item, index) in caseListDemo"
-                :key="index"
-                :class="{ selected: selectedIndex === index }"
-                @click="handleSelect(index)"
-                v-lazy:background-image=" item.img"
-              >
-                <router-link
-                  class="text-decoration"
-                  :to="{ name: 'casedetails', params: { id: item.id } }"
-                >
-                  <div class="case-item-hover">
-                    <p class="hover-title">{{ item.title }}</p>
-                    <div class="bottom"></div>
-                  </div>
-                </router-link>
-              </li>
-            </ul>
+                  <!-- 使用 router-link 来创建导航链接 -->
+                  <router-link
+                    class="text-decoration"
+                    :to="{ name: 'casedetails', params: { id: item.id } }"
+                  >
+                    <div class="case-item-hover">
+                      <!-- 显示项目的标题，若标题为空，则显示 '暂无标题' -->
+                      <p class="hover-title">{{ item.title || "暂无标题" }}</p>
+                      <div class="bottom"></div>
+                    </div>
+                  </router-link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-      <!-- <ul class="case-item">
-        <li
-          v-for="(item, index) in caseList"
-          :key="index"
-          v-lazy:background-image="imgserver + item.Img"
-        >
-          <router-link
-            class="text-decoration"
-            :to="{ name: 'casedetails', params: { id: item.Id } }"
-          >
-            <div class="case-item-hover">
-              <p class="hover-title">{{ item.Title }}</p>
-              <div class="bottom"></div>
-              <div class="more">
-                <span>MORE</span>
-              </div>
-            </div>
-          </router-link>
-        </li>
-      </ul> -->
     </div>
     <!-- <p data-v-5aff6e50 class="chage"><span class="el-icon-bottom" style="font-size: 30px;"></span></p> -->
   </div>
 </template>
 
 <script>
+import { getProject } from "@/api/project.js";
 export default {
   name: "ProjectCase",
   data() {
     return {
-      caseList: [
-        {id:"1",index:"1",title:"基建物流",img:"https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%9F%BA%E5%BB%BA%E7%89%A9%E6%B5%81.jpg"},
-        {id:"2",index:"1",title:"大件物流",img:"https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%A4%A7%E4%BB%B6%E7%89%A9%E6%B5%81.jpg"},
-        {id:"3",index:"1",title:"工厂物流",img:"https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%B7%A5%E5%8E%82%E7%89%A9%E6%B5%81.jpg"},
-        {id:"4",index:"1",title:"农贸物流",img:"https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%86%9C%E8%B4%B8%E7%89%A9%E6%B5%81.jpg"},
-        {id:"5",index:"1",title:"援外物流",img:"https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E6%8F%B4%E5%A4%96%E7%89%A9%E6%B5%81.jpg"},
-        {id:"6",index:"1",title:"设备调遣",img:"https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E8%AE%BE%E5%A4%87%E8%B0%83%E9%81%A3.jpg"}
-      ],
-      caseListDemo: [
-        {id:"1",index:"1",title:"城市综合体项目",img:"https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%9F%8E%E5%B8%82%E7%BB%BC%E5%90%88%E4%BD%93%E9%A1%B9%E7%9B%AE.png"},
-        {id:"2",index:"1",title:"港口项目",img:"https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/KOT%20%E6%95%88%E6%9E%9C%E5%9B%BE.jpg"},
-        {id:"3",index:"1",title:"公路桥梁项目",img:"https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%85%AC%E8%B7%AF%E6%A1%A5%E6%A2%81.jpg"},
-        {id:"4",index:"1",title:"铁路隧道项目",img:"https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E9%93%81%E8%B7%AF%E9%9A%A7%E9%81%93.png"}
-      ],
-      tabs: ["物流业务", "物资业务"],
-      activeTab: "物流业务", // Default active tab
-      selectedIndex: null, // 存储选中的索引
+      activeTab: "物流业务", // 默认选中的标签，初始为“物流业务”
+      selectedIndex: null, // 记录当前选中的项目索引
+      tabs:[],
+      // tabs: [
+      //   {
+      //     id: 5,
+      //     name: "物流业务", // 标签名称，中文显示
+      //     orderNum: 0,
+      //     projectTypes: [
+      //       {
+      //         id: 5,
+      //         title: "基础设施物流",
+      //         imageUrl:
+      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%9F%BA%E5%BB%BA%E7%89%A9%E6%B5%81.jpg",
+      //       },
+      //       {
+      //         id: 6,
+      //         title: "大件物流",
+      //         imageUrl:
+      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%A4%A7%E4%BB%B6%E7%89%A9%E6%B5%81.jpg",
+      //       },
+      //       {
+      //         id: 7,
+      //         title: "工厂物流",
+      //         imageUrl:
+      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%B7%A5%E5%8E%82%E7%89%A9%E6%B5%81.jpg",
+      //       },
+      //       {
+      //         id: 8,
+      //         title: "农贸物流",
+      //         imageUrl:
+      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%86%9C%E8%B4%B8%E7%89%A9%E6%B5%81.jpg",
+      //       },
+      //       {
+      //         id: 9,
+      //         title: "对外援助物流",
+      //         imageUrl:
+      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E6%8F%B4%E5%A4%96%E7%89%A9%E6%B5%81.jpg",
+      //       },
+      //       {
+      //         id: 10,
+      //         title: "设备调度",
+      //         imageUrl:
+      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E8%AE%BE%E5%A4%87%E8%B0%83%E9%81%A3.jpg",
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     id: 6,
+      //     name: "物资业务", // 标签名称，中文显示
+      //     orderNum: 1,
+      //     projectTypes: [
+      //       {
+      //         id: 11,
+      //         title: "城市综合体项目",
+      //         imageUrl:
+      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%9F%8E%E5%B8%82%E7%BB%BC%E5%90%88%E4%BD%93%E9%A1%B9%E7%9B%AE.png",
+      //       },
+      //       {
+      //         id: 12,
+      //         title: "KOT效果图",
+      //         imageUrl:
+      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/KOT%20%E6%95%88%E6%9E%9C%E5%9B%BE.jpg",
+      //       },
+      //       {
+      //         id: 13,
+      //         title: "公路桥梁",
+      //         imageUrl:
+      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%85%AC%E8%B7%AF%E6%A1%A5%E6%A2%81.jpg",
+      //       },
+      //       {
+      //         id: 14,
+      //         title: "铁路隧道",
+      //         imageUrl:
+      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E9%93%81%E8%B7%AF%E9%9A%A7%E9%81%93.png",
+      //       },
+      //     ],
+      //   },
+      // ],
     };
   },
   props: {
@@ -137,20 +166,16 @@ export default {
     handleSelect(index) {
       this.selectedIndex = index;
     },
+    init() {
+      getProject().then((response) => {
+        this.tabs = response.data;
+        this.activeTab = this.tabs[0].name;
+        console.log(response);
+      });
+    },
   },
   mounted() {
-    // this.$http
-    //   .all([
-    //     this.$http.get("Cases/GetCasesAll"),
-    //     this.$http.get(`News?type=1&num=3`),
-    //   ])
-    //   .then(
-    //     this.$http.spread((responseCases) => {
-    //       this.caseList = responseCases.data;
-    //       console.log(this.caseList);
-          
-    //     })
-    //   );
+    this.init(); // 组件挂载时获取图片
   },
 };
 </script>
@@ -175,18 +200,6 @@ export default {
 .title {
   text-align: center;
   margin-bottom: 40px;
-}
-
-.quicn {
-  font-size: 40px;
-  font-weight: bold;
-  color: #1d1d1d;
-}
-
-.quien {
-  font-size: 24px;
-  color: #666;
-  margin-top: 8px;
 }
 
 .custom-tabs {

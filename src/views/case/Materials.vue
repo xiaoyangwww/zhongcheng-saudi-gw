@@ -8,24 +8,23 @@
         @mouseover="handleMouseOver(index)"
         @mouseleave="handleMouseLeave(index)"
       >
-        <div class="item-image">
-          <img :src="item.image" alt="item image" />
-        </div>
-        <a
-          :href="item.detailUrl"
-          class="item-title"
-          :class="{ hovered: hoveredIndex === index }"
-        >
-          {{ item.title }}
+        <a :href="'/casedetails/' + item.id" class="list-item-link">
+          <div class="item-image">
+            <img :src="item.imageUrl" :alt="item.title" />
+          </div>
+          <div class="item-title" :class="{ hovered: hoveredIndex === index }">
+            {{ item.title }}
+          </div>
+          <!-- <p class="item-text">{{ item.text }}</p> -->
+          <p class="item-footer">{{ item.description }}</p>
         </a>
-        <!-- <p class="item-text">{{ item.text }}</p> -->
-        <p class="item-footer">{{ item.footer }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { getProjectType } from "@/api/projectType.js";
 export default {
   data() {
     return {
@@ -73,6 +72,16 @@ export default {
     handleMouseLeave() {
       this.hoveredIndex = null;
     },
+    init(routeName) {
+      getProjectType(routeName).then((res) => {
+        this.list = res.data;
+        console.log(res.data);
+      });
+    },
+  },
+  mounted() {
+    const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
+    this.init(routeName);
   },
 };
 </script>
@@ -88,7 +97,7 @@ export default {
   gap: 20px;
   justify-content: flex-start;
   padding: 50px 0;
-  padding-left: 50px 
+  padding-left: 50px;
 }
 
 .list-item {
@@ -96,6 +105,14 @@ export default {
   text-align: left; /* 左对齐 */
   box-sizing: border-box;
   padding: 10px;
+  cursor: pointer; /* 显示手形光标 */
+}
+
+/* 确保整个 list-item 都是可点击的 */
+.list-item-link {
+  display: block;
+  text-decoration: none; /* 取消链接的默认下划线 */
+  color: inherit; /* 继承父元素的文本颜色 */
 }
 
 .item-image {
