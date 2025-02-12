@@ -43,6 +43,7 @@ export default {
 
   enterYourName: '请输入您的昵称',
   enterYourEmail: '请输入您的邮箱',
+  enterYourPhone: '请输入您的电话',
   enterSubject: '请输入主题',
   enterMessageContent: '请输入留言内容',
   enterValidEmail: '请输入有效的邮箱地址',

@@ -41,6 +41,7 @@ export default {
   projectDetail:'Project Detail',
 
   enterYourName: 'Please enter your nickname',
+  enterYourPhone: 'Please enter your phone',
   enterYourEmail: 'Please enter your email',
   enterSubject: 'Please enter the subject',
   enterMessageContent: 'Please enter the message content',

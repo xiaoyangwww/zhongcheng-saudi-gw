@@ -71,7 +71,7 @@ export default {
           var projectCase = {
             id: item.id,
             title: item.title,
-            imageUrl: item.imageUrl.split(",")[0],
+            imageUrl: item.imageUrl != null &&  item.imageUrl != '' ? item.imageUrl.split(",")[0] : 'https://q6.itc.cn/images01/20240718/0c3c3aadfb284e73b36ed3258b651ae6.jpeg',
           };
           projectCases.push(projectCase);
         });

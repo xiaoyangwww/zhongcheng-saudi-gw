@@ -1,7 +1,7 @@
 <template>
   <div class="us">
     <banner
-      img="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/bg_us.jpg"
+      img="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/zc/cd730bbcd84f4f7fa4d6f1bd20bae0a8.jfif"
       :title="$t('contactUs')"
     />
     <div class="us-section" v-loading="loading">
@@ -28,6 +28,14 @@
                 <el-input
                   v-model="form.name"
                   :placeholder="$t('enterYourName')"
+                />
+              </el-form-item>
+
+              <!-- 电话 -->
+              <el-form-item :label="$t('phone')" prop="phone">
+                <el-input
+                  v-model="form.phone"
+                  :placeholder="$t('enterYourPhone')"
                 />
               </el-form-item>
 
@@ -122,6 +130,7 @@ export default {
       form: {
         name: "",
         email: "",
+        phone: "",
         theme: "",
         leaveWord: "",
       },
@@ -180,16 +189,17 @@ export default {
       this.$refs.contactForm.validate((valid) => {
         if (valid) {
           addContactPage(this.form).then((res) => {
-            this.$message.success("表单提交成功！");
+            this.$message.success(this.$t("formSubmitSuccess"));
             this.form = {
               name: "",
+              phone:"",
               email: "",
               theme: "",
-              leaveWord: ""
+              leaveWord: "",
             };
           });
         } else {
-          this.$message.error("请完善表单信息后提交");
+          this.$message.error(this.$t("completeFormBeforeSubmitting"));
           return false;
         }
       });
@@ -207,7 +217,10 @@ export default {
       })
         .then((AMap) => {
           // 初始化地图
-          const centerPoint = [Number(this.companyData.longitude), Number(this.companyData.latitude)]; // 地图中心点坐标
+          const centerPoint = [
+            Number(this.companyData.longitude),
+            Number(this.companyData.latitude),
+          ]; // 地图中心点坐标
           this.map = new AMap.Map("container", {
             viewMode: "3D", // 是否为 3D 地图模式
             zoom: 15, // 初始化地图级别（放大地图）
@@ -275,7 +288,6 @@ export default {
   font-size: 18px !important;
   font-weight: bold !important;
 }
-
 
 #container {
   width: 1250px;

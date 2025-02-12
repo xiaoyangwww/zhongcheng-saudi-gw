@@ -222,8 +222,11 @@
           <div class="copyright">
             <img src="../src/assets/img/ga_icon.png" alt="公安图标" />
             <span>
-              粤ICP备18093725号 | {{ $t("copyright") }} ©
-              {{ $t("companyName") }} © 2024 {{ $t("companyTopTitle") }}
+              <a href="http://beian.miit.gov.cn/" target="_blank"
+                >粤ICP备18093725号</a
+              >
+              | {{ $t("copyright") }} © {{ $t("companyName") }} © 2024
+              {{ $t("companyTopTitle") }}
             </span>
           </div>
         </div>
@@ -252,7 +255,15 @@ export default {
   watch: {
     // 监听路由变化，更新默认激活项
     $route(to) {
-      this.defaultActive = to.path;
+      // 判断路径中是否包含 '/case' 或 '/product'
+      if (to.path.includes("case")) {
+        this.defaultActive = "/case";
+      } else if (to.path.includes("product")) {
+        this.defaultActive = "/product";
+      } else {
+        // 如果没有包含上述路径，则使用完整的路径
+        this.defaultActive = to.path;
+      }
     },
   },
   methods: {
@@ -509,6 +520,12 @@ body {
       img {
         width: 20px; /* 增大图标 */
         height: 20px;
+      }
+      a {
+        color: #666;
+      }
+      a:hover {
+        color: #024190;
       }
 
       span {
