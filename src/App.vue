@@ -171,6 +171,9 @@
               <router-link to="/case/materials">{{
                 $t("materialsBusiness")
               }}</router-link>
+              <router-link to="/case/fullSupplyChain">{{
+                $t("fullSupplyChainBusiness")
+              }}</router-link>
             </li>
             <li>
               <p>{{ $t("contactUs") }}</p>

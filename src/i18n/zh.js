@@ -21,6 +21,7 @@ export default {
   mainEngineeringMaterialsProducts: '主营工程物资产品',
   logisticsBusiness: '物流业务',
   materialsBusiness: '物资业务',
+  fullSupplyChainBusiness:'全程供应链业务',
   aboutZhongcheng: '了解中成',
   historyAndEvolution: '历史沿革 (1959 ~ 至今)',
   companyHonors: '公司荣誉',

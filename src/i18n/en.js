@@ -20,6 +20,7 @@ export default {
   mainEngineeringMaterialsProducts: 'Main Engineering Materials Products',
   logisticsBusiness: 'Logistics Business',
   materialsBusiness: 'Materials Business',
+  fullSupplyChainBusiness:'FullSupplyChain Business',
   aboutZhongcheng: 'About ZC',
   historyAndEvolution: 'History & Evolution (1959 ~ Present)',
   companyHonors: 'Company Honors',

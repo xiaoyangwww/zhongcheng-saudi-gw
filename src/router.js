@@ -60,6 +60,11 @@ let kejianrouter = new Router({
         path: 'materials',  // 物资业务
         name: 'materials',
         component: () => import('./views/case/Materials.vue')
+      },
+      {
+        path: 'fullSupplyChain',  // 全程供应链业务
+        name: 'fullSupplyChain',
+        component: () => import('./views/case/FullSupplyChain.vue')
       }
     ]
   },

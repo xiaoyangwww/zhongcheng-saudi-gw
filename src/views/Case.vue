@@ -71,7 +71,6 @@ export default {
       const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
       getProject().then((res) => {
         console.log(res.data);
-        
         res.data.forEach((item) => {
           const route = item.link.split("/").pop();
           this.routeMap[route] = item.name;
