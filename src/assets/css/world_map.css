@@ -164,10 +164,18 @@ a:hover {
     color: #332d2d;
 }
 
+.china {
+    left: 900px;
+    top: 230px;
+}
+
 .laos {
     left: 880px;
     top: 310px;
 }
+
+
+
 
 /* 老挝 - Laos */
 
@@ -236,7 +244,7 @@ a:hover {
     width: 8px;
     height: 8px;
     margin: 0 auto;
-    background-color: #024190;
+    background-color: #00695c;
     border-radius: 50%;
 }
 
@@ -251,7 +259,7 @@ a:hover {
     position: absolute;
     box-sizing: border-box;
     width: 430px;
-    border: 1px solid #024190;
+    border: 1px solid #00695c;
     box-shadow: 0 0 2px 2px #e9e9e9;
     background-color: #fff;
     padding: 10px 30px;
@@ -321,7 +329,7 @@ textarea {
     width: 0;
     height: 0;
     border: 8px solid;
-    border-color: transparent #024190 transparent transparent;
+    border-color: transparent #00695c transparent transparent;
 }
 
 .w-branch-map-data:after {
@@ -345,7 +353,7 @@ textarea {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    border: 1px solid #024190;
+    border: 1px solid #00695c;
     animation: dot 4s infinite;
 }
 

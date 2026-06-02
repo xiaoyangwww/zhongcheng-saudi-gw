@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
-import elementEnLocale from 'element-ui/lib/locale/lang/en' // element-ui lang导入Element的语言包 英文
-import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN'// element-ui lang g导入Element的语言包 中文
-import enLocale from './en.js' // 导入项目中用到的英文语言包
-import zhLocale from './zh.js'// 导入项目中用到的中文语言包
+import elementEnLocale from 'element-ui/lib/locale/lang/en' // 英文
+import elementZhLocale from 'element-ui/lib/locale/lang/zh-CN' // 中文
+import elementArLocale from 'element-ui/lib/locale/lang/ar' // 新增：Element阿拉伯语包
+import enLocale from './en.js'
+import zhLocale from './zh.js'
+import saLocale from './sa.js' // 新增：自定义阿拉伯语内容
+
 Vue.use(VueI18n)
+
 const messages = {
   en: {
     ...enLocale,
@@ -12,49 +16,95 @@ const messages = {
   },
   zh: {
     ...zhLocale,
-    ...elementZhLocale,
+    ...elementZhLocale
   },
-
+  sa: {
+    ...saLocale,
+    ...elementArLocale // 使用Element的阿拉伯语包
+  }
 }
 
 const i18n = new VueI18n({
-  locale: localStorage.getItem('language') || 'zh', // 设置语种
-  messages, // 设置全局当地语言包,
-  // 隐藏警告
+  locale: localStorage.getItem('language') || 'en',
+  messages,
   silentTranslationWarn: true,
-  fallbackLocale: 'zh',
-  numberFormats: { //设置 数字本地化
+  fallbackLocale: 'en',
+  numberFormats: {
     'en': {
-      currency: { //添加 $
-        style: 'currency', currency: 'USD'
+      currency: {
+        style: 'currency', 
+        currency: 'USD'
       }
     },
     'zh': {
-      currency: { //添加 ￥
-        style: 'currency', currency: 'JPY', currencyDisplay: 'symbol'
+      currency: {
+        style: 'currency', 
+        currency: 'JPY', 
+        currencyDisplay: 'symbol'
+      }
+    },
+    'sa': { // 新增：阿拉伯语数字格式
+      currency: {
+        style: 'currency',
+        currency: 'SAR', // 沙特里亚尔
+        currencyDisplay: 'symbol'
       }
     }
   },
-  dateTimeFormats: {//设置 日期时间本地化
+  dateTimeFormats: {
     'en': {
       short: {
-        year: 'numeric', month: 'short', day: 'numeric'
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric'
       },
       long: {
-        year: 'numeric', month: 'short', day: 'numeric',
-        weekday: 'short', hour: 'numeric', minute: 'numeric'
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric',
+        weekday: 'short', 
+        hour: 'numeric', 
+        minute: 'numeric'
       }
     },
     'zh': {
       short: {
-        year: 'numeric', month: 'short', day: 'numeric'
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric'
       },
       long: {
-        year: 'numeric', month: 'short', day: 'numeric',
-        weekday: 'short', hour: 'numeric', minute: 'numeric'
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric',
+        weekday: 'short', 
+        hour: 'numeric', 
+        minute: 'numeric'
+      }
+    },
+    'sa': { // 新增：阿拉伯语日期格式（RTL）
+      short: {
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric'
+      },
+      long: {
+        year: 'numeric', 
+        month: 'long', // 阿拉伯语月份全称
+        day: 'numeric',
+        weekday: 'long', 
+        hour: 'numeric', 
+        minute: 'numeric',
+        hour12: true // 使用12小时制
       }
     }
   }
 })
+
+// 设置HTML方向（RTL）
+document.documentElement.dir = i18n.locale === 'sa' ? 'rtl' : 'ltr'
+i18n.watchLocale = () => {
+  document.documentElement.dir = i18n.locale === 'sa' ? 'rtl' : 'ltr'
+}
 
 export default i18n

@@ -5,32 +5,16 @@
         <div class="welcome">
           <img :src="item.url" class="carousel-image" />
           <div class="wc-text">
-            <!-- <div class="page">
-              <h3>中成深圳</h3>
-              <p>ZCTS SHENZHEN</p>
-            </div> -->
             <p class="slogan">{{ item.title }}</p>
             <h2 class="toptitlesub"></h2>
-            <div class="toptitleup" style="transform: scale(0.5)">
+            <div class="toptitleup">
               <div class="mouse" data-v-5aff6e40></div>
             </div>
-            <p data-v-5aff6e40 class="mousep">{{ $t('scrollDown') }}</p>
+            <p data-v-5aff6e40 class="mousep">{{ $t("scrollDown") }}</p>
           </div>
         </div>
       </swiper-slide>
     </swiper>
-    <!-- <div class="wc-text">
-      <div class="page">
-        <h3>中成深圳</h3>
-        <p>ZCTS SHENZHEN</p>
-      </div> 
-      <p class="slogan">聚焦客户需求 服务成就价值</p>
-      <h2 class="toptitlesub"></h2>
-      <div class="toptitleup" style="transform: scale(0.5)">
-        <div class="mouse" data-v-5aff6e40></div>
-      </div>
-      <p data-v-5aff6e40 class="mousep">鼠标滚动</p>
-    </div> -->
   </div>
 </template>
   
@@ -53,21 +37,8 @@ export default {
         effect: "slide", // 水平滑动效果
         // height: window.innerHeight - 280, // 高度设置，占满设备高度
       },
-      // imageList: [
-      //   {
-      //     url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_1.jpg",
-      //     title: "聚焦客户需求 服务成就价值",
-      //   },
-      //   {
-      //     url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E9%A6%96%E9%A1%B5.png",
-      //     title: "聚焦客户需求 服务成就价值",
-      //   },
-      //   {
-      //     url: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_5.png",
-      //     title: "聚焦客户需求 服务成就价值",
-      //   },
-      // ],
       imageList: [],
+      // imageList: [],
     };
   },
   mounted() {
@@ -77,28 +48,30 @@ export default {
     fetchImages() {
       getAll().then((response) => {
         this.imageList = response.data;
-        console.log(response);
+        // console.log(response);
       });
     },
   },
 };
 </script>
   
-  <style lang="scss" scoped >
-// .Welcome {
-//   height: 9.465rem;//9.465rem
-// }
+<style lang="scss" scoped>
+@import "@/assets/scss/mixins";
+
+/* 启用 rem 转换 */
+@include use-rem(true);
 
 .welcome {
   position: relative;
   height: 100%;
   img {
     width: 100%;
-    height: 96.1vh;
+    height: 96.1vh; // 视窗单位保留
     object-fit: cover;
   }
 
   .wc-text {
+    width: px2rem(1000);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -108,79 +81,77 @@ export default {
   }
 }
 
-// .el-carousel {
-//   height: 93.5vh;
-// }
+.toptitleup {
+  transform: scale(0.5); // 无单位值保留
+  margin-top: px2rem(250);
+}
 
-// .el-carousel__container {
-//     height: 7.465rem !important;
-// }
-
-// .el-carousel-item {
-//   height: 7.465rem; /* Full viewport height */
-// }
 .page {
   text-align: center;
-  height: 120px;
+  height: px2rem(120);
   overflow: hidden;
-  margin-bottom: 20px;
+  margin-bottom: px2rem(20);
   h3,
   p {
-    font-size: 40px;
+    font-size: px2rem(40);
     font-weight: 400;
     color: #fff;
   }
 }
+
 .slogan {
   text-align: center;
-  font-size: 50px;
+  font-size: px2rem(60);
   font-weight: bold;
   color: #fff;
-  padding: 30px 0;
-  margin-bottom: 50px;
+  padding: px2rem(30) 0;
+  margin-bottom: px2rem(50);
+  text-shadow: -1px -1px 0 #bebebe, 1px -1px 0 #bebebe, -1px 1px 0 #bebebe, 1px 1px 0 #bebebe; // 阴影模糊半径保留 px
 
   .toptitlesub {
     animation-name: bounceInLeft;
-    animation-duration: 1s;
+    animation-duration: 1s; // 时间单位保留
     font-weight: 400;
   }
 }
 
+.mousep {
+  font-size: px2rem(24);
+}
+
 .mouse[data-v-5aff6e40] {
   margin: 0 auto;
-  background: #4e5559
-    linear-gradient(transparent, transparent 50%, #fff 0, #fff);
+  background: #4e5559 linear-gradient(transparent, transparent 50%, #fff 0, #fff);
   position: relative;
-  width: 52px;
-  height: 88px;
-  background-size: 100% 100%;
-  border-radius: 100px;
-  background-size: 225%;
-  animation: colorSlide-data-v-5aff6e40 5s linear infinite,
-    nudgeMouse-data-v-5aff6e40 5s ease-out infinite;
-}
+  width: px2rem(52);
+  height: px2rem(88);
+  border-radius: px2rem(100);
+  background-size: 225%; // 百分比保留
+  animation: colorSlide-data-v-5aff6e40 5s linear infinite, 
+             nudgeMouse-data-v-5aff6e40 5s ease-out infinite; // 动画保留
 
-.mouse[data-v-5aff6e40]:before {
-  content: "";
-  width: 46px;
-  height: 82px;
-  background-color: #222a30;
-  border-radius: 100px;
-  position: absolute;
-  top: 3px;
-  left: 3px;
-}
+  &:before {
+    content: "";
+    width: px2rem(46);
+    height: px2rem(82);
+    background-color: #222a30;
+    border-radius: px2rem(100);
+    position: absolute;
+    top: px2rem(3);
+    left: px2rem(3);
+  }
 
-.mouse[data-v-5aff6e40]:after {
-  content: "";
-  background-color: #fff;
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  position: absolute;
-  top: 35px;
-  left: 21px;
-  animation: trackBallSlide-data-v-5aff6e40 5s linear infinite;
+  &:after {
+    content: "";
+    background-color: #fff;
+    width: px2rem(10);
+    height: px2rem(10);
+    border-radius: 100%;
+    position: absolute;
+    top: px2rem(35);
+    left: px2rem(21);
+    animation: trackBallSlide-data-v-5aff6e40 5s linear infinite; // 动画保留
+  }
 }
 
 @keyframes colorSlide-data-v-5aff6e40 {

@@ -25,11 +25,11 @@ export default {
   props: {
     tabs: {
       type: Array,
-      default: () =>[],
+      default: () => [],
     },
     routeMap: {
       type: Object,
-      default: () =>{},
+      default: () => {},
     },
     activeTab: {
       type: String,
@@ -72,7 +72,6 @@ export default {
   display: flex;
   justify-content: space-between; // 使 tabs 和 location 分别在左右两边
   align-items: center; // 垂直居中对齐
-  padding: 0 20px;
   border-bottom: 1px solid #eeeeee; // 整个标题下方添加边框
 
   .tabs-header {
@@ -81,22 +80,28 @@ export default {
   }
 
   .tab-item {
+    height: 80px;
     max-width: 320px;
-    padding: 30px 20px;
+    padding: 0 12px;
     cursor: pointer;
     font-size: 18px;
     transition: color 0.3s, border-color 0.3s;
     text-align: center; // Tab 内容居中
-
+    /* 关键属性：Flex 居中 */
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
     &.active {
-      color: #024190;
-      border-bottom: 3px solid #024190; // 选中 tab 底部显示下划线
+      color: #16a085;
+      background-color: #16a085;
+      border-bottom: 3px solid #16a085; // 选中 tab 底部显示下划线
       font-weight: bold;
+      color: #ffffff;
     }
 
-    &:hover {
-      color: #024190; // 鼠标悬停时的颜色
-    }
+    // &:hover {
+    //   color: #16A085; // 鼠标悬停时的颜色
+    // }
   }
 
   .location {
@@ -104,7 +109,7 @@ export default {
     justify-content: flex-end; // 使面包屑导航靠右
     width: 36%; // 控制宽度
     text-align: right;
-    font-size: 18px;
+    font-size: 16px;
     align-items: center; // 垂直居中
 
     a {
@@ -113,14 +118,13 @@ export default {
       text-decoration: none;
 
       &:hover {
-        color: #024190; // 鼠标悬停时的颜色
+        color: #16a085; // 鼠标悬停时的颜色
       }
     }
 
     em {
       display: inline-block;
       font-style: normal;
-      font-family: Microsoft YaHei;
       margin: 0 10px;
     }
 

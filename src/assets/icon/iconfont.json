@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3656292",
+      "name": "合作伙伴",
+      "font_class": "hezuohuoban",
+      "unicode": "e67e",
+      "unicode_decimal": 59006
+    },
+    {
+      "icon_id": "1920445",
+      "name": "品牌故事",
+      "font_class": "pinpaigushi",
+      "unicode": "e6b3",
+      "unicode_decimal": 59059
+    },
+    {
       "icon_id": "31888948",
       "name": "中英文",
       "font_class": "zhongyingwen",

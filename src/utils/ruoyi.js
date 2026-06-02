@@ -177,11 +177,23 @@ export function handleTree(data, id, parentId, children) {
     childrenListMap[parentId].push(d);
   }
 
+  // 对每个父节点下的子节点数组进行排序
+  for (let key in childrenListMap) {
+    if (childrenListMap[key][0] && childrenListMap[key][0].orderNum !== undefined) {
+      childrenListMap[key].sort((a, b) => a.orderNum - b.orderNum);
+    }
+  }
+
   for (let d of data) {
     let parentId = d[config.parentId];
     if (nodeIds[parentId] == null) {
       tree.push(d);
     }
+  }
+
+  // 对根节点进行排序
+  if (tree[0] && tree[0].orderNum !== undefined) {
+    tree.sort((a, b) => a.orderNum - b.orderNum);
   }
 
   for (let t of tree) {
@@ -193,6 +205,10 @@ export function handleTree(data, id, parentId, children) {
       o[config.childrenList] = childrenListMap[o[config.id]];
     }
     if (o[config.childrenList]) {
+      // 对子节点进行排序
+      if (o[config.childrenList][0] && o[config.childrenList][0].orderNum !== undefined) {
+        o[config.childrenList].sort((a, b) => a.orderNum - b.orderNum);
+      }
       for (let c of o[config.childrenList]) {
         adaptToChildrenList(c);
       }

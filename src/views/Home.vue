@@ -43,7 +43,7 @@
             @click="navigateToSlide(0)"
             ><span></span
           ></a>
-          <div class="fp-tooltip right">中成欢迎您</div>
+          <div class="fp-tooltip right">{{ $t('home') }}</div>
         </li>
         <li>
           <a
@@ -52,7 +52,7 @@
             @click="navigateToSlide(1)"
             ><span></span
           ></a>
-          <div class="fp-tooltip right">关于中成</div>
+          <div class="fp-tooltip right">{{$t('aboutUs')}}</div>
         </li>
         <li>
           <a
@@ -61,7 +61,7 @@
             @click="navigateToSlide(2)"
             ><span></span
           ></a>
-          <div class="fp-tooltip right">产品服务</div>
+          <div class="fp-tooltip right">{{ $t("productsAndServices") }}</div>
         </li>
         <li>
           <a
@@ -70,7 +70,7 @@
             @click="navigateToSlide(3)"
             ><span></span
           ></a>
-          <div class="fp-tooltip right">项目案例</div>
+          <div class="fp-tooltip right">{{ $t("projectCases") }}</div>
         </li>
         <!-- <li>
           <a
@@ -276,23 +276,28 @@ export default {
   background-size: cover;
 }
 .slide-two {
-  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_2.jpg)
-    no-repeat center;
-  background-size: cover;
+  background: url(../assets/img/st-bg2.jpg) no-repeat center;
+  background-size: 100% 100%; /* 拉伸图片，宽高各占 100% */
+  background-position: center; /* 背景居中 */
+  background-repeat: no-repeat; /* 防止背景图重复 */
 }
 .slide-three {
-  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_2.jpg)
-    no-repeat center;
-  background-size: cover;
+  background: url(../assets/img/st-bg2.jpg) no-repeat center;
+  background-size: 100% 100%; /* 拉伸图片，宽高各占 100% */
+  background-position: center; /* 背景居中 */
+  background-repeat: no-repeat; /* 防止背景图重复 */
 }
 .slide-four {
-  background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/home_2.jpg)
-    no-repeat center;
-  background-size: cover;
+  background: url(../assets/img/st-bg2.jpg) no-repeat center;
+  background-size: 100% 100%; /* 拉伸图片，宽高各占 100% */
+  background-position: center; /* 背景居中 */
+  background-repeat: no-repeat; /* 防止背景图重复 */
 }
 .slide-five {
-  background: white;
-  background-size: cover;
+  background: url(../assets/img/st-bg2.jpg) no-repeat center;
+  background-size: 100% 100%; /* 拉伸图片，宽高各占 100% */
+  background-position: center; /* 背景居中 */
+  background-repeat: no-repeat; /* 防止背景图重复 */
 }
 
 // 导航栏样式

@@ -9,7 +9,7 @@
     <!-- Project Product Section -->
     <div class="project-product">
         <!-- 导航栏 -->
-      <Section :href="'/casedetails/' + projectTypeId" :title="projectTypeName" :activeTab="$t('projectDetail')"></Section>
+      <Section :href="'/casedetails/' + projectId + '/' + projectTypeId" :title="projectTypeName" :activeTab="$t('projectDetail')"></Section>
       <div class="project-product-content">
         <!-- Project Title -->
         <h1 class="project-title">{{ projectTitle }}</h1>
@@ -44,6 +44,7 @@ export default {
   },
   data() {
     return {
+      projectId:null,
       projectTypeId:null,
       projectTypeName:"",
       projectTitle: "", // 项目标题
@@ -53,16 +54,14 @@ export default {
   },
   created() {
     this.pid = this.$route.params.id;
-    console.log(this.pid);
-    this.loadData();
-  },
-  mounted() {
+    this.projectTypeId = this.$route.params.projectTypeId;
     this.loadData();
   },
   methods: {
     loadData() {
-      getProjectDetail(this.pid).then((res) => {
+      getProjectDetail(this.projectTypeId,this.pid).then((res) => {
         console.log(res.data);
+        this.projectId = res.data.projectId
         this.projectTypeId = res.data.projectTypeId;
         this.projectTypeName = res.data.projectTypeName;
         this.projectTitle = res.data.title;
@@ -81,7 +80,6 @@ export default {
   background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/bg_all.jpg)
     no-repeat center;
   background-size: cover;
-  font-family: "Arial", sans-serif;
 
   &-product {
     width: 1425px;
@@ -106,7 +104,7 @@ export default {
   }
 
   .project-description {
-    text-align: left;
+    text-align: start;
     font-size: 18px;
     line-height: 1.6;
     margin-bottom: 20px;

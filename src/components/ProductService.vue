@@ -1,8 +1,9 @@
 <template>
   <div class="business-framework" ref="service">
     <div class="warp">
-      <div class="title">
-        <div class="quien">{{$t("productsAndServices")}}</div>
+      <!-- 标题 -->
+      <div class="saudi_service_tt">
+        <div class="saudien">{{ $t("productsAndServices") }}</div>
       </div>
       <div class="content">
         <div
@@ -25,9 +26,6 @@
         </div>
       </div>
     </div>
-    <p data-v-5aff6e50 class="chage">
-      <span class="el-icon-bottom" style="font-size: 30px"></span>
-    </p>
   </div>
 </template>
   
@@ -37,26 +35,6 @@ export default {
   name: "ProductService",
   data() {
     return {
-      // items: [
-      //   {
-      //     image: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/bus_3.jpg",
-      //     title: "国际工程物资采购",
-      //     link: "/product/mainProducts",
-      //     icon: require("@/assets/img/shop.png"), // 注意这里使用了require来引入本地图片
-      //   },
-      //   {
-      //     image: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/bus_4.jpg",
-      //     title: "“一站式”供应链服务",
-      //     link: "/product/supplyChain",
-      //     icon: require("@/assets/img/section4-icon02.png"), // 注意这里使用了require来引入本地图片
-      //   },
-      //   {
-      //     image: "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/bus_2.jpg",
-      //     title: "全品类运输服务",
-      //     link: "/product/transport",
-      //     icon: require("../assets/img/car2.png"), // 注意这里使用了require来引入本地图片
-      //   },
-      // ],
       items: [],
     };
   },
@@ -89,44 +67,63 @@ export default {
 };
 </script>
   
-  <style lang="scss" scoped >
+<style lang="scss" scoped>
+@import "@/assets/scss/mixins";
+
+/* 启用 rem 转换 */
+@include use-rem(true);
+
 .business-framework {
   background-size: cover;
   background-position: center;
-  padding: 60px 20px;
-  max-height: 780px;
+  padding: px2rem(60) px2rem(20);
+  max-height: px2rem(780);
 
   .warp {
-    max-width: 1200px;
+    max-width: px2rem(1250);
     margin: 0 auto;
-    padding: 20px;
+    padding: px2rem(20);
   }
 
   .title {
     text-align: center;
-    margin-bottom: 120px;
+    margin-bottom: px2rem(120);
+  }
+
+  // 标题
+  .saudi_service_tt {
+    text-align: center;
+    margin-bottom: px2rem(120);
+    .saudien {
+      font-size: px2rem(40);
+      font-weight: bold;
+      color: #16a085;
+    }
   }
 
   .content {
     display: flex;
-    max-width: 1200px;
-    max-height: 600px;
-    margin-top: 60px;
+    max-width: px2rem(1800);
+    max-height: px2rem(600);
+    margin-top: px2rem(60);
   }
+
   .content-item {
     position: relative;
-    max-width: 350px;
-    height: 500px;
-    margin: 0 auto 40px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: px2rem(350);
+    height: px2rem(500);
+    margin: 0 auto px2rem(40);
+    box-shadow: 0 px2rem(2) px2rem(8) rgba(0, 0, 0, 0.1);
     .item-img {
       width: 100%;
       height: 100%;
     }
   }
+
   .item-top {
-    margin-top: -60px;
+    margin-top: px2rem(-60);
   }
+
   .content-txt {
     position: absolute;
     top: 0;
@@ -153,42 +150,43 @@ export default {
   }
 
   .content-txt-cell img {
-    width: 60px;
-    margin: 20px auto 0;
-    transition: transform 0.5s ease; /* Smooth transition for moving up */
+    width: px2rem(60);
+    margin: px2rem(20) auto 0;
+    transition: transform 0.5s ease;
   }
 
   .content-txt-cell h4 {
-    font-size: 28px;
-    margin-top: 15px;
+    font-size: px2rem(28);
+    margin-top: px2rem(15);
     color: #fff;
-    transition: transform 0.5s ease; /* Smooth transition for moving up */
+    transition: transform 0.5s ease;
   }
 
   .content-txt-cell a {
     opacity: 0;
     display: block;
-    font-size: 18px;
+    font-size: px2rem(18);
     font-weight: bold;
     color: #fff;
-    width: 118px;
-    height: 38px;
-    line-height: 38px;
-    border: 2px solid #fff;
+    width: px2rem(118);
+    height: px2rem(38);
+    line-height: px2rem(38);
+    border: px2rem(2) solid #fff;
     margin: 10% auto;
     text-align: center;
     transition: all 0.5s;
   }
+
   .content-txt-cell:hover::after {
     opacity: 1;
   }
 
   .content-txt-cell:hover img {
-    transform: translateY(-30px); /* Move image up */
+    transform: translateY(px2rem(-30));
   }
 
   .content-txt-cell:hover h4 {
-    transform: translateY(-30px); /* Move heading up */
+    transform: translateY(px2rem(-30));
   }
 
   .content-txt-cell:hover a {

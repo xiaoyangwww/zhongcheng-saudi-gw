@@ -21,67 +21,62 @@
 <script>
 import Banner from "../components/Banner";
 import Section from "../components/Section";
-import { getService } from "@/api/service.js";
+import { routeListMenu } from "@/api/menu.js";
+
 export default {
   data() {
     return {
       loading: false,
-      tabs: [
-        // {
-        //   label: "全品类运输服务",
-        //   name: "transport",
-        //   path: "/product/transport",
-        // },
-        // {
-        //   label: "“一站式”供应链服务",
-        //   name: "supplyChain",
-        //   path: "/product/supplyChain",
-        // },
-        // {
-        //   label: "主营工程物资产品",
-        //   name: "mainProducts",
-        //   path: "/product/mainProducts",
-        // },
-      ],
-      routeMap: {
-        transport: "全品类运输服务",
-        supplyChain: "“一站式”供应链服务",
-        mainProducts: "主营工程物资产品",
-      },
-      activeTab: "全品类运输服务",
+      tabs: [],
+      routeMap: {},
+      activeTab: "",
     };
   },
   components: {
     Banner,
     Section,
   },
-  created() {
-    this.init();
+  methods: {
+    generateRouteMap(menuData) {
+      debugger;
+      const routeMap = {};
+      menuData.forEach((item) => {
+        const routeName = item.path.split("/").pop();
+        routeMap[routeName] = item.name;
+      });
+      return routeMap;
+    },
+
+    setActiveTab() {
+      const routeName = this.$route.path.split("/").pop();
+      this.activeTab =
+        this.routeMap[routeName] ||
+        (this.tabs.length > 0 ? this.tabs[0].name : "") ||
+        "";
+    },
   },
   watch: {
-    // 监听路由变化，更新默认激活项
-    $route(to) {
-      const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
-      this.activeTab = this.routeMap[routeName];
+    $route() {
+      this.setActiveTab();
     },
   },
-  methods: {
-    init() {
-      const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
-      getService().then((res) => {
-        res.data.forEach((item) => {
-          const route = item.link.split("/").pop();
-          this.routeMap[route] = item.serviceName;
-          var tab = {
-            id: item.id,
-            label: item.serviceName,
-            path: item.link,
-          };
-          this.tabs.push(tab);
-          this.activeTab = this.routeMap[routeName];
-        });
-      });
-    },
+  async mounted() {
+    this.loading = true;
+    try {
+      const res = await routeListMenu("/product/");
+      this.tabs = res.data.map((item) => ({
+        label: item.name,
+        name: item.name,
+        path: item.path,
+      }));
+
+      this.routeMap = this.generateRouteMap(res.data);
+      this.setActiveTab();
+    } catch (error) {
+      console.error("获取菜单失败:", error);
+    } finally {
+      this.loading = false;
+    }
   },
 };
 </script>

@@ -22,90 +22,63 @@
 
 <script>
 import Banner from "../components/Banner";
-import { swiper, swiperSlide } from "vue-awesome-swiper";
 import Section from "../components/Section";
 import { routeListMenu } from "@/api/menu.js";
+
 export default {
-  components: {
-    Banner,
-    swiper,
-    swiperSlide,
-    Section,
-  },
   data() {
     return {
-      tabs: [], // 初始为空，稍后根据语言动态设置
-      routeMap: {}, // 初始为空，稍后根据语言动态设置
-      activeTab: "公司简介",
       loading: false,
-      honorList: [],
-      partnerImg: [],
-      courseList: [],
-      teamItem: [],
-      swiperOption: {
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-      },
-      dialogTableVisible: false,
-      dialogUrl: "",
-      dialogTitle: "",
+      tabs: [],
+      routeMap: {},
+      activeTab: "",
     };
   },
+  components: {
+    Banner,
+    Section,
+  },
   methods: {
-    // 可根据需要添加方法
-  },
-  created() {
-    const currentLang = localStorage.getItem("language") || "zh"; // 获取当前语言，默认是中文
+    generateRouteMap(menuData) {
+      const routeMap = {};
+      menuData.forEach((item) => {
+        const routeName = item.path.split("/").pop();
+        routeMap[routeName] = item.name;
+      });
+      return routeMap;
+    },
 
-    // 根据当前语言设置 tabs 和 routeMap
-    if (currentLang === "zh") {
-      this.routeMap = {
-        intro: "公司简介",
-        history: "发展历程",
-        culture: "企业文化",
-        honor: "资质荣誉",
-        cooperate: "合作伙伴",
-        domestic: "国内网络",
-        overseas: "海外网络",
-      };
-    } else if (currentLang === "en") {
-      this.routeMap = {
-        intro: "Introduction",
-        history: "History",
-        culture: "Culture",
-        honor: "Honor",
-        cooperate: "Partner",
-        domestic: "Domestic Network",
-        overseas: "Overseas Network",
-      };
-    }
-
-    // 根据当前路由路径设置激活的标签
-    const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
-    this.activeTab = this.routeMap[routeName] || "公司简介"; // 默认激活公司简介
-  },
-  watch: {
-    // 监听路由变化，更新默认激活项
-    $route(to) {
-      const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
-      this.activeTab = this.routeMap[routeName];
+    setActiveTab() {
+      const routeName = this.$route.path.split("/").pop();
+      this.activeTab =
+        this.routeMap[routeName] ||
+        (this.tabs.length > 0 ? this.tabs[0].name : "") ||
+        "";
     },
   },
-  mounted() {
-    routeListMenu('/goin/').then(res => {
-      console.log(res.data);
-      res.data.forEach(item => {
-        var obj = {
-          label:item.name,
-          name:item.name,
-          path:item.path
-        }
-        this.tabs.push(obj);
-      })
-    })
-  }
+  watch: {
+    $route() {
+      this.setActiveTab();
+    },
+  },
+  async mounted() {
+    this.loading = true;
+    try {
+      const res = await routeListMenu("/goin/");
+      this.tabs = res.data.map((item) => ({
+        label: item.name,
+        name: item.name,
+        path: item.path,
+      }));
+
+      this.routeMap = this.generateRouteMap(res.data);
+      this.setActiveTab();
+    } catch (error) {
+      console.error("获取菜单失败:", error);
+    } finally {
+      this.loading = false;
+    }
+  },
 };
 </script>
 

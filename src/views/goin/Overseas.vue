@@ -1,23 +1,27 @@
 <template>
   <div class="overseas">
     <div class="top">
-      <h3>{{$t('overseasNetwork')}}</h3>
+      <h3>{{$t('businessOutlets')}}</h3>
       <div class="underline"></div>
       <div class="border"></div>
     </div>
     <div class="w-map-content map-branch">
       <div class="w-map-module">
-        <div v-for="(item, index) in titles" :key="index">
+        <!-- <div v-for="(item, index) in titles" :key="index">
           <div v-html="item.title"> </div>
-        </div>
-        <!-- <p class="w-map-title">
-          中成深圳，当前已在海外设立<span class="w-map-top">&nbsp;9&nbsp;</span
-          >个直管驻点
+        </div> -->
+        
+        <p class="w-map-title">
+          <span v-html="$t('businessOutletsTitle1')"></span>
+          
+          <!-- Ocean Harmony，当前已在海外设立<span class="w-map-top">&nbsp;9&nbsp;</span
+          >个直管驻点 -->
         </p>
         <p class="w-map-title-btm">
-          深耕非洲和东南亚地区超过<span class="w-map-top">&nbsp;14&nbsp;</span
-          >年
-        </p> -->
+          <span v-html="$t('businessOutletsTitle2')"></span>
+          <!-- 深耕非洲和东南亚地区超过<span class="w-map-top">&nbsp;14&nbsp;</span
+          >年 -->
+        </p>
         <div class="w-map-content-info">
           <div class="w-branch-map-l">
             <div class="w-map-content-box">
@@ -54,39 +58,43 @@ export default {
     return {
       cities: [
         {
-          id: "laos",
+          index:"china",
+          name:"中国"
+        },
+        {
+          index: "laos",
           name: "老挝",
         },
         {
-          id: "saudi-arabia",
+          index: "saudi-arabia",
           name: "沙特阿拉伯",
         },
         {
-          id: "kenya",
+          index: "kenya",
           name: "肯尼亚",
         },
         {
-          id: "sri-lanka",
+          index: "sri-lanka",
           name: "斯里兰卡",
         },
         {
-          id: "myanmar",
+          index: "myanmar",
           name: "缅甸",
         },
         {
-          id: "cambodia",
+          index: "cambodia",
           name: "柬埔寨",
         },
         {
-          id: "cameroon",
+          index: "cameroon",
           name: "喀麦隆",
         },
         {
-          id: "namibia",
+          index: "namibia",
           name: "纳米比亚",
         },
         {
-          id: "malaysia",
+          index: "malaysia",
           name: "马来西亚",
         },
       ],
@@ -99,7 +107,7 @@ export default {
   methods: {
     init() {
       getOverseas().then((res) => {
-        this.cities = res.data;
+        // this.cities = res.data;
         console.log(res.data);
       });
       getOverseasTitleMsg().then((res) => {
@@ -120,7 +128,7 @@ export default {
 
 .w-map-top {
   font-size: 50px;
-  color: #024190;
+  color: #16A085;
   font-weight: bold;
 }
 </style>

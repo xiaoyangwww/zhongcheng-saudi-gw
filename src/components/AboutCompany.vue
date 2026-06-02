@@ -1,84 +1,58 @@
 <template>
-  <div class="qui-homebox" ref="about">
-    <div class="qui-warp">
+  <div class="saudi-homebox" ref="about">
+    <div class="saudi-warp">
       <!-- 标题 -->
-      <div class="qui_home_tt" ref="title">
-        <!-- <div class="quicn"></div> -->
-        <div class="quien">{{ $t("aboutUs") }}</div>
+      <div class="saudi_home_tt" ref="title">
+        <div class="saudien">{{ $t("aboutUs") }}</div>
       </div>
       <!-- 公司简介 -->
-      <div class="qui-single">
+      <div class="saudi-single">
         <div class="about">
           <div class="about-img-container">
-            <img
-              class="about-img"
-              src="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/company.jpg"
-            />
+            <img class="about-img" :src="about.url" alt="Ocean Harmony" />
           </div>
           <div class="about-text">
             <h4>{{ about.title }}</h4>
-            <div v-html="about.content"></div>
-            <!-- <p>
-              <strong>中成国际运输深圳有限公司</strong
-              >（简称中成深圳）成立于2005年，隶属于中成国际运输有限公司（简称中成运输），中成运输隶属于
-              <a
-                href="https://www.complant.com/gtzcjt/index.htm"
-                target="_blank"
-                ><span style="color: #054391"
-                  ><span style="text-align: justify"
-                    ><strong>中国成套设备进出口集团有限公司</strong></span
-                  ></span
-                ></a
-              >（简称中成集团）。
-            </p>
-
-            <p>
-              中成深圳传承了中成运输优良的服务理念，一直以“<strong>聚集客户需求，服务成就价值</strong>”为使命，致力于成为领航全球的“一站式”工程项目专业供应链服务商。经过多年的锐意创新和积极奋进，中成深圳已通过丰富的内贸和国际贸易经验、全类型的物流配送服务，成功构建出高效运作的现代国际供应链服务体系。
-            </p>
-
-            <p>
-              时至今日，中成深圳凭借“一带一路”海外工程项目领域中积累和开发的众多优质供应商资源，为大型基建企业提供全程供应链解决方案，在业内树立了良好的品牌形象和服务口碑。
-            </p> -->
-
-            <!-- <a href="/goin" class="qui_mm_all2">了解中成 ></a> -->
-            <a cla href="/goin" class="primary-button qui_mm_all2">{{
-              $t("aboutZhongcheng")
+            <p v-html="about.content"></p>
+            <a href="/goin" class="primary-button">{{
+              $t("aboutOceanHarmony")
             }}</a>
           </div>
         </div>
       </div>
+      <!-- 底部导航 -->
       <div class="box-bom">
         <ul class="ul ULLIST">
           <li class="li">
-            <a href="/goin/history" class="quilibox">
-              <pre class="quitt">{{ $t("developmentHistory") }}</pre>
-              <div class="quinum icon-zctongji"></div>
+            <a href="/goin/brand" class="saudilibox">
+              <pre class="sauditt">{{ $t("brandStory") }}</pre>
+              <div class="saudinum icon-zcpinpaigushi"></div>
             </a>
           </li>
           <li class="li">
-            <a href="/goin/culture" class="quilibox">
-              <pre class="quitt">{{ $t("corporateCulture") }}</pre>
-              <div class="quinum icon-zcqiyewenhua"></div>
+            <a href="/goin/culture" class="saudilibox">
+              <pre class="sauditt">{{ $t("corporateCulture") }}</pre>
+              <div class="saudinum icon-zcqiyewenhua"></div>
             </a>
           </li>
           <li class="li">
-            <a href="/goin/domestic" class="quilibox">
-              <pre class="quitt">{{ $t("domesticNetwork") }}</pre>
-              <div class="quinum icon-zcwangluo"></div>
+            <a href="/goin/history" class="saudilibox">
+              <pre class="sauditt">{{ $t("developmentHistory") }}</pre>
+              <div class="saudinum icon-zctongji"></div>
             </a>
           </li>
           <li class="li">
-            <a href="/goin/overseas" class="quilibox">
-              <pre class="quitt">{{ $t("overseasNetwork") }}</pre>
-              <div class="quinum icon-zcshenjing"></div>
+            <a href="/goin/cooperate" class="saudilibox">
+              <pre class="sauditt">{{ $t("partners") }}</pre>
+              <div class="saudinum icon-zchezuohuoban"></div>
             </a>
           </li>
         </ul>
       </div>
     </div>
-    <p data-v-5aff6e50 class="chage">
+    <!-- <p class="chage">
       <span class="el-icon-bottom" style="font-size: 30px"></span>
-    </p>
+    </p> -->
   </div>
 </template>
 
@@ -123,166 +97,142 @@ export default {
 };
 </script>
   
-  <style lang="scss">
-// 关于中成
-.qui-homebox {
-  background-size: cover;
-  background-position: center;
-  padding: 60px 20px;
-  max-height: 780px;
+<style lang="scss" scoped>
+@import "@/assets/scss/mixins";
+
+/* 启用 rem 转换 */
+@include use-rem(true);
+
+// 主背景
+.saudi-homebox {
+  padding: px2rem(60) px2rem(20);
+  max-height: px2rem(780);
 }
-//  .qui-homebox {
-//    position: relative;
-//    opacity: 0; /* 初始状态为透明 */
-//    transform: translateX(-100%); /* 初始位置在左边 */
-//    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-//  }
 
-// .qui-homebox.slide-in {
-//   opacity: 1; /* 动画完成后变为不透明 */
-//   transform: translateX(0); /* 向右滑动到中心 */
-// }
-
-.qui-warp {
-  max-width: 1200px;
+// 容器
+.saudi-warp {
+  max-width: px2rem(1200);
   margin: 0 auto;
-  padding: 20px;
+  padding: px2rem(20);
 }
 
-.qui_home_tt {
+// 标题
+.saudi_home_tt {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: px2rem(60);
+  .saudien {
+    font-size: px2rem(40);
+    font-weight: bold;
+    color: #16a085;
+  }
 }
 
-
-.qui-single {
-  max-width: 1200px;
-  margin: 0 auto 40px;
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+// 公司简介
+.saudi-single {
+  max-width: px2rem(1200);
+  margin: 0 auto px2rem(40);
+  background-color: white;
+  box-shadow: 0 px2rem(4) px2rem(12) rgba(0, 0, 0, 0.1);
+  border-radius: px2rem(10);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  &:hover {
+    transform: translateY(px2rem(-5));
+  }
 }
 
-.qui-single {
-  transition: transform 0.3s ease; /* 添加平滑过渡动画 */
-}
-
-.qui-single:hover {
-  transform: translateY(-5px); /* 鼠标悬停时模块向上移动5px */
-}
-// 文字部分
 .about {
   display: flex;
-  align-items: flex-start; /* 使文字和图片在垂直方向对齐 */
-  gap: 20px; /* 设置图片与文字之间的间距 */
-  .about-img {
-    width: 100%; /* 设置图片的初始宽度 */
-    height: 100%;
-    transition: transform 0.3s ease-in-out; /* 设置过渡效果 */
-  }
+  align-items: flex-start;
+  gap: px2rem(20);
+  padding: px2rem(20);
 
-  .about-img:hover {
-    transform: scale(1.3); /* 鼠标悬停时放大图片 */
+  .about-img-container {
+    width: px2rem(400);
+    height: px2rem(416);
+    overflow: hidden;
+    border-radius: px2rem(10);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.3s ease;
+    }
   }
 
   .about-text {
-    position: relative;
-    max-width: 700px; /* 控制文字块的最大宽度，可以根据需要调整 */
-    height: 416px;
-    margin-left: 20px;
-
+    flex: 1;
     h4 {
-      margin: 15px 0;
+      font-size: px2rem(24);
+      color: #16a085;
+      margin-bottom: px2rem(20);
     }
     p {
-      font-size: 18px;
-      line-height: 1.5;
-      margin: 0 0 10px;
-      // text-indent: 2em;
-      text-align: justify;
+      font-size: px2rem(18);
+      line-height: 2;
+      color: #333;
+      margin-bottom: px2rem(15);
+      display: -webkit-box;
+      -webkit-line-clamp: 8;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      max-height: px2rem(17 * 18); // 基于行高和行数计算
     }
-    .primary-button {
-      position: absolute;
-      right: 15px;
-      bottom: 30px;
-      display: inline-block;
-      text-decoration: none;
-      padding: 6px 12px;
-      background-color: #024190;
-      color: white;
-      border-radius: 15px;
-      font-size: 18px;
-      text-align: center;
-    }
-  }
-  .about-img-container {
-    width: 400px;
-    height: 416px;
-    overflow: hidden; /* 隐藏溢出部分 */
-    display: inline-block; /* 保证容器自适应图片大小 */
-  }
 
-  .qui_mm_all2 {
-    display: inline-block;
-    font-size: 16px;
-    transition: background-color 0.3s;
-    position: absolute;
-    color: #054391;
-    bottom: 45px;
-    right: 10px;
+    .primary-button {
+      display: inline-block;
+      padding: px2rem(10) px2rem(20);
+      background-color: #16a085;
+      color: white;
+      border-radius: px2rem(5);
+      font-size: px2rem(20);
+      text-decoration: none;
+      transition: background-color 0.3s;
+      &:hover {
+        background-color: #128874;
+      }
+    }
   }
 }
 
+// 底部导航
 .box-bom {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: center;
-
+  max-width: px2rem(1200);
+  margin: 0 auto;
   .ul {
-    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
     list-style: none;
     padding: 0;
-    margin: 0;
-    display: flex;
-    gap: 73px;
-  }
-
-  .li {
-    background-color: white;
-    padding: 15px 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    flex: 1;
-    min-width: 205px;
-    text-align: center;
-    transition: transform 0.3s ease-in-out; /* 添加过渡效果 */
-  }
-
-  .li:hover {
-    transform: translateY(-3px); /* 悬停时上移 3px */
-  }
-
-  .quilibox {
-    padding: 10px;
-    display: block;
-    text-decoration: none;
-    color: inherit; /* 继承父元素颜色 */
-  }
-
-  .quitt {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-family: "Microsoft YaHei";
-  }
-
-  .quinum {
-    margin: 5px 0;
-    font-size: 50px;
-  }
-
-  .quilibox:hover {
-    color: #024190;
+    gap: px2rem(20);
+    .li {
+      flex: 1;
+      background-color: white;
+      border-radius: px2rem(10);
+      box-shadow: 0 px2rem(4) px2rem(12) rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+      &:hover {
+        transform: translateY(px2rem(-5));
+      }
+      .saudilibox {
+        display: block;
+        padding: px2rem(20);
+        text-decoration: none;
+        color: #16a085;
+        text-align: center;
+        .sauditt {
+          font-family: inherit !important;
+          font-size: px2rem(18);
+          font-weight: bold;
+          margin-bottom: px2rem(10);
+        }
+        .saudinum {
+          font-size: px2rem(40);
+          color: #d4af37;
+        }
+      }
+    }
   }
 }
 </style>
-  

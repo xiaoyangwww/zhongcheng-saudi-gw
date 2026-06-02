@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-let kejianrouter = new Router({
+let router = new Router({
   mode: 'history',
   routes: [{
     path: '/',
@@ -42,6 +42,16 @@ let kejianrouter = new Router({
         name: 'product-mainProducts',
         component: () => import('./views/product/MainProducts.vue'),
       },
+      {
+        path: 'expoWarehouseLink',
+        name: 'product-expoWarehouseLink',
+        component: () => import('./views/product/ExpoWarehouseLink.vue'),
+      },
+      {
+        path: 'ourAdvantages',
+        name: 'product-ourAdvantages',
+        component: () => import('./views/product/OurAdvantages.vue'),
+      },
     ],
   },
   // 项目案例
@@ -70,13 +80,13 @@ let kejianrouter = new Router({
   },
 
   {
-    path: '/casedetails/:id',
+    path: '/casedetails/:projectId/:id', 
     name: 'casedetails',
     component: () => import('./views/CaseDetails.vue')
   },
   // 项目详细页
   {
-    path: '/projectdetail/:id',
+    path: '/projectdetail/:projectTypeId/:id',
     name: 'projectdetail',
     component: () => import('./views/ProjectDetail')
   },
@@ -92,107 +102,50 @@ let kejianrouter = new Router({
     name: 'goin',
     component: () => import('./views/GoIn.vue'),
     redirect: '/goin/intro', // 设置默认跳转
-    children: [{
-      path: '/goin/intro',
-      name: 'intro',
-      component: () => import('./views/goin/Intro.vue')
-    },
-    {
-      path: '/goin/history',
-      name: 'history',
-      component: () => import('./views/goin/History.vue')
-    },
-    {
-      path: '/goin/culture',
-      name: 'culture',
-      component: () => import('./views/goin/Culture.vue')
-    },
-    {
-      path: '/goin/honor',
-      name: 'honor',
-      component: () => import('./views/goin/Honor.vue')
-    },
-    {
-      path: '/goin/cooperate',
-      name: 'cooperate',
-      component: () => import('./views/goin/Cooperate.vue')
-    },
-    {
-      path: '/goin/domestic',
-      name: 'domestic',
-      component: () => import('./views/goin/Domestic.vue')
-    },
-    {
-      path: '/goin/overseas',
-      name: 'overseas',
-      component: () => import('./views/goin/Overseas.vue')
-    }
+    children: [
+      {
+        path: '/goin/intro',
+        name: 'intro',
+        component: () => import('./views/goin/Intro.vue')
+      },
+      {
+        path: '/goin/brand',
+        name: 'Brand',
+        component: () => import('./views/goin/Brand.vue')
+      },
+      {
+        path: '/goin/history',
+        name: 'history',
+        component: () => import('./views/goin/History.vue')
+      },
+      {
+        path: '/goin/culture',
+        name: 'culture',
+        component: () => import('./views/goin/Culture.vue')
+      },
+      {
+        path: '/goin/honor',
+        name: 'honor',
+        component: () => import('./views/goin/Honor.vue')
+      },
+      {
+        path: '/goin/cooperate',
+        name: 'cooperate',
+        component: () => import('./views/goin/Cooperate.vue')
+      },
+      // {
+      //   path: '/goin/domestic',
+      //   name: 'domestic',
+      //   component: () => import('./views/goin/Domestic.vue')
+      // },
+      {
+        path: '/goin/overseas',
+        name: 'overseas',
+        component: () => import('./views/goin/Overseas.vue')
+      }
     ]
   },
-  {
-    path: '/download',
-    name: 'download',
-    component: () => import('./views/Download.vue')
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: () => import('./views/Login.vue')
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    meta: {
-      requireAuth: true
-    },
-    component: () => import('./views/Admin.vue'),
-    children: [{
-      path: '/admin/user',
-      name: 'user',
-      component: () => import('./views/Admin/User.vue')
-    },
-    {
-      path: '/admin/news',
-      name: 'new',
-      component: () => import('./views/Admin/News.vue')
-    },
-    {
-      path: '/admin/cases',
-      name: 'cases',
-      component: () => import('./views/Admin/Cases.vue')
-    },
-    {
-      path: '/admin/team',
-      name: 'team',
-      component: () => import('./views/Admin/Team.vue')
-    },
-    {
-      path: '/admin/course',
-      name: 'course',
-      component: () => import('./views/Admin/Course.vue')
-    },
-    {
-      path: '/admin/enterprise',
-      name: 'enterprise',
-      component: () => import('./views/Admin/Enterprise.vue')
-    },
-    {
-      path: '/admin/honor',
-      name: 'honor',
-      component: () => import('./views/Admin/Honor.vue')
-    },
-    {
-      path: '/admin/dictionary',
-      name: 'dictionary',
-      component: () => import('./views/Admin/Dictionary.vue')
-    },
-    {
-      path: '/admin/page',
-      name: 'page',
-      component: () => import('./views/Admin/Page.vue')
-    }
-    ]
-  }
+  
   ],
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
@@ -202,28 +155,6 @@ let kejianrouter = new Router({
     }
   }
 })
-
-// 判断是否需要登录权限 以及是否登录
-// kejianrouter.beforeEach((to, from, next) => {
-//   // 判断是否需要登录权限
-//   // if (to.matched.some(res => res.meta.requireAuth)) {
-//   //   // 判断是否登录
-//   //   if (sessionStorage.getItem('token')) {
-//   //     next()
-//   //   } else {
-//   //     // 没登录则跳转到登录界面
-//   //     next({
-//   //       path: '/login',
-//   //       query: {
-//   //         redirect: to.fullPath
-//   //       }
-//   //     })
-//   //   }
-//   // } else {
-//   //   next()
-//   // }
-//   next()
-// })
 
 // 重写 push 方法
 const originalPush = Router.prototype.push;
@@ -235,4 +166,4 @@ Router.prototype.push = function push(location) {
   });
 };
 
-export default kejianrouter
+export default router

@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
 // 查询产品与服务
-export function getServiceDetail(routeName) {
+export function getServiceDetail(typeId) {
   return request({
-    url: '/internal/service/detail?route=' + routeName,
+    url: '/sa/service/detail?typeId=' + typeId,
     method: 'get'
   })
 }
+

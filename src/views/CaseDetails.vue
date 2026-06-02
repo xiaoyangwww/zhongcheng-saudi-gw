@@ -6,7 +6,11 @@
     />
     <div class="case-product">
       <!-- 导航栏 -->
-      <Section href="/case" :title="$t('projectCases')" :activeTab="projectTitle"></Section>
+      <Section
+        href="/case"
+        :title="$t('projectCases')"
+        :activeTab="projectTitle"
+      ></Section>
       <div class="case-product-content">
         <!-- 渲染从后台获取的项目描述和内容，包含HTML标签 -->
         <div v-html="projectContent"></div>
@@ -20,7 +24,10 @@
               :key="index"
               class="case-item"
             >
-              <a class="case-card" :href="'/projectdetail/' + caseItem.id">
+              <a
+                class="case-card"
+                :href="'/projectdetail/' + caseItem.projectTypeId +'/' + caseItem.id"
+              >
                 <img :src="caseItem.imageUrl" class="case-img" />
                 <div class="case-overlay">
                   <h3 class="case-title">{{ caseItem.title }}</h3>
@@ -49,18 +56,20 @@ export default {
       projectTitle: "", // 项目标题
       projectContent: "", // 项目内容，包含HTML标签
       projectCases: [], // 项目案例
+      pid: "",
+      projectId: "",
     };
   },
   created() {
+    this.projectId = this.$route.params.projectId;
     this.pid = this.$route.params.id;
-    console.log(this.pid);
   },
   mounted() {
     this.loadData();
   },
   methods: {
     loadData() {
-      getProjectTypeById(this.pid).then((res) => {
+      getProjectTypeById(this.projectId, this.pid).then((res) => {
         // 转换 HTML 实体
         res.data.html = he.decode(res.data.html);
         console.log(res.data);
@@ -70,8 +79,12 @@ export default {
         res.data.projectDetailPageList.forEach((item) => {
           var projectCase = {
             id: item.id,
+            projectTypeId:item.projectTypeId,
             title: item.title,
-            imageUrl: item.imageUrl != null &&  item.imageUrl != '' ? item.imageUrl.split(",")[0] : 'https://q6.itc.cn/images01/20240718/0c3c3aadfb284e73b36ed3258b651ae6.jpeg',
+            imageUrl:
+              item.imageUrl != null && item.imageUrl != ""
+                ? item.imageUrl.split(",")[0]
+                : "https://q6.itc.cn/images01/20240718/0c3c3aadfb284e73b36ed3258b651ae6.jpeg",
           };
           projectCases.push(projectCase);
         });
@@ -89,7 +102,6 @@ export default {
   background: url(https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/bg_all.jpg)
     no-repeat center;
   background-size: cover;
-  font-family: "Arial", sans-serif;
 
   &-product {
     width: 1425px;

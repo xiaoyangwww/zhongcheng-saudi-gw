@@ -1,72 +1,126 @@
 <template>
-  <div class="supplyChain">
-    <el-row :gutter="20" class="transport-section">
-      <el-col
-        :span="24"
-        v-for="(item, index) in transportData"
-        :key="index"
-        class="transport-item"
-      >
-        <div class="content" :class="{ reverse: index % 2 === 0 }">
-          <div class="text-content">
-            <div class="text">
-              <h3>{{ item.title }}</h3>
-              <p>{{ item.description }}</p>
+  <div class="SupplyChain">
+    <div class="container">
+      <!-- 左侧一级标题列表 -->
+      <div class="left-container">
+        <div class="product-list">
+          <ul>
+            <li
+              v-for="(service, index) in logisticsServices"
+              :key="index"
+              @click="showProductsByType(service)"
+              :class="{ 'active-item': currentService === service }"
+            >
+              {{ service.title }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- 右侧内容展示区域 -->
+      <div class="right-container">
+        <!-- 右上方展示服务类型的内容 -->
+        <div class="product-header">
+          <div class="product-list-header">
+            <p>{{ currentService ? currentService.content : "" }}</p>
+          </div>
+        </div>
+        <!-- 右下方展示二级标题下的内容和图片 -->
+        <div class="product-grid">
+          <div
+            class="product-item"
+            v-for="(secondaryService, index) in currentSecondaryServices"
+            :key="index"
+            @mouseover="hover(index)"
+            @mouseleave="leave(index)"
+          >
+            <div class="product-desc">
+              <strong>{{ secondaryService.title }}：</strong>
+              {{ secondaryService.content }}
+            </div>
+            <!-- 图片展示区域 -->
+            <div class="image-container" v-if="secondaryService.image">
+              <el-image
+                v-for="(img, imgIndex) in getImageArray(secondaryService.image)"
+                :key="imgIndex"
+                :src="img"
+                class="product-img"
+                fit="cover"
+                lazy
+              />
             </div>
           </div>
-          <img :src="item.imageUrl" alt="运输方式" class="transport-image" />
         </div>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
   </div>
 </template>
-
-<script>
+  
+  <script>
 import { getServiceDetail } from "@/api/serviceDetail.js";
+import { getService } from "@/api/service.js";
+import { handleTree } from "@/utils/ruoyi.js";
+
 export default {
   data() {
     return {
-      transportData: [
-        {
-          title: "工程物资采购、加工和供应",
-          description:
-            "中成深圳凭借丰富的供应商资源渠道，精心构建的供应链网络，精准控制成本，实现高效的资源配置。在物资加工环节，我们严格筛选加工厂，确保所选厂家具备完善的资质、专用的加工设备和技术人员以及充足的场地资源。同时，我们不断优化供应链管理和物资加工流程，致力于为客户提供更优质的产品和更高效的服务。",
-          imageUrl: require("../../assets/img/工程.jpg"), // 替换为实际图片路径
-        },
-        {
-          title: "全程物流服务",
-          description:
-            "中成深圳积极构建自有的智慧物流系统，对物流服务全流程实施严格的监管措施，旨在为客户提供全方位的货物动态跟踪服务。同时，我们与目的港的优质供应商建立了长期稳固的战略合作关系，确保能够实时在目标港口提供高效、精准的物流配送服务，满足客户的多样化需求。",
-          imageUrl: require("../../assets/img/物流.jpg"), // 替换为实际图片路径
-        },
-        {
-          title: "港口地面服务",
-          description:
-            "中成深圳竭诚为客户提供一站式的港口地面服务，涵盖接货、分拨、存储、包装、加固以及监装监卸等全方位港前服务。凭借丰富的工程项目物资出运经验，我们针对各类运输需求，精心制定相应地面服务标准，确保货物包装与装卸流程均严格满足运输要求，为客户提供安全、高效、专业的港口服务体验。",
-          imageUrl: require("../../assets/img/港口地面.jpg"), // 替换为实际图片路径
-        },
-      ],
+      logisticsServices: [],
+      hoverIndex: null,
+      currentService: null,
+      currentSecondaryServices: [],
     };
   },
   methods: {
-    init(routeName) {
-      getServiceDetail(routeName).then((res) => {
-        this.transportData = res.data;
+    getImageArray(imageStr) {
+      if (!imageStr) return [];
+      return imageStr.split(",").filter((img) => img.trim() !== "");
+    },
+    hover(index) {
+      this.hoverIndex = index;
+    },
+    leave() {
+      this.hoverIndex = null;
+    },
+    showProductsByType(service) {
+      this.currentService = service;
+      this.currentSecondaryServices = service.children;
+    },
+    init() {
+      const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
+      console.log(routeName);
+      var typeId;
+      getService().then((res) => {
         console.log(res.data);
+        res.data.forEach((item) => {
+          if (item.link && item.link.includes(routeName)) {
+            typeId = item.id;
+          }
+        });
+        getServiceDetail(typeId).then((res) => {
+          this.logisticsServices = handleTree(res.data, "id", "parentId");
+          // 默认展示第一个服务
+          if (this.logisticsServices.length > 0) {
+            this.currentService = this.logisticsServices[0];
+            this.currentSecondaryServices = this.logisticsServices[0].children;
+          }
+        });
       });
     },
   },
   mounted() {
-    const routeName = window.location.pathname.split("/").pop(); // 提取路由名称
-    this.init(routeName);
+    this.init();
   },
 };
 </script>
-
+  
 <style lang="scss" scoped>
-.transport-section {
-  opacity: 0; // 初始透明
-  animation: fadeInUp 1s ease forwards; // 动画定义
+.SupplyChain {
+  display: flex;
+  justify-content: center;
+  opacity: 0; /* 初始透明 */
+  margin-top: 50px;
+  width: 100%;
+  padding-bottom: 20px;
+  animation: fadeInUp 1s ease forwards; /* 动画定义 */
 
   @keyframes fadeInUp {
     to {
@@ -76,52 +130,119 @@ export default {
   }
 }
 
-.transport-item {
-  margin: 50px 0;
-}
-
-.content {
+.container {
   display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-
-  &.reverse {
-    flex-direction: row-reverse; // 奇数时反转图片和文字位置
-  }
+  width: 100%;
+  max-width: 1200px; /* 限制容器最大宽度 */
 }
 
-.transport-image {
-  width: 60%;
-  max-width: 600px;
-  height: 400px;
-  margin: 0 20px;
-  border-radius: 10px;
-  transition: transform 0.3s ease; // 图片放大效果
+.left-container {
+  width: 20%;
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  // animation: slideInLeft 1s ease forwards;
 
-  &:hover {
-    transform: scale(1.05); // 鼠标悬停图片放大
-  }
-}
-
-.text-content {
-  width: 40%;
-
-  .text {
-    max-width: 500px;
-    padding-left: 30px;
-    h3 {
-      font-size: 22px;
-      font-weight: bold;
-      color: #024190;
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-100%);
     }
-
-    p {
-      margin-top: 20px;
-      // text-indent: 2em; // 首行缩进两格
-      line-height: 2; // 设置行高为 1.5 倍字体大小
-      font-size: 18px;
-      color: #666;
+    to {
+      transform: translateX(0);
     }
   }
+
+  .product-list {
+    ul {
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        font-size: 18px;
+        color: #16a085;
+        padding: 10px 10px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        text-align: left; /* 文字居中 */
+
+        &:hover,
+        &.active-item {
+          color: #12876b;
+          background-color: #e0e0e0; /* 选中时改变背景色 */
+          font-size: 18px; /* 选中时字体变大 */
+          font-weight: bold;
+        }
+      }
+    }
+  }
 }
-</style>
+
+.right-container {
+  width: 80%;
+  padding: 20px;
+  // animation: slideInRight 1s ease forwards;
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .product-header {
+    margin-bottom: 30px;
+
+    .product-list-header {
+      p {
+        font-size: 24px;
+        color: #16a085;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .product-grid {
+    margin: -10px; /* 负外边距用于抵消产品项的外边距 */
+
+    .product-item {
+      position: relative;
+      // overflow: hidden;
+      margin: 10px;
+      // height: 350px; /* 减小图片高度 */
+
+      .product-desc {
+        color: black;
+        margin-bottom: 10px;
+        font-size: 20px;
+        line-height: 1.5;
+      }
+
+      .product-img {
+        width: 500px;
+        height: 400px;
+        object-fit: cover;
+        transition: transform 0.3s ease; /* 平滑过渡 */
+      }
+    }
+  }
+}
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* 图片间距 */
+  margin-top: 10px;
+  width: 1100px;
+
+  .product-img {
+    object-fit: cover;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.01);
+    }
+  }
+}
+</style>    

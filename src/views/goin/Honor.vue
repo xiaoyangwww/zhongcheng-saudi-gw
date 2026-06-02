@@ -117,7 +117,7 @@ export default {
   p {
     text-align: left !important;
     font-size: 25px;
-    color: #024190;
+    color: #16A085;
     font-weight: bold;
     margin-left: 120px;
   }

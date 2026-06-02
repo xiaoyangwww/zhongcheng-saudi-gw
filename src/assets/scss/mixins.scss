@@ -1,0 +1,13 @@
+// 定义全局函数（放在 mixin 外部）
+@function px2rem($px, $base: 180) {
+    @if global-variable-exists(use-rem) and $use-rem {
+      @return ($px / $base) * 1rem; // 启用 rem 转换
+    } @else {
+      @return $px * 1px; // 禁用 rem 转换
+    }
+  }
+  
+  // 定义 mixin 控制全局变量
+  @mixin use-rem($enable: true) {
+    $use-rem: $enable !global; // 设置全局变量
+  }

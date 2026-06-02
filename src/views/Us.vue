@@ -2,7 +2,7 @@
   <div class="us">
     <banner
       img="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/zc/cd730bbcd84f4f7fa4d6f1bd20bae0a8.jfif"
-      :title="$t('contactUs')"
+      :title="$t('contactUs2')"
     />
     <div class="us-section" v-loading="loading">
       <div class="us-section-content">
@@ -70,7 +70,7 @@
                 <el-button
                   type="primary"
                   @click="submitForm"
-                  style="background-color: #024190; border: none"
+                  style="background-color: #31814b; border: none"
                   ><span>{{ $t("send") }}</span></el-button
                 >
               </el-form-item>
@@ -111,13 +111,9 @@
     </div>
   </div>
 </template>
-  <script>
+<script>
 import Banner from "../components/Banner";
-//引入缺德地图
-import AMapLoader from "@amap/amap-jsapi-loader";
-window._AMapSecurityConfig = {
-  securityJsCode: "ddc0d41368b22a4ec0f846887ba2d8a2", //你的安全密钥
-};
+import { Loader } from "@googlemaps/js-api-loader"; // 引入谷歌地图加载器
 import { getMsg } from "@/api/company.js";
 import { addContactPage } from "@/api/contact.js";
 
@@ -192,7 +188,7 @@ export default {
             this.$message.success(this.$t("formSubmitSuccess"));
             this.form = {
               name: "",
-              phone:"",
+              phone: "",
               email: "",
               theme: "",
               leaveWord: "",
@@ -204,58 +200,46 @@ export default {
         }
       });
     },
-    initMap() {
-      // 获取当前语言，默认值为 'zh-CN'
-      const currentLang = localStorage.getItem("locale") || "zh-CN";
+    // 初始化谷歌地图
+    async initMap() {
+      const loader = new Loader({
+        apiKey: "AIzaSyApJhdfSVI6BycgM8C5BY_dj9oaLquIC6Y", // 替换为你的谷歌地图 API 密钥
+        version: "weekly",
+        language: localStorage.getItem("locale") || "zh-CN", // 根据语言设置地图语言
+      });
 
-      // 使用 AMapLoader 加载高德地图
-      AMapLoader.load({
-        key: "f7a1a6c0ce21a1c6f9f21d49b0803808", // 申请好的 Web 端开发者 Key
-        version: "2.0", // 指定要加载的 JSAPI 的版本
-        plugins: [], // 需要使用的插件列表
-        language: currentLang === "en-US" ? "en" : "zh_cn", // 根据语言参数加载地图
-      })
-        .then((AMap) => {
-          // 初始化地图
-          const centerPoint = [
-            Number(this.companyData.longitude),
-            Number(this.companyData.latitude),
-          ]; // 地图中心点坐标
-          this.map = new AMap.Map("container", {
-            viewMode: "3D", // 是否为 3D 地图模式
-            zoom: 15, // 初始化地图级别（放大地图）
-            center: centerPoint, // 初始化地图中心点位置
-            language: currentLang === "en-US" ? "en" : "zh_cn", // 设置地图语言，支持 'zh_cn'（中文）和 'en'（英文）
-          });
+      try {
+        await loader.load();
 
-          // 创建图标标识
-          const marker = new AMap.Marker({
-            position: centerPoint, // 标识的坐标
-            title: currentLang === "en" ? "Current Location" : "当前位置", // 根据语言显示不同的提示信息
-            icon: new AMap.Icon({
-              size: new AMap.Size(25, 34), // 图标尺寸
-              image: require("../assets/img/mark_r.png"), // 图标的图片地址
-              imageSize: new AMap.Size(25, 34), // 图标大小
-            }),
-          });
+        // 初始化地图
+        const centerPoint = {
+          lat: Number(this.companyData.latitude),
+          lng: Number(this.companyData.longitude),
+        };
 
-          // 添加标识到地图
-          this.map.add(marker);
-        })
-        .catch((e) => {
-          console.error("地图加载失败：", e);
+        this.map = new google.maps.Map(document.getElementById("container"), {
+          center: centerPoint,
+          zoom: 15, // 设置缩放级别
         });
+
+        // 添加标记
+        new google.maps.Marker({
+          position: centerPoint,
+          map: this.map,
+          title: this.$t("currentLocation"),
+        });
+      } catch (error) {
+        console.error("谷歌地图加载失败：", error);
+      }
     },
     init() {
       getMsg().then((res) => {
         this.companyData = res.data;
         //DOM初始化完成进行地图初始化
         this.initMap();
-        console.log(res.data);
       });
     },
   },
-
   mounted() {
     this.init();
   },
@@ -341,7 +325,7 @@ export default {
         i {
           font-size: 42px;
           margin-right: 10px;
-          color: #024190;
+          color: #31814b;
         }
 
         h4 {

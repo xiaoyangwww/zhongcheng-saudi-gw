@@ -292,7 +292,7 @@ export default {
 
 .map-top {
   font-size: 50px;
-  color: #024190;
+  color: #16A085;
   font-weight: bold;
 }
 </style>

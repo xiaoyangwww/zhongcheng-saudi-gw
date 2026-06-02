@@ -1,17 +1,11 @@
 <template>
   <div class="culture">
-    <div class="top">
-      <h3>{{ $t('corporateCulture') }}</h3>
-      <div class="underline"></div>
-    </div>
-    <!-- <section class="enterprise-culture">
-      <div class="culture-content">
-        <div class="culture-item" v-for="(item, index) in cultureData" :key="index">
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.content }}</p>
-        </div>
+    <div class="culture-title">
+      <div class="top">
+        <h3>{{ $t("corporateCulture") }}</h3>
+        <div class="underline"></div>
       </div>
-    </section> -->
+    </div>
 
     <div id="c2-about-us-valuenotion">
       <div class="card-container">
@@ -32,6 +26,7 @@
             /></span>
           </div>
           <img
+            class="card-image"
             :src="hoveredIndex === index ? card.hoverImage : card.defaultImage"
           />
         </div>
@@ -41,88 +36,11 @@
 </template>
 
 <script>
-import {getCulture} from '@/api/culture.js'
+import { getCulture } from "@/api/culture.js";
 export default {
   data() {
     return {
-      cards: [
-        {
-          title: "使命",
-          embedImg:
-            "http://www.chinacreator.com/hnkc/img/pages/aboutUs/c2-about-us-card-mission.svg",
-          texts: ["聚焦客户需求 服务成就价值"],
-          defaultImage:
-            "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag1.png",
-          hoverImage:
-            "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag1-hover.png",
-        },
-        {
-          title: "愿景",
-          embedImg:
-            "http://www.chinacreator.com/hnkc/img/pages/aboutUs/c2-about-us-card-vision.svg",
-          texts: ["领航全球工程项目综合服务商"],
-          defaultImage:
-            "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag2.png",
-          hoverImage:
-            "	https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag2-hover.png",
-        },
-        {
-          title: "核心价值观",
-          embedImg:
-            "http://www.chinacreator.com/hnkc/img/pages/aboutUs/c2-about-us-card-value.svg",
-          texts: [
-            "以客户为中心，务实、精进、",
-            "创新；",
-            "以奋斗者为本，诚信、担当、",
-            "共赢。"
-          ],
-          defaultImage:
-            "	https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag3.png",
-          hoverImage:
-            "	https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag3-hover.png",
-        },
-
-        {
-          title: "经营理念",
-          embedImg:
-            "http://www.chinacreator.com/hnkc/img/pages/aboutUs/c2-about-us-card-mission.svg",
-          texts: ["服务为本创效益，", "奋斗为本求发展，", "诚信为本现共赢。"],
-          defaultImage:
-            "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag1.png",
-          hoverImage:
-            "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag1-hover.png",
-        },
-        {
-          title: "服务理念",
-          embedImg:
-            "http://www.chinacreator.com/hnkc/img/pages/aboutUs/c2-about-us-card-vision.svg",
-          texts: ["至诚至信的完美服务", "超出预期的客户满意"],
-          defaultImage:
-            "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag2.png",
-          hoverImage:
-            "	https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag2-hover.png",
-        },
-        {
-          title: "质量理念",
-          embedImg:
-            "http://www.chinacreator.com/hnkc/img/pages/aboutUs/c2-about-us-card-value.svg",
-          texts: ["规范管理、高效服务、","安全及时、打造品牌。"],
-          defaultImage:
-            "	https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag3.png",
-          hoverImage:
-            "	https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag3-hover.png",
-        },
-        {
-          title: "市场理念",
-          embedImg:
-            "http://www.chinacreator.com/hnkc/img/pages/aboutUs/c2-about-us-card-mission.svg",
-          texts: ["今天的质量是明天的市场，", "企业的信誉是无限的市场"],
-          defaultImage:
-            "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag1.png",
-          hoverImage:
-            "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img2/card-tag1-hover.png",
-        },
-      ],
+      cards: [],
       hoveredIndex: null,
     };
   },
@@ -133,7 +51,7 @@ export default {
     init() {
       getCulture().then((res) => {
         this.cards = res.data;
-        console.log(res.data);
+        // console.log(res.data);
       });
     },
     hoverCard(index) {
@@ -142,7 +60,7 @@ export default {
     leaveCard() {
       this.hoveredIndex = null;
     },
-  }
+  },
 };
 </script>
 
@@ -152,45 +70,9 @@ export default {
   animation: moveUp 0.8s ease-out forwards;
 }
 
-
-
-// .enterprise-culture {
-//   padding: 50px 20px;
-//   text-align: center;
-//   background: url('../../assets/img/home_3.jpg') no-repeat center;
-
-//   .culture-content {
-//     display: flex;
-//     flex-wrap: wrap;
-//     justify-content: center;
-//     gap: 20px;
-
-//     .culture-item {
-//       width: 300px;
-//       padding: 20px;
-//       background: rgb(255, 255, 255);
-//       color: #000000;
-//       border-radius: 10px;
-//       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-//       transition: transform 0.3s ease;
-
-//       &:hover {
-//         transform: translateY(-10px);
-//       }
-
-//       h3 {
-//         font-size: 20px;
-//         margin-bottom: 10px;
-//         color: #024190;
-//       }
-
-//       p {
-//         font-size: 16px;
-//         line-height: 1.8;
-//       }
-//     }
-//   }
-// }
+.culture-title {
+  padding: 0 100px;
+}
 
 #c2-about-us-valuenotion {
   padding-left: 5%;
@@ -246,20 +128,23 @@ export default {
 }
 
 .content {
-  font-size: 24px;
+  position: relative; // 确保文字层级高于图片
+  z-index: 1;
+  font-size: 22px;
+  max-width: 70%; // 限制文字宽度，避免被图片挤压
 }
 
 .card-item:hover {
   transform: scale(1.05);
   /* 鼠标悬停时放大效果 */
-  background-color: #024190;
+  background-color: #16a085;
   /* 背景变深色 */
   color: #fff;
   /* 字体颜色变白 */
 }
 
 .card-item > i {
-  color: #024190;
+  color: #16a085;
   transition: color 0.3s ease;
   /* SVG颜色过渡 */
 }
@@ -277,6 +162,23 @@ export default {
   bottom: -40px;
   transition: opacity 0.3s ease;
   /* 图片透明度过渡 */
+  opacity: 1; // 可选：降低透明度避免喧宾夺主
+  z-index: 0; // 确保图片在文字下方
+}
+
+// RTL 特定样式
+[dir="rtl"] {
+  .card-item > img {
+    position: absolute;
+    width: 254px;
+    height: 254px;
+    right: 40%;
+    bottom: -40px;
+    transition: opacity 0.3s ease;
+    /* 图片透明度过渡 */
+    opacity: 1; // 可选：降低透明度避免喧宾夺主
+    z-index: 0; // 确保图片在文字下方
+  }
 }
 
 .card-item:hover > img:last-of-type {

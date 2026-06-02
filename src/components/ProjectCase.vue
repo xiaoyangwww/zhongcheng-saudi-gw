@@ -1,8 +1,9 @@
 <template>
   <div class="projectCase" ref="project">
     <div class="warp">
-      <div class="title">
-        <div class="quien">{{ $t("projectCases") }}</div>
+      <!-- 标题 -->
+      <div class="saudi_case_tt">
+        <div class="saudien">{{ $t("projectCases") }}</div>
       </div>
       <!-- tab -->
       <div class="custom-tabs">
@@ -38,7 +39,7 @@
                   <!-- 使用 router-link 来创建导航链接 -->
                   <router-link
                     class="text-decoration"
-                    :to="{ name: 'casedetails', params: { id: item.id } }"
+                    :to="`/casedetails/${tab.id}/${item.id}`"
                   >
                     <div class="case-item-hover">
                       <!-- 显示项目的标题，若标题为空，则显示 '暂无标题' -->
@@ -65,83 +66,7 @@ export default {
     return {
       activeTab: "物流业务", // 默认选中的标签，初始为“物流业务”
       selectedIndex: null, // 记录当前选中的项目索引
-      tabs:[],
-      // tabs: [
-      //   {
-      //     id: 5,
-      //     name: "物流业务", // 标签名称，中文显示
-      //     orderNum: 0,
-      //     projectTypes: [
-      //       {
-      //         id: 5,
-      //         title: "基础设施物流",
-      //         imageUrl:
-      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%9F%BA%E5%BB%BA%E7%89%A9%E6%B5%81.jpg",
-      //       },
-      //       {
-      //         id: 6,
-      //         title: "大件物流",
-      //         imageUrl:
-      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%A4%A7%E4%BB%B6%E7%89%A9%E6%B5%81.jpg",
-      //       },
-      //       {
-      //         id: 7,
-      //         title: "工厂物流",
-      //         imageUrl:
-      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%B7%A5%E5%8E%82%E7%89%A9%E6%B5%81.jpg",
-      //       },
-      //       {
-      //         id: 8,
-      //         title: "农贸物流",
-      //         imageUrl:
-      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%86%9C%E8%B4%B8%E7%89%A9%E6%B5%81.jpg",
-      //       },
-      //       {
-      //         id: 9,
-      //         title: "对外援助物流",
-      //         imageUrl:
-      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E6%8F%B4%E5%A4%96%E7%89%A9%E6%B5%81.jpg",
-      //       },
-      //       {
-      //         id: 10,
-      //         title: "设备调度",
-      //         imageUrl:
-      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E8%AE%BE%E5%A4%87%E8%B0%83%E9%81%A3.jpg",
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     id: 6,
-      //     name: "物资业务", // 标签名称，中文显示
-      //     orderNum: 1,
-      //     projectTypes: [
-      //       {
-      //         id: 11,
-      //         title: "城市综合体项目",
-      //         imageUrl:
-      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%9F%8E%E5%B8%82%E7%BB%BC%E5%90%88%E4%BD%93%E9%A1%B9%E7%9B%AE.png",
-      //       },
-      //       {
-      //         id: 12,
-      //         title: "KOT效果图",
-      //         imageUrl:
-      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/KOT%20%E6%95%88%E6%9E%9C%E5%9B%BE.jpg",
-      //       },
-      //       {
-      //         id: 13,
-      //         title: "公路桥梁",
-      //         imageUrl:
-      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E5%85%AC%E8%B7%AF%E6%A1%A5%E6%A2%81.jpg",
-      //       },
-      //       {
-      //         id: 14,
-      //         title: "铁路隧道",
-      //         imageUrl:
-      //           "https://zcts-web.oss-cn-shenzhen.aliyuncs.com/img/%E9%93%81%E8%B7%AF%E9%9A%A7%E9%81%93.png",
-      //       },
-      //     ],
-      //   },
-      // ],
+      tabs: [],
     };
   },
   props: {
@@ -181,94 +106,98 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/scss/mixins";
+
+/* 启用 rem 转换 */
+@include use-rem(true);
+
 .projectCase {
-  max-height: 900px;
+  max-height: px2rem(900);
 }
 
 .business-framework {
   background-size: cover;
   background-position: center;
-  padding: 60px 20px;
-  margin-top: 60px;
-}
-.warp {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  padding: px2rem(60) px2rem(20);
+  margin-top: px2rem(60);
 }
 
-.title {
+.warp {
+  max-width: px2rem(1200);
+  margin: 0 auto;
+  padding: px2rem(20);
+}
+
+// 标题
+.saudi_case_tt {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: px2rem(40);
+  .saudien {
+    font-size: px2rem(40);
+    font-weight: bold;
+    color: #16a085;
+  }
 }
 
 .custom-tabs {
-  font-family: Arial, sans-serif;
   width: 100%;
-  max-width: 1035px;
+  max-width: px2rem(1200);
   margin: auto;
 }
 
 .tabs-header {
   display: flex;
   justify-content: center;
-  //   border-bottom: 2px solid #e0e0e0;
-  margin-bottom: 10px;
+  margin-bottom: px2rem(10);
 }
+
 .tab-content {
-  width: 1035px;
-  height: 500px;
+  width: px2rem(1200);
+  height: px2rem(500);
 }
 
 .tab-item {
-  padding: 10px 20px;
+  padding: px2rem(10) px2rem(20);
   cursor: pointer;
-  font-size: 20px;
+  font-size: px2rem(20);
   transition: color 0.3s, border-color 0.3s;
 }
 
 .tab-item.active {
-  color: #024190;
-  border-bottom: 3px solid #024190;
+  color: #16a085;
+  border-bottom: px2rem(3) solid #16a085;
   font-weight: bold;
-}
-
-.tab-item:hover {
-  color: #024190;
 }
 
 .line-separator {
   width: 100%;
-  height: 2px;
+  height: px2rem(2);
   background: #e0e0e0;
-  margin: 0 auto 10px auto;
+  margin: 0 auto px2rem(10) auto;
 }
 
-//经典案例
+// 经典案例
 .case-item {
-  width: 1035px;
-  height: 500px;
+  width: px2rem(1200);
+  height: px2rem(600);
   overflow: hidden;
-  margin: 0 auto;
-  margin-top: 30px;
+  margin: 0 px2rem(35);
+  margin-top: px2rem(30);
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
 
   li {
-    width: 330px;
-    height: 250px;
-    list-style: none;
+    width: px2rem(360);
+    height: px2rem(250);
     position: relative;
-    margin: 5px;
+    margin: px2rem(5);
     overflow: hidden;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-origin: content-box;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-    // 默认黑色半透明遮罩层
     &:before {
       content: "";
       position: absolute;
@@ -276,33 +205,27 @@ export default {
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.5); // 黑色半透明
+      background-color: rgba(0, 0, 0, 0.5);
       transition: opacity 0.3s ease;
       z-index: 1;
     }
 
-    // 鼠标悬停或选中时的效果
     &:hover,
     &.selected {
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transform: translateY(px2rem(-3));
+      box-shadow: 0 px2rem(5) px2rem(15) rgba(0, 0, 0, 0.2);
 
       &:before {
-        opacity: 0; // 隐藏遮罩层
+        opacity: 0;
       }
 
       .case-item-hover {
-        transform: translateY(-10px); // 向上移动
+        transform: translateY(px2rem(-10));
         opacity: 1;
         transition: all 0.4s ease-in-out;
       }
-
-      .more {
-        opacity: 1;
-      }
     }
 
-    // 文字容器，水平垂直居中
     .case-item-hover {
       width: 100%;
       height: 100%;
@@ -317,20 +240,29 @@ export default {
       text-align: center;
       transition: opacity 0.3s ease;
       z-index: 2;
+      justify-content: flex-start;
+      padding-top: 30%;
 
       .hover-title {
-        height: 50px;
         color: #fff;
-        font-size: 24px;
+        font-size: px2rem(24);
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+        padding: px2rem(15) px2rem(10);
+        box-sizing: border-box;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
-        font-weight: bold;
+        margin-top: px2rem(-2 * 24); // 基于字体大小计算
+        line-height: 1.5em;
       }
 
       .bottom {
-        border-bottom: 2px solid #fff;
-        width: 60px;
+        border-bottom: px2rem(2) solid #fff;
+        width: px2rem(60);
         margin: 0 auto;
       }
     }

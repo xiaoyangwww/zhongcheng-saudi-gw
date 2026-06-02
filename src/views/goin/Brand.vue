@@ -3,27 +3,42 @@
     <div class="content-summary">
       <div class="summary-left">
         <div class="top">
-          <h3 class="title-left">{{ $t('companyIntro') }}</h3>
+          <h3 class="title-left">{{ $t("brandStory") }}</h3>
           <div class="underline title-left"></div>
         </div>
-        <div >
-          <p class="content" v-html="companyProfile.content"></p>
-        </div>
+        <p class="content" v-html="companyProfile.introduction">
+        </p>
+        <section class="statistics">
+          <!-- <h2>聚焦客户需求 服务成就价值</h2> -->
+          <div class="stats-container">
+            <div
+              class="stat-item"
+              v-for="(item, index) in companyProfile.features"
+              :key="index"
+            >
+              <span class="stat-number"> {{ item.currentCount }}</span
+              ><span class="unit">+</span>
+              <p>{{ item.title }}</p>
+            </div>
+          </div>
+        </section>
       </div>
       <div class="summary-right">
-        <img :src="companyProfile.url" alt />
+        <img :src="companyProfile.imageUrl" alt />
       </div>
     </div>
+    <!-- <el-divider class="el-divider-active">
+        <i class="el-icon-arrow-down el-icon-arrow-down-active"></i>
+      </el-divider> -->
   </div>
 </template>
-
-<script>
-import { getAbout } from "@/api/about.js";
-import he from "he";
+  
+  <script>
+import { getCompanyProfile } from "@/api/company.js";
 export default {
   data() {
     return {
-      companyProfile: {}
+      companyProfile: {},
     };
   },
   mounted() {
@@ -31,23 +46,46 @@ export default {
   },
   methods: {
     init() {
-      getAbout().then((res) => {
+      getCompanyProfile().then((res) => {
+        res.data.features.forEach((i) => {
+          i.currentCount = 0;
+        });
         this.companyProfile = res.data;
-        console.log(this.about);
-        // 转换 HTML 实体
-        this.companyProfile.content = he.decode(res.data.content);
+        console.log(this.companyProfile);
+        this.comput();
       });
+    },
+    // 计算递增的数字
+    comput() {
+      // 遍历每个统计项，初始化 currentCount 并进行递增
+      this.companyProfile.features.forEach((item) => {
+        this.$set(item, "currentCount", 0); // 初始化 currentCount 为 0
+        const target = item.count; // 获取目标值
+        const increment = Math.ceil(target / 50); // 控制递增速度
 
-    }
+        // 定义递增函数
+        const updateCounter = () => {
+          if (item.currentCount < target) {
+            item.currentCount += increment;
+            setTimeout(updateCounter, 40); // 控制递增速度
+          } else {
+            item.currentCount = target; // 达到目标时停止递增
+          }
+        };
+
+        // 开始递增
+        updateCounter();
+      });
+    },
   },
 };
 </script>
-
-<style lang="scss" scoped>
+  
+  <style lang="scss" scoped>
 .content-summary {
   //height: 500px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   padding: 80px 0;
   animation: moveUp 0.8s ease-out forwards;
 
@@ -106,9 +144,10 @@ export default {
   }
 
   .summary-right {
-    width: 500px;
-    height: 500px;
-    margin-top: 100px;
+    width: 450px;
+    height: 400px;
+    margin-top: 113px;
+    // margin-right: 20px;
     text-align: center;
     overflow: hidden;
     position: relative;
@@ -121,8 +160,8 @@ export default {
     }
 
     img {
-      width: 400px;
-      height: 300px;
+      width: 450px;
+      height: 350px;
       // margin-top: 20px;
       transition: transform 0.3s ease; // 图片放大效果
 

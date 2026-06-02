@@ -100,7 +100,7 @@ service.interceptors.response.use(res => {
   }
 )
 
-const currentLang = localStorage.getItem('language') || 'zh'; // 获取当前语言
+const currentLang = localStorage.getItem('language') || 'en'; // 获取当前语言
 
 // 递归处理数据的函数
 function processLanguageData(data) {
@@ -115,7 +115,9 @@ function processLanguageData(data) {
           result[key.replace('Zh', '')] = data[key]; // 提取为通用字段名
         } else if (currentLang === 'en' && key.endsWith('En')) {
           result[key.replace('En', '')] = data[key]; // 提取为通用字段名
-        } else if (!key.endsWith('Zh') && !key.endsWith('En')) {
+        } else if (currentLang === 'sa' && key.endsWith('Sa')) {
+          result[key.replace('Sa', '')] = data[key]; // 新增阿拉伯语支持
+        } else if (!key.endsWith('Zh') && !key.endsWith('En') && !key.endsWith('Sa')) {
           result[key] = processLanguageData(data[key]); // 递归处理非语言字段
         }
       }
@@ -124,7 +126,6 @@ function processLanguageData(data) {
   }
   return data; // 原样返回非对象数据
 }
-
 
 
 export default service

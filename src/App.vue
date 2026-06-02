@@ -3,10 +3,10 @@
     <el-container>
       <el-header class="fixed-header" style="width: 100%">
         <a href="/" class="logo-container">
-          <img class="logo" src="./assets/img/logo.png" />
+          <img class="logo" src="./assets/img/logo2.png" />
           <div class="text-container">
-            <span class="company-text">中成国际运输深圳有限公司</span>
-            <span class="english-text">ZCTS SHENZHEN CO., LTD.</span>
+            <span class="company-text">شركة التناغم المحيطي التجارية</span>
+            <span class="english-text">Ocean Harmony Trade Co., Ltd</span>
           </div>
         </a>
         <div
@@ -16,62 +16,6 @@
             align-content: center;
           "
         >
-          <!-- <el-menu
-            :default-active="defaultActive"
-            class="el-menu-demo"
-            mode="horizontal"
-            @select="handleSelect"
-            :router="router"
-          >
-            <el-menu-item index="/">{{ $t("home") }}</el-menu-item>
-            <el-submenu index="/goin" popper-class="open">
-              <template slot="title">{{ $t("aboutUs") }}</template>
-              <el-menu-item index="/goin/intro">{{
-                $t("companyIntro")
-              }}</el-menu-item>
-              <el-menu-item index="/goin/history">{{
-                $t("developmentHistory")
-              }}</el-menu-item>
-              <el-menu-item index="/goin/culture">{{
-                $t("corporateCulture")
-              }}</el-menu-item>
-              <el-menu-item index="/goin/honor">{{
-                $t("qualificationsAndHonors")
-              }}</el-menu-item>
-              <el-menu-item index="/goin/cooperate">{{
-                $t("partners")
-              }}</el-menu-item>
-              <el-menu-item index="/goin/domestic">{{
-                $t("domesticNetwork")
-              }}</el-menu-item>
-              <el-menu-item index="/goin/overseas">{{
-                $t("overseasNetwork")
-              }}</el-menu-item>
-            </el-submenu>
-            <el-submenu index="/product" popper-class="open">
-              <template slot="title">{{ $t("productsAndServices") }}</template>
-              <el-menu-item index="/product/transport">{{
-                $t("fullCategoryTransportService")
-              }}</el-menu-item>
-              <el-menu-item index="/product/supplyChain">{{
-                $t("oneStopSupplyChainService")
-              }}</el-menu-item>
-              <el-menu-item index="/product/mainProducts">{{
-                $t("mainEngineeringMaterialsProducts")
-              }}</el-menu-item>
-            </el-submenu>
-            <el-submenu index="/case" popper-class="open">
-              <template slot="title">{{ $t("projectCases") }}</template>
-              <el-menu-item index="/case/logistics">{{
-                $t("logisticsBusiness")
-              }}</el-menu-item>
-              <el-menu-item index="/case/materials">{{
-                $t("materialsBusiness")
-              }}</el-menu-item>
-            </el-submenu>
-            <el-menu-item index="/us">{{ $t("contactUs") }}</el-menu-item>
-          </el-menu> -->
-
           <el-menu
             :default-active="defaultActive"
             class="el-menu-demo"
@@ -105,26 +49,50 @@
             </el-submenu>
           </el-menu>
 
-          <!-- 国际化 -->
-          <el-dropdown
-            trigger="click"
-            class="international"
-            @command="handleSetLanguage"
-          >
-            <el-button type="text">
-              <!-- 使用 Element UI 内置的语言图标 -->
-              <i class="icon-zczhongyingwen"></i>
-              <!-- 这里你可以使用你想要的图标 -->
-            </el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item :disabled="language === 'zh'" command="zh">
-                中文
-              </el-dropdown-item>
-              <el-dropdown-item :disabled="language === 'en'" command="en">
-                English
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <!-- 国际化语言选择器 - 沙特风格 -->
+          <div class="language-selector">
+            <button class="language-trigger" @click="toggleLanguageDropdown">
+              <span class="current-language">
+                {{
+                  language === "zh"
+                    ? "简体中文"
+                    : language === "en"
+                    ? "English"
+                    : "العَرَبِيَّة"
+                }}
+              </span>
+              <span class="language-icon">▼</span>
+            </button>
+
+            <div class="language-dropdown" v-show="showLanguageDropdown">
+              <div
+                class="language-option"
+                :class="{ active: language === 'zh' }"
+                @click="changeLanguage('zh')"
+              >
+                <span class="language-flag">🇨🇳</span>
+                <span class="language-text">简体中文</span>
+              </div>
+
+              <div
+                class="language-option"
+                :class="{ active: language === 'en' }"
+                @click="changeLanguage('en')"
+              >
+                <span class="language-flag">🇬🇧</span>
+                <span class="language-text">English</span>
+              </div>
+
+              <div
+                class="language-option"
+                :class="{ active: language === 'sa' }"
+                @click="changeLanguage('sa')"
+              >
+                <span class="language-flag">🇸🇦</span>
+                <span class="language-text">العَرَبِيَّة</span>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- 菜单 -->
       </el-header>
@@ -136,100 +104,81 @@
       <div class="footer">
         <div class="footer-content">
           <ul class="content-nav">
-            <li>
-              <p>{{ $t("aboutUs") }}</p>
-              <router-link to="/goin/history">{{
-                $t("developmentHistory")
-              }}</router-link>
-              <router-link to="/goin/culture">{{
-                $t("corporateCulture")
-              }}</router-link>
-              <router-link to="/goin/domestic">{{
-                $t("domesticNetwork")
-              }}</router-link>
-              <router-link to="/goin/overseas">{{
-                $t("overseasNetwork")
-              }}</router-link>
-            </li>
-            <li>
-              <p>{{ $t("productsAndServices") }}</p>
-              <router-link to="/product/mainProducts">{{
-                $t("mainEngineeringMaterialsProducts")
-              }}</router-link>
-              <router-link to="/product/supplyChain">{{
-                $t("oneStopSupplyChainService")
-              }}</router-link>
-              <router-link to="/product/transport">{{
-                $t("fullCategoryTransportService")
-              }}</router-link>
-            </li>
-            <li>
-              <p>{{ $t("projectCases") }}</p>
-              <router-link to="/case/logistics">{{
-                $t("logisticsBusiness")
-              }}</router-link>
-              <router-link to="/case/materials">{{
-                $t("materialsBusiness")
-              }}</router-link>
-              <router-link to="/case/fullSupplyChain">{{
-                $t("fullSupplyChainBusiness")
-              }}</router-link>
-            </li>
-            <li>
+            <!-- 动态渲染常规菜单项 -->
+            <template v-if="Array.isArray(filteredMenus)">
+              <li
+                v-for="(menu, index) in filteredMenus"
+                :key="menu.id"
+                v-show="menu.path !== '/us' && menu.path !== '/'"
+                :class="{
+                  'li-left1': index === 1,
+                  'li-left2': index === 2,
+                  'li-left3': index > 2,
+                }"
+              >
+                <p>{{ menu.name }}</p>
+                <!-- 有子菜单时渲染子项 -->
+                <template v-if="menu.children && menu.children.length">
+                  <router-link
+                    v-for="child in menu.children"
+                    :key="child.id"
+                    :to="child.path"
+                  >
+                    {{ child.name }}
+                  </router-link>
+                </template>
+              </li>
+            </template>
+
+            <!-- 特殊处理「联系我们」 -->
+            <li
+              v-if="
+                Array.isArray(filteredMenus) &&
+                filteredMenus.find((item) => item.path === '/us')
+              "
+              style="margin-left: -30px"
+            >
               <p>{{ $t("contactUs") }}</p>
               <div style="display: flex">
-                <span style="display: block">{{ $t("email") }}：</span
-                ><span style="display: block">{{ companyData.email }}</span>
+                <span class="contact-email">{{ $t("email") }}：</span>
+                <span class="contact-text">{{ companyData.email }}</span>
               </div>
               <div style="display: flex">
-                <span style="display: block">{{ $t("phone") }}：</span
-                ><span style="display: block">{{ companyData.phone }}</span>
+                <span class="contact-phone">{{ $t("phone") }}：</span>
+                <span class="contact-text">{{ companyData.phone }}</span>
               </div>
               <div style="display: flex">
-                <span style="display: block">{{ $t("address") }}：</span
-                ><span style="display: block; max-width: 350px">{{
-                  companyData.address
-                }}</span>
+                <span class="contact-address">{{ $t("address") }}：</span>
+                <span class="contact-text">
+                  {{ companyData.address }}
+                </span>
               </div>
+              <!-- <div style="display: flex">
+                <span class="contact-WHATSAPP">{{ $t("WHATSAPP") }}：</span>
+                <span class="contact-text">
+                  <img src="./assets/img/wx.png" alt="" />
+                </span>
+              </div> -->
             </li>
           </ul>
           <div class="wx-br"></div>
           <div class="wx">
-            <div>
+            <!-- <div>
               <span class="wx-code">{{ $t("weChatQRCode") }} </span>
               <span class="wx-text">{{ $t("scanToFollowUs") }}</span>
-            </div>
-            <img class="wx-img" src="./assets/img/code.png" alt />
+            </div> -->
+            <img
+              class="wx-img"
+              src="https://zcts-web.oss-cn-shenzhen.aliyuncs.com/zc/3da7fec37e2940b395b38cada1089470.png"
+              alt
+            />
           </div>
         </div>
         <div class="info">
-          <div class="footer-info">
-            <span>
-              <a
-                href="https://www.complant.com/gtzcjt/index.htm"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {{ $t("companyTopName") }}
-              </a>
-              |
-              <a
-                href="http://www.com-trans.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {{ $t("transportation") }}
-              </a>
-            </span>
-          </div>
           <div class="copyright">
-            <img src="../src/assets/img/ga_icon.png" alt="公安图标" />
             <span>
-              <a href="http://beian.miit.gov.cn/" target="_blank"
-                >粤ICP备18093725号</a
-              >
-              | {{ $t("copyright") }} © {{ $t("companyName") }} © 2024
-              {{ $t("companyTopTitle") }}
+              <!-- <a href="http://beian.miit.gov.cn/" target="_blank"></a> -->
+              {{ $t("copyright") }} © {{ $t("companyName") }} © 2025
             </span>
           </div>
         </div>
@@ -253,34 +202,31 @@ export default {
       language: this.$i18n.locale,
       companyData: {},
       filteredMenus: {},
+      showLanguageDropdown: false,
     };
   },
   watch: {
     // 监听路由变化，更新默认激活项
     $route(to) {
-      // 判断路径中是否包含 '/case' 或 '/product'
-      if (to.path.includes("case")) {
-        this.defaultActive = "/case";
-      } else if (to.path.includes("product")) {
-        this.defaultActive = "/product";
-      } else {
-        // 如果没有包含上述路径，则使用完整的路径
-        this.defaultActive = to.path;
-      }
+      this.defaultActive = to.path;
     },
   },
   methods: {
-    handleSelect(key) {
-      this.isShow = true;
-      this.defaultActive = key; // 更新默认激活项
+    toggleLanguageDropdown() {
+      this.showLanguageDropdown = !this.showLanguageDropdown;
     },
-    handleSetLanguage(value) {
+    changeLanguage(value) {
       console.log(value);
       this.language = value;
-      i18n.locale = value; // 改变为中文
+      this.showLanguageDropdown = false;
+      i18n.locale = value;
       localStorage.setItem("language", value); //在localStorage中存入设置
       this.$message({ message: "设置语言成功", type: "success" });
       window.location.reload(); // 刷新页面
+    },
+    handleSelect(key) {
+      this.isShow = true;
+      this.defaultActive = key; // 更新默认激活项
     },
     init() {
       getMsg().then((res) => {
@@ -300,6 +246,15 @@ export default {
 </script>
 
 <style lang="scss">
+/* 定义字体 */
+@font-face {
+  font-family: "Alibaba_PuHuiTi";
+  src: url("https://zcts-web.oss-cn-shenzhen.aliyuncs.com/zc/font/AlibabaPuHuiTi/Alibaba_PuHuiTi_2.0_55_Regular_55_Regular.ttf")
+    format("truetype");
+  // font-weight: 300;
+  font-display: swap;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -314,7 +269,8 @@ body {
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  /* 应用样式 */
+  font-family: "Alibaba_PuHuiTi", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -326,7 +282,7 @@ body {
   left: 0;
   width: 100%;
   z-index: 999; /* 确保导航栏在最前 */
-  background-color: #fff; /* 背景色 */
+  background-color: #ffffff; /* 背景色 */
   // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 }
 
@@ -336,7 +292,7 @@ body {
   align-content: center;
   height: 61px !important;
   min-width: 1485px !important;
-  max-width: 1985px !important;
+  // max-width: 1985px !important;
   // margin: 0 auto;
   //background-color: #fff;
 
@@ -353,7 +309,7 @@ body {
     align-items: center;
     gap: 20px; /* 控制图片与文本之间的间距 */
     .logo {
-      width: 200px;
+      width: 100px;
       line-height: 50px;
     }
     .text-container {
@@ -368,8 +324,8 @@ body {
     }
 
     .english-text {
-      padding-top: 3px;
-      font-size: 14px;
+      padding-top: 4px;
+      font-size: 18px;
       color: #888; /* 文字颜色 */
     }
   }
@@ -380,6 +336,17 @@ body {
   }
 }
 
+.el-menu .el-menu-item.is-active,
+.el-menu .el-submenu.is-active > .el-submenu__title {
+  background-color: #16a085 !important;
+  color: #fff !important;
+}
+
+/* 去掉菜单项底部的下划线 */
+.el-menu .el-menu-item,
+.el-menu .el-submenu__title {
+  border-bottom: none !important;
+}
 .el-menu-item {
   font-size: 18px !important;
 }
@@ -396,26 +363,16 @@ body {
   margin-top: 24px;
 }
 
-// 国际化
-.international {
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
-  i {
-    font-size: 24px;
-  }
-}
-
 .el-button {
   padding-top: 20px !important;
   font-size: 16px;
-  color: #024190 !important;
+  color: #16a085 !important;
 }
 
 .footer {
   width: 100%;
   overflow: hidden;
-  background-color: #024190;
+  background-color: #16a085;
 
   &-content {
     width: 1470px;
@@ -436,6 +393,7 @@ body {
         align-items: flex-start;
 
         p {
+          width: 260px;
           font-size: 20px; /* 增大字体 */
           color: #f7f7f7;
           padding: 15px 0;
@@ -450,7 +408,7 @@ body {
         }
 
         a {
-          width: 150px;
+          width: 260px;
           color: #f7f7f7;
           font-weight: 300;
           padding: 8px 0;
@@ -466,9 +424,10 @@ body {
 
     .wx-br {
       width: 10px;
-      height: 150px; /* 增加高度 */
+      height: 350px; /* 增加高度 */
       border-left: 1px solid #999999;
-      margin-top: 20px;
+      margin-top: 40px;
+      margin-right: 20px;
     }
 
     .wx {
@@ -476,7 +435,7 @@ body {
       // flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-right: 15px;
+      margin-right: 35px;
 
       .wx-code {
         display: block;
@@ -492,8 +451,8 @@ body {
       }
 
       .wx-img {
-        width: 100px; /* 增大图片尺寸 */
-        height: 100px;
+        width: 300px; /* 增大图片尺寸 */
+        height: 300px;
       }
     }
 
@@ -506,7 +465,7 @@ body {
 
   .info {
     width: 100%;
-    height: 50px; /* 增加高度 */
+    height: 30px; /* 增加高度 */
     padding: 5px;
     font-size: 14px; /* 增大字体 */
     color: #666;
@@ -528,7 +487,7 @@ body {
         color: #666;
       }
       a:hover {
-        color: #024190;
+        color: #16a085;
       }
 
       span {
@@ -541,7 +500,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
 
       span {
         display: flex;
@@ -554,7 +513,7 @@ body {
           text-decoration: none;
 
           &:hover {
-            color: rgb(0, 0, 0);
+            color: #16a085;
           }
         }
       }
@@ -565,8 +524,6 @@ body {
 .mousep[data-v-5aff6e40] {
   text-align: center;
   font-weight: 300;
-  font-family: Microsoft YaHei, Lantinghei SC, Open Sans, Arial,
-    Hiragino Sans GB, STHeiti, WenQuanYi Micro Hei, SimSun, sans-serif;
   letter-spacing: 12px;
   text-indent: 12px;
   color: #fff;
@@ -624,8 +581,6 @@ body {
   margin-top: 0px;
   text-align: center;
   font-weight: 300;
-  font-family: Microsoft YaHei, Lantinghei SC, Open Sans, Arial,
-    Hiragino Sans GB, STHeiti, WenQuanYi Micro Hei, SimSun, sans-serif;
   letter-spacing: 12px;
   text-indent: 12px;
   color: #000000;
@@ -665,27 +620,36 @@ body {
   }
 }
 
-// 关于我们模块标题
+// // 关于我们模块标题
 .top {
   position: relative;
   margin-bottom: 40px;
+
   h3 {
-    text-align: left;
+    text-align: start; /* 自动适应方向 */
     font-size: 30px;
-    color: #024190;
+    color: #16a085;
     font-weight: bold;
     padding: 10px 0;
-    margin-left: 120px;
+    margin-inline-start: 0; /* 逻辑属性 */
   }
 
   .underline {
-    width: 100px; /* 横线的宽度 */
-    height: 4px; /* 横线的高度 */
-    background: linear-gradient(90deg, #024190, #88c7f2); /* 渐变色 */
-    margin-left: 120px;
+    width: 100px;
+    height: 4px;
     margin-top: 5px;
-    border-radius: 2px; /* 圆角边框 */
-    animation: expand 1s ease-out; /* 扩展动画 */
+    border-radius: 2px;
+    animation: expand 1s ease-out;
+
+    /* 根据方向改变渐变 */
+    &:dir(ltr) {
+      background: linear-gradient(90deg, #16a085, #b6e6c6);
+    }
+    &:dir(rtl) {
+      background: linear-gradient(90deg, #b6e6c6, #16a085);
+    }
+
+    margin-inline-start: 0px; /* 逻辑属性 */
   }
 }
 
@@ -721,11 +685,137 @@ body {
   bottom: -10px; /* 定位到底部并稍微向下偏移 */
   width: 100%; /* 伪元素宽度与文本宽度一致 */
   height: 4px; /* 下划线的高度 */
-  background-color: #024190; /* 下划线颜色与标题一致 */
+  background-color: #16a085; /* 下划线颜色与标题一致 */
   transition: all 0.3s ease; /* 添加过渡效果 */
 }
 
 .el-form-item__label {
   font-size: 18px !important;
+}
+.contact-text {
+}
+.li-left1 {
+  margin-left: 0px; /* 或其他左对齐样式 */
+}
+.li-left2 {
+  margin-left: -60px; /* 或其他左对齐样式 */
+}
+.li-left3 {
+  margin-left: -20px; /* 或其他左对齐样式 */
+}
+// RTL 特定样式
+[dir="rtl"] {
+  .li-left1 {
+    margin-left: -80px; /* 或其他左对齐样式 */
+  }
+  .li-left2 {
+    margin-left: -20px; /* 或其他左对齐样式 */
+  }
+  .li-left3 {
+    margin-left: -10px; /* 或其他左对齐样式 */
+  }
+}
+
+.contact-title {
+  text-align: left;
+  display: block;
+  width: 50px;
+}
+.contact-text {
+  display: block;
+  width: 250px;
+}
+
+/* 语言选择器 - 沙特风格 */
+.language-selector {
+  margin-right: 10px;
+  margin-top: 15px;
+  position: relative;
+  display: inline-block;
+}
+
+.language-trigger {
+  background-color: #16a085; /* 沙特国旗绿色 */
+  color: white;
+  border: 1px solid #16a085;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 120px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.language-trigger:hover {
+  background-color: #16a085;
+}
+
+.language-icon {
+  margin-left: 8px;
+  font-size: 12px;
+}
+
+.language-dropdown {
+  position: absolute;
+  top: 70%;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  min-width: 160px;
+  margin-top: 5px;
+}
+
+.language-option {
+  padding: 10px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.language-option:hover {
+  background-color: #f5f5f5;
+}
+
+.language-option.active {
+  background-color: #16a085;
+  color: white;
+}
+
+.language-flag {
+  margin: 0 10px;
+  font-size: 18px;
+}
+
+.language-text {
+  flex-grow: 1;
+}
+
+/* 沙特风格的阿拉伯语特殊处理 */
+.language-option:last-child {
+  // direction: rtl; /* 阿拉伯语从右到左 */
+  // text-align: right;
+}
+
+/* 动画效果 */
+.language-dropdown {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
